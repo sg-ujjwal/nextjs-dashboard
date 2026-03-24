@@ -1,13 +1,15 @@
 'use client'
+
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import { ALERT_TICKER } from '@/services/dashboardData'
-import { cn } from '@/utils/cn'
 import { AlertTriangle, Info, Zap } from 'lucide-react'
 
-const severityStyles = {
-  critical: 'text-[#dc2626]',
-  high:     'text-[#dc2626]',
-  medium:   'text-[#b91c1c]',
-  low:      'text-[#64748b]',
+const SEVERITY_COLOR: Record<string, string> = {
+  critical: '#dc2626',
+  high: '#dc2626',
+  medium: '#b91c1c',
+  low: '#64748b',
 }
 
 const SeverityIcon = ({ s }: { s: string }) => {
@@ -20,29 +22,58 @@ export function AlertTicker() {
   const items = [...ALERT_TICKER, ...ALERT_TICKER]
 
   return (
-    <div className="w-full bg-white border-b border-[#e2e8f0] overflow-hidden relative">
-      <div className="flex items-center">
-        <div className="shrink-0 px-4 py-2 bg-white border-r border-[#e2e8f0] flex items-center gap-2">
-          <span className="w-2 h-2 bg-[#ef4444] rounded-full animate-pulse" />
-          <span className="text-xs font-semibold text-[#dc2626] uppercase tracking-wider">Live Feed</span>
-        </div>
-        <div className="overflow-hidden flex-1 bg-white">
-          <div className="flex items-center animate-ticker whitespace-nowrap gap-10 py-2 px-4">
+    <Box sx={{ width: '100%', bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'custom.border', overflow: 'hidden', position: 'relative' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box
+          sx={{
+            flexShrink: 0,
+            px: 2,
+            py: 1,
+            bgcolor: 'background.paper',
+            borderRight: '1px solid',
+            borderColor: 'custom.border',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
+          <Box
+            sx={{
+              width: 8,
+              height: 8,
+              bgcolor: 'error.main',
+              borderRadius: '50%',
+              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }}
+          />
+          <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: '#dc2626', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            Live Feed
+          </Typography>
+        </Box>
+        <Box sx={{ overflow: 'hidden', flex: 1, bgcolor: 'background.paper' }}>
+          <Box className="animate-ticker" sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: 5, py: 1, px: 2 }}>
             {items.map((item, idx) => (
-              <span
+              <Box
                 key={`${item.id}-${idx}`}
-                className={cn('flex items-center gap-2 text-xs', severityStyles[item.severity as keyof typeof severityStyles])}
+                component="span"
+                sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, fontSize: '0.75rem', color: SEVERITY_COLOR[item.severity] ?? '#64748b' }}
               >
                 <SeverityIcon s={item.severity} />
-                <span className="text-[#94a3b8]">[{item.region}]</span>
+                <Typography component="span" sx={{ fontSize: 'inherit', color: '#94a3b8' }}>
+                  [{item.region}]
+                </Typography>
                 {item.message}
-                <span className="text-[#94a3b8]">— {item.timestamp}</span>
-                <span className="text-[#e2e8f0] px-4">|</span>
-              </span>
+                <Typography component="span" sx={{ fontSize: 'inherit', color: '#94a3b8' }}>
+                  — {item.timestamp}
+                </Typography>
+                <Typography component="span" sx={{ fontSize: 'inherit', color: 'custom.border', px: 2 }}>
+                  |
+                </Typography>
+              </Box>
             ))}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 }

@@ -1,11 +1,14 @@
 'use client'
+
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { useCountUp } from '@/hooks/useCountUp'
-import { cn } from '@/utils/cn'
 import type { KPIMetric, Period } from '@/types'
 import { Dropdown } from '@/components/common/Dropdown'
+import { CARD_BORDER_RADIUS_SX } from '@/theme/cardStyles'
 
 const SparklineChart = dynamic(() => import('@/components/charts/SparklineChart'), { ssr: false })
 
@@ -34,96 +37,172 @@ export function KPICard({ metric, index, period }: KPICardProps) {
   const isPrimary = metric.isPrimary ?? false
   const hasDarkBg = (metric.hasDarkBackground ?? true) && isPrimary
   const changePositive = metric.change > 0
-  const trendColor = metric.trend === 'stable'
-    ? hasDarkBg ? 'text-white/80' : 'text-text-muted'
-    : changePositive
-      ? 'text-success'
-      : 'text-danger'
+  const trendColor =
+    metric.trend === 'stable'
+      ? hasDarkBg
+        ? 'rgba(255,255,255,0.8)'
+        : 'text.disabled'
+      : changePositive
+        ? 'success.main'
+        : 'error.main'
 
   const chartColor = metric.chartColor ?? metric.color
   const chartHeight = isPrimary ? 56 : 48
 
   const chartBlock = (
-    <div
-      className={cn(
-        'shrink-0 flex items-end justify-end overflow-hidden',
-        isPrimary ? 'w-[42%] min-w-[120px] h-14' : 'w-[42%] min-w-[90px] h-12'
-      )}
+    <Box
+      sx={{
+        flex: '1 1 38%',
+        minWidth: { xs: 72, sm: isPrimary ? 120 : 88 },
+        maxWidth: isPrimary ? '48%' : '46%',
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        overflow: 'hidden',
+        height: isPrimary ? 56 : 48,
+      }}
     >
       <SparklineChart data={metric.sparklineData} color={chartColor} height={chartHeight} />
-    </div>
+    </Box>
   )
 
   if (isPrimary) {
     return (
-      <div
-        className={cn(
-          'rounded-xl p-5 flex flex-col gap-3 cursor-pointer animate-slide-in-up hover:shadow-lg transition-all duration-200',
-          hasDarkBg ? 'border border-[#2F446A]/30' : 'card-base border border-bg-border'
-        )}
-        style={{
+      <Box
+        className="animate-slide-in-up"
+        sx={(theme) => ({
+          borderRadius: CARD_BORDER_RADIUS_SX,
+          p: 2.5,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.5,
+          cursor: 'pointer',
+          transition: 'box-shadow 0.2s',
           animationDelay: `${index * 80}ms`,
+          border: '1px solid',
+          minWidth: 0,
+          width: '100%',
+          maxWidth: '100%',
+          boxSizing: 'border-box',
+          borderColor: hasDarkBg ? 'rgba(47, 68, 106, 0.3)' : theme.palette.custom.border,
           ...(hasDarkBg
-            ? { background: 'radial-gradient(152.14% 265.63% at 50% 50%, #466192 0%, #2F446A 100%)' }
-            : {}),
-        }}
+            ? { background: theme.palette.custom.kpiPrimaryGradient }
+            : { bgcolor: 'background.paper', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }),
+          '&:hover': { boxShadow: 3 },
+        })}
       >
-        <div className="flex items-start justify-between gap-2">
-          <p
-            className={cn(
-              'text-sm font-medium leading-tight',
-              hasDarkBg ? 'text-white/90' : 'text-text-secondary'
-            )}
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1, minWidth: 0 }}>
+          <Typography
+            sx={{
+              fontSize: '0.875rem',
+              fontWeight: 500,
+              lineHeight: 1.25,
+              color: hasDarkBg ? 'rgba(255,255,255,0.9)' : 'text.secondary',
+              minWidth: 0,
+              flex: '1 1 auto',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
           >
             {metric.label}
-          </p>
-          <div className={cn('text-xs flex items-center gap-0.5 font-semibold shrink-0', trendColor)}>
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25, fontSize: '0.75rem', fontWeight: 600, flexShrink: 0, color: trendColor }}>
             {metric.trend === 'up' ? <TrendingUp size={12} /> : metric.trend === 'down' ? <TrendingDown size={12} /> : <Minus size={12} />}
-            {metric.change > 0 ? '+' : ''}{metric.change}%
-          </div>
-        </div>
-        <div className="flex items-end justify-between gap-4 min-h-14">
-          <span
-            className="text-3xl font-bold leading-none shrink-0"
-            style={hasDarkBg ? { color: '#ffffff' } : { color: metric.color }}
+            {metric.change > 0 ? '+' : ''}
+            {metric.change}%
+          </Box>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, minHeight: 56, minWidth: 0 }}>
+          <Typography
+            sx={{
+              fontSize: { xs: '1.35rem', sm: '1.75rem' },
+              fontWeight: 700,
+              lineHeight: 1,
+              flex: '0 1 auto',
+              minWidth: 0,
+              color: hasDarkBg ? '#fff' : metric.color,
+            }}
           >
-            {metric.prefix ?? ''}{count}{metric.unit ?? ''}
-          </span>
+            {metric.prefix ?? ''}
+            {count}
+            {metric.unit ?? ''}
+          </Typography>
           {chartBlock}
-        </div>
-      </div>
+        </Box>
+      </Box>
     )
   }
 
   return (
-    <div
-      className="card-base card-hover p-4 flex flex-col gap-3 cursor-pointer animate-slide-in-up"
-      style={{ animationDelay: `${index * 80}ms` }}
+    <Box
+      className="animate-slide-in-up"
+      sx={{
+        border: '1px solid',
+        borderColor: 'custom.border',
+        borderRadius: CARD_BORDER_RADIUS_SX,
+        bgcolor: 'background.paper',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1.5,
+        cursor: 'pointer',
+        minWidth: 0,
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
+        animationDelay: `${index * 80}ms`,
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: '0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)',
+          borderColor: '#cbd5e1',
+        },
+      }}
     >
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-xs text-text-secondary font-medium leading-tight">{metric.label}</p>
-        <div className="flex items-center gap-2 shrink-0">
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1, flexWrap: 'wrap', minWidth: 0 }}>
+        <Typography
+          sx={{
+            fontSize: '0.75rem',
+            color: 'text.secondary',
+            fontWeight: 500,
+            lineHeight: 1.25,
+            minWidth: 0,
+            flex: '1 1 120px',
+            pr: 0.5,
+          }}
+        >
+          {metric.label}
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexShrink: 0, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
           {metric.showPeriodDropdown && (
-            <Dropdown
-              options={CARD_PERIOD_OPTIONS}
-              value={cardPeriod}
-              onChange={(v) => setCardPeriod(v as Period)}
-              className="shrink-0"
-            />
+            <Dropdown options={CARD_PERIOD_OPTIONS} value={cardPeriod} onChange={(v) => setCardPeriod(v as Period)} sx={{ flexShrink: 0 }} />
           )}
-          <div className={cn('text-xs flex items-center gap-0.5 font-semibold shrink-0', trendColor)}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25, fontSize: '0.75rem', fontWeight: 600, flexShrink: 0, color: trendColor }}>
             {metric.trend === 'up' ? <TrendingUp size={12} /> : metric.trend === 'down' ? <TrendingDown size={12} /> : <Minus size={12} />}
-            {metric.change > 0 ? '+' : ''}{metric.change}%
-          </div>
-        </div>
-      </div>
-      <div className="flex items-end justify-between gap-4 min-h-12">
-        <span className="text-3xl font-bold leading-none shrink-0" style={{ color: metric.color }}>
-          {metric.prefix ?? ''}{count}{metric.unit ?? ''}
-        </span>
+            {metric.change > 0 ? '+' : ''}
+            {metric.change}%
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, minHeight: 48, minWidth: 0 }}>
+        <Typography
+          sx={{
+            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
+            fontWeight: 700,
+            lineHeight: 1,
+            flex: '0 1 auto',
+            minWidth: 0,
+            color: metric.color,
+          }}
+        >
+          {metric.prefix ?? ''}
+          {count}
+          {metric.unit ?? ''}
+        </Typography>
         {chartBlock}
-      </div>
-      <p className="text-xs text-text-muted">{metric.changePeriod}</p>
-    </div>
+      </Box>
+      <Typography sx={{ fontSize: '0.75rem', color: 'text.disabled' }}>{metric.changePeriod}</Typography>
+    </Box>
   )
 }

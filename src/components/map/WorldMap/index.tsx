@@ -1,7 +1,12 @@
 'use client'
+
 import { useEffect, useRef, useState } from 'react'
+import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
+import Typography from '@mui/material/Typography'
 import type { MapMarker } from '@/types'
 import { getCountryFlag } from '@/utils/countryFlags'
+import { CARD_BORDER_RADIUS_SX } from '@/theme/cardStyles'
 
 interface WorldMapProps {
   markers: MapMarker[]
@@ -10,7 +15,7 @@ interface WorldMapProps {
   onMarkerHover: (marker: MapMarker | null) => void
 }
 
-function buildTooltipHtml(marker: MapMarker): string {
+const buildTooltipHtml = (marker: MapMarker): string => {
   const flag = getCountryFlag(marker.id)
   const isActive = marker.deploymentStatus === 'deployed'
   const waterScarcity = marker.waterScarcity ?? 0
@@ -35,16 +40,16 @@ function buildTooltipHtml(marker: MapMarker): string {
 }
 
 const RISK_COLORS: Record<MapMarker['riskLevel'], string> = {
-  low:      '#22c55e',
-  medium:   '#f59e0b',
-  high:     '#ef4444',
+  low: '#22c55e',
+  medium: '#f59e0b',
+  high: '#ef4444',
   critical: '#dc2626',
 }
 
 const DEPLOYMENT_COLORS: Record<string, string> = {
-  deployed:    '#22c55e',
+  deployed: '#22c55e',
   in_progress: '#f59e0b',
-  pending:     '#1677ff',
+  pending: '#1677ff',
 }
 
 export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProps) {
@@ -56,10 +61,14 @@ export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProp
   const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
-    if (!mapRef.current || mapInstanceRef.current) return
+    if (!mapRef.current) return
+
+    let cancelled = false
 
     const initMap = async () => {
       const L = (await import('leaflet')).default
+      if (cancelled) return
+
       if (!document.querySelector('link[href*="leaflet"]')) {
         const link = document.createElement('link')
         link.rel = 'stylesheet'
@@ -67,7 +76,14 @@ export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProp
         document.head.appendChild(link)
       }
 
-      const map = L.map(mapRef.current!, {
+      if (cancelled || !mapRef.current) return
+
+      const el = mapRef.current
+      // Stale async completion (e.g. React Strict Mode) or remount race — never call L.map twice on one div
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((el as any)._leaflet_id != null) return
+
+      const map = L.map(el, {
         center: [15, 40],
         zoom: 3,
         minZoom: 2,
@@ -83,17 +99,24 @@ export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProp
         maxZoom: 20,
       }).addTo(map)
 
+      if (cancelled) {
+        map.remove()
+        return
+      }
+
       mapInstanceRef.current = map
       setIsReady(true)
     }
 
-    initMap()
+    void initMap()
 
     return () => {
+      cancelled = true
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove()
         mapInstanceRef.current = null
       }
+      setIsReady(false)
     }
   }, [])
 
@@ -103,11 +126,11 @@ export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProp
     const initMarkers = async () => {
       const L = (await import('leaflet')).default
 
-      markersRef.current.forEach(m => m.remove())
+      markersRef.current.forEach((m) => m.remove())
       markersRef.current = []
 
-      markers.forEach(marker => {
-        const color  = marker.deploymentStatus ? DEPLOYMENT_COLORS[marker.deploymentStatus] ?? RISK_COLORS[marker.riskLevel] : RISK_COLORS[marker.riskLevel]
+      markers.forEach((marker) => {
+        const color = marker.deploymentStatus ? DEPLOYMENT_COLORS[marker.deploymentStatus] ?? RISK_COLORS[marker.riskLevel] : RISK_COLORS[marker.riskLevel]
         const radius = marker.riskLevel === 'critical' ? 10 : marker.riskLevel === 'high' ? 8 : 6
 
         const circle = L.circleMarker([marker.lat, marker.lng], {
@@ -127,8 +150,14 @@ export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProp
         })
 
         circle.on('click', () => onMarkerClick(marker))
-        circle.on('mouseover', () => { onMarkerHover(marker); circle.setStyle({ fillOpacity: 0.9, weight: 3 }) })
-        circle.on('mouseout',  () => { onMarkerHover(null);   circle.setStyle({ fillOpacity: 0.6, weight: 2 }) })
+        circle.on('mouseover', () => {
+          onMarkerHover(marker)
+          circle.setStyle({ fillOpacity: 0.9, weight: 3 })
+        })
+        circle.on('mouseout', () => {
+          onMarkerHover(null)
+          circle.setStyle({ fillOpacity: 0.6, weight: 2 })
+        })
 
         circle.addTo(mapInstanceRef.current)
         markersRef.current.push(circle)
@@ -139,16 +168,26 @@ export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProp
   }, [isReady, markers, onMarkerClick, onMarkerHover])
 
   return (
-    <div className="relative rounded-xl overflow-hidden h-full min-h-[320px]">
-      <div ref={mapRef} className="h-full w-full min-h-[320px]" style={{ background: '#f0f2f5' }} />
+    <Box sx={{ position: 'relative', borderRadius: CARD_BORDER_RADIUS_SX, overflow: 'hidden', height: '100%', minHeight: 320 }}>
+      <Box ref={mapRef} sx={{ height: '100%', width: '100%', minHeight: 320, bgcolor: '#f0f2f5' }} />
       {!isReady && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white rounded-xl">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-text-muted">Loading map…</p>
-          </div>
-        </div>
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: 'background.paper',
+            borderRadius: CARD_BORDER_RADIUS_SX,
+            flexDirection: 'column',
+            gap: 1.5,
+          }}
+        >
+          <CircularProgress size={32} sx={{ color: 'primary.main' }} />
+          <Typography sx={{ fontSize: '0.875rem', color: 'text.disabled' }}>Loading map…</Typography>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }

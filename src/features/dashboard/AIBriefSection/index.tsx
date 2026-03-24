@@ -1,8 +1,12 @@
 'use client'
+
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import { Zap, AlertTriangle, ChevronRight, ArrowUpRight, FileText } from 'lucide-react'
 import { PRIORITY_CARDS, DEPLOYMENT_ALERTS, STRATEGIC_FORECASTING } from '@/services/dashboardData'
 import { useReportGeneration } from '@/hooks/useReportGeneration'
-import { cn } from '@/utils/cn'
+import { CARD_BORDER_RADIUS_SX } from '@/theme/cardStyles'
 
 const HEADER_GRADIENT = 'linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)'
 
@@ -10,134 +14,139 @@ export default function AIBriefSection() {
   const { isGenerating, isComplete, progress, generate } = useReportGeneration()
 
   return (
-    <section>
-      <div className="rounded-xl overflow-hidden border border-[#e2e8f0] shadow-sm bg-white">
-        {/* Header - solid blue with rounded top corners */}
-        <div
-          className="px-5 py-4 flex items-center justify-between"
-          style={{ background: HEADER_GRADIENT }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
-              <Zap size={18} className="text-white" />
-            </div>
-            <div>
-              <h2 className="text-base font-semibold text-white">AI Executive Brief</h2>
-              <p className="text-xs text-white/80 mt-0.5">Updated: 3 minute ago</p>
-            </div>
-          </div>
-          <button
+    <Box component="section">
+      <Box sx={{ borderRadius: CARD_BORDER_RADIUS_SX, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', bgcolor: 'background.paper' }}>
+        <Box sx={{ px: 2.5, py: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: HEADER_GRADIENT }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box sx={{ width: 36, height: 36, borderRadius: CARD_BORDER_RADIUS_SX, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Zap size={18} color="#fff" />
+            </Box>
+            <Box>
+              <Typography sx={{ fontSize: '1rem', fontWeight: 600, color: '#fff' }}>AI Executive Brief</Typography>
+              <Typography sx={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', mt: 0.25 }}>Updated: 3 minute ago</Typography>
+            </Box>
+          </Box>
+          <Button
             onClick={generate}
             disabled={isGenerating}
-            className={cn(
-              'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-[#2F446A] bg-white transition-all',
-              isGenerating && 'opacity-70 cursor-wait',
-              isComplete && 'bg-emerald-100 text-emerald-800'
-            )}
+            startIcon={<FileText size={14} />}
+            endIcon={<ChevronRight size={14} />}
+            sx={{
+              textTransform: 'none',
+              borderRadius: 9999,
+              px: 2,
+              py: 1,
+              fontSize: '0.875rem',
+              fontWeight: 500,
+              bgcolor: isComplete ? '#d1fae5' : '#fff',
+              color: isComplete ? '#065f46' : '#2F446A',
+              '&:hover': { bgcolor: isComplete ? '#a7f3d0' : '#f8fafc' },
+              ...(isGenerating ? { opacity: 0.7, cursor: 'wait' } : {}),
+            }}
           >
-            <FileText size={14} />
             {isGenerating ? 'Generating...' : isComplete ? 'Report Ready' : 'View Full Report'}
-            <ChevronRight size={14} />
-          </button>
-        </div>
+          </Button>
+        </Box>
 
         {isGenerating && (
-          <div className="px-5 py-2 bg-[#f8fafc]">
-            <div className="h-1.5 bg-[#e2e8f0] rounded-full overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-300"
-                style={{ width: `${progress}%`, backgroundColor: '#2F446A' }}
-              />
-            </div>
-          </div>
+          <Box sx={{ px: 2.5, py: 1, bgcolor: '#f8fafc' }}>
+            <Box sx={{ height: 6, bgcolor: '#e2e8f0', borderRadius: 9999, overflow: 'hidden' }}>
+              <Box sx={{ height: '100%', borderRadius: 9999, transition: 'width 0.3s', width: `${progress}%`, bgcolor: '#2F446A' }} />
+            </Box>
+          </Box>
         )}
 
-        <div className="p-5 space-y-5">
-          {/* TOP 3 PRIORITIES */}
-          <div>
-            <h3 className="text-[10px] font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">
+        <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+          <Box>
+            <Typography sx={{ fontSize: '0.625rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1.5 }}>
               Top 3 Priorities
-            </h3>
-            <div className="space-y-2">
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               {PRIORITY_CARDS.map((item) => (
-                <div
+                <Box
                   key={item.id}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-[#f8fafc] hover:bg-[#f1f5f9] cursor-pointer transition-colors border border-transparent hover:border-[#e2e8f0]"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    p: 1.5,
+                    borderRadius: CARD_BORDER_RADIUS_SX,
+                    bgcolor: '#f8fafc',
+                    border: '1px solid transparent',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s, border-color 0.2s',
+                    '&:hover': { bgcolor: '#f1f5f9', borderColor: '#e2e8f0' },
+                  }}
                 >
-                  <span
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                    style={{ backgroundColor: '#2F446A' }}
+                  <Box
+                    sx={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      color: '#fff',
+                      flexShrink: 0,
+                      bgcolor: '#2F446A',
+                    }}
                   >
                     {item.rank}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-[#1e293b]">{item.title}</p>
-                    <p className="text-xs text-[#64748b] mt-0.5">{item.description}</p>
-                  </div>
-                  <ArrowUpRight size={16} className="text-[#94a3b8] shrink-0" />
-                </div>
+                  </Box>
+                  <Box sx={{ minWidth: 0, flex: 1 }}>
+                    <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#1e293b' }}>{item.title}</Typography>
+                    <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mt: 0.25 }}>{item.description}</Typography>
+                  </Box>
+                  <ArrowUpRight size={16} color="#94a3b8" style={{ flexShrink: 0 }} />
+                </Box>
               ))}
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          {/* Underperforming Deployment Alert */}
           {DEPLOYMENT_ALERTS.map((alert) => (
-            <div
-              key={alert.id}
-              className="rounded-lg p-4 border border-[#fed7aa]/50"
-              style={{ backgroundColor: '#fff7ed' }}
-            >
-              <div className="flex items-start gap-3">
-                <AlertTriangle
-                  size={20}
-                  className="shrink-0 mt-0.5"
-                  style={{ color: '#ea580c' }}
-                />
-                <div>
-                  <p
-                    className="text-sm font-bold"
-                    style={{ color: '#9a3412' }}
-                  >
-                    {alert.title}
-                  </p>
-                  <p
-                    className="text-xs mt-1.5 leading-relaxed"
-                    style={{ color: '#9a3412' }}
-                  >
-                    {alert.message}
-                  </p>
-                  <button
+            <Box key={alert.id} sx={{ borderRadius: CARD_BORDER_RADIUS_SX, p: 2, border: '1px solid rgba(254, 215, 170, 0.5)', bgcolor: '#fff7ed' }}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+                <AlertTriangle size={20} style={{ flexShrink: 0, marginTop: 2, color: '#ea580c' }} />
+                <Box>
+                  <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#9a3412' }}>{alert.title}</Typography>
+                  <Typography sx={{ fontSize: '0.75rem', mt: 0.75, lineHeight: 1.6, color: '#9a3412' }}>{alert.message}</Typography>
+                  <Button
                     type="button"
-                    className="text-xs font-medium mt-2 hover:underline flex items-center gap-0.5"
-                    style={{ color: '#9a3412' }}
+                    sx={{ mt: 1, p: 0, minWidth: 0, fontSize: '0.75rem', fontWeight: 500, color: '#9a3412', textTransform: 'none', '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' } }}
                   >
                     View
-                  </button>
-                </div>
-              </div>
-            </div>
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
           ))}
 
-          {/* STRATEGIC FORECASTING */}
-          <div>
-            <h3 className="text-[10px] font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">
+          <Box>
+            <Typography sx={{ fontSize: '0.625rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1.5 }}>
               Strategic Forecasting
-            </h3>
-            <div className="space-y-2">
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               {STRATEGIC_FORECASTING.map((item) => (
-                <div
+                <Box
                   key={item.id}
-                  className="rounded-lg p-3 bg-[#f8fafc] border-l-4"
-                  style={{ borderLeftColor: item.color }}
+                  sx={{
+                    borderRadius: CARD_BORDER_RADIUS_SX,
+                    p: 1.5,
+                    bgcolor: '#f8fafc',
+                    borderLeft: '4px solid',
+                    borderLeftColor: item.color,
+                  }}
                 >
-                  <p className="text-sm font-bold text-[#1e293b]">{item.title}</p>
-                  <p className="text-xs text-[#64748b] mt-1">{item.description}</p>
-                </div>
+                  <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#1e293b' }}>{item.title}</Typography>
+                  <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mt: 0.5 }}>{item.description}</Typography>
+                </Box>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 }

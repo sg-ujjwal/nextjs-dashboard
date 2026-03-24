@@ -1,16 +1,19 @@
 'use client'
+
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import { DEEP_DIVE_CARDS } from '@/services/dashboardData'
 import { DeepDiveCard } from '@/components/cards/DeepDiveCard'
 
 export default function DeepDiveSection() {
   return (
-    <section>
-      <h2 className="text-xl font-bold text-[#1e293b] mb-4">Deep Dive</h2>
-      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4">
+    <Box component="section">
+      <Typography sx={{ fontSize: '1.25rem', fontWeight: 700, color: 'text.primary', mb: 2 }}>Deep Dive</Typography>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' }, gap: 2 }}>
         {DEEP_DIVE_CARDS.map((card, i) => (
           <DeepDiveCard key={card.id} card={card} index={i} />
         ))}
-      </div>
-    </section>
+      </Box>
+    </Box>
   )
 }

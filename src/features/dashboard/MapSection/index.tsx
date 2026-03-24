@@ -1,13 +1,18 @@
 'use client'
+
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import { WorldMap } from '@/components/map/WorldMap'
 import { useMapData } from '@/hooks/useMapData'
 import { ChevronRight, Rocket, Wallet, AlertTriangle, Globe, X, Info } from 'lucide-react'
 import { getCountryFlag } from '@/utils/countryFlags'
 import type { MapMarker } from '@/types'
+import { CARD_BORDER_RADIUS_SX } from '@/theme/cardStyles'
 
 const MAP_HEADER_GRADIENT = 'linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)'
 
-function parseActiveDeployment(raw?: string): { title: string; action: string } | null {
+const parseActiveDeployment = (raw?: string): { title: string; action: string } | null => {
   if (!raw) return null
   const parts = raw.split(/\s*-\s*/)
   if (parts.length >= 2) {
@@ -16,7 +21,7 @@ function parseActiveDeployment(raw?: string): { title: string; action: string } 
   return { title: raw, action: 'View' }
 }
 
-function getDefaultIntelligence(country: string): string[] {
+const getDefaultIntelligence = (country: string): string[] => {
   const defaults: Record<string, string> = {
     India: 'India Announces National Water Mission Phase 2',
     Nigeria: 'Nigeria Launches Water Infrastructure Expansion Plan',
@@ -26,13 +31,7 @@ function getDefaultIntelligence(country: string): string[] {
   return defaults[country] ? [defaults[country]!] : [`${country} water sector update`]
 }
 
-function CountryProfileModal({
-  marker,
-  onClose,
-}: {
-  marker: MapMarker
-  onClose: () => void
-}) {
+function CountryProfileModal({ marker, onClose }: { marker: MapMarker; onClose: () => void }) {
   const flag = getCountryFlag(marker.id)
   const deployment = parseActiveDeployment(marker.activeDeployment)
   const intelligence = getDefaultIntelligence(marker.country)
@@ -40,113 +39,146 @@ function CountryProfileModal({
   const isActive = marker.deploymentStatus === 'deployed'
 
   return (
-    <div
-      className="absolute top-4 left-4 w-80 bg-[#f1f5f9] rounded-xl shadow-xl border border-bg-border p-4 z-[1000]"
+    <Box
       role="dialog"
       aria-label={`${marker.country} profile`}
+      sx={{
+        position: 'absolute',
+        top: 16,
+        left: 16,
+        width: 320,
+        bgcolor: '#f1f5f9',
+        borderRadius: CARD_BORDER_RADIUS_SX,
+        boxShadow: 6,
+        border: '1px solid',
+        borderColor: 'custom.border',
+        p: 2,
+        zIndex: 1000,
+      }}
     >
-      {/* Header */}
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="flex items-start gap-3 min-w-0">
-          <span
-            className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl shrink-0 border border-bg-border shadow-sm"
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1.5, mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, minWidth: 0 }}>
+          <Box
             aria-hidden
+            sx={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              bgcolor: 'background.paper',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.25rem',
+              flexShrink: 0,
+              border: '1px solid',
+              borderColor: 'custom.border',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+            }}
           >
             {flag}
-          </span>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-base font-bold text-text-primary">{marker.country}</h3>
-              <span
-                className={isActive ? 'text-xs px-2 py-0.5 rounded-full font-semibold shrink-0' : 'hidden'}
-                style={isActive ? { backgroundColor: 'rgba(34, 197, 94, 0.15)', color: '#16a34a' } : undefined}
-              >
-                {statusLabel}
-              </span>
-            </div>
-            <p className="text-xs text-text-muted mt-0.5">{marker.region}</p>
-          </div>
-        </div>
-        <button
+          </Box>
+          <Box sx={{ minWidth: 0 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+              <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: 'text.primary' }}>{marker.country}</Typography>
+              {isActive && (
+                <Typography
+                  component="span"
+                  sx={{ fontSize: '0.75rem', px: 1, py: 0.25, borderRadius: 9999, fontWeight: 600, flexShrink: 0, bgcolor: 'rgba(34, 197, 94, 0.15)', color: '#16a34a' }}
+                >
+                  {statusLabel}
+                </Typography>
+              )}
+            </Box>
+            <Typography sx={{ fontSize: '0.75rem', color: 'text.disabled', mt: 0.25 }}>{marker.region}</Typography>
+          </Box>
+        </Box>
+        <Button
           onClick={onClose}
-          className="p-1.5 rounded-lg hover:bg-white/80 text-text-muted hover:text-text-primary transition-colors shrink-0"
           aria-label="Close"
+          sx={{ minWidth: 0, p: 0.75, borderRadius: CARD_BORDER_RADIUS_SX, color: 'text.disabled', '&:hover': { bgcolor: 'rgba(255,255,255,0.8)', color: 'text.primary' } }}
         >
           <X size={18} />
-        </button>
-      </div>
+        </Button>
+      </Box>
 
-      {/* Metrics Grid 2x2 */}
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        <div className="bg-white rounded-lg p-3 border border-bg-border shadow-sm">
-          <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Water Scarcity</p>
-          <p
-            className="text-sm font-bold"
-            style={{ color: (marker.waterScarcity ?? 0) >= 60 ? '#dc2626' : '#1e293b' }}
-          >
-            {marker.waterScarcity ?? 0}%
-          </p>
-        </div>
-        <div className="bg-white rounded-lg p-3 border border-bg-border shadow-sm">
-          <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Capital Deployed</p>
-          <p className="text-sm font-bold text-text-primary">${marker.capitalDeployed ?? 0}M</p>
-        </div>
-        <div className="bg-white rounded-lg p-3 border border-bg-border shadow-sm">
-          <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Impact Score</p>
-          <p className="text-sm font-bold text-text-primary">{marker.impactScore ?? 0}%</p>
-        </div>
-        <div className="bg-white rounded-lg p-3 border border-bg-border shadow-sm">
-          <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Infrastructure</p>
-          <p className="text-sm font-bold text-text-primary">{marker.infrastructure ?? 0}/100</p>
-        </div>
-      </div>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 1, mb: 2 }}>
+        {[
+          { k: 'Water Scarcity', v: `${marker.waterScarcity ?? 0}%`, vColor: (marker.waterScarcity ?? 0) >= 60 ? '#dc2626' : '#1e293b' },
+          { k: 'Capital Deployed', v: `$${marker.capitalDeployed ?? 0}M`, vColor: '#1e293b' },
+          { k: 'Impact Score', v: `${marker.impactScore ?? 0}%`, vColor: '#1e293b' },
+          { k: 'Infrastructure', v: `${marker.infrastructure ?? 0}/100`, vColor: '#1e293b' },
+        ].map((cell) => (
+          <Box key={cell.k} sx={{ bgcolor: 'background.paper', borderRadius: CARD_BORDER_RADIUS_SX, p: 1.5, border: '1px solid', borderColor: 'custom.border', boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
+            <Typography sx={{ fontSize: '10px', color: 'text.disabled', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>{cell.k}</Typography>
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: cell.vColor }}>{cell.v}</Typography>
+          </Box>
+        ))}
+      </Box>
 
-      {/* Active Deployments */}
       {deployment && (
-        <div className="mb-4 pt-3 border-t border-bg-border">
-          <p className="text-[10px] text-text-muted uppercase tracking-wider mb-2">Active Deployments</p>
-          <div className="bg-white rounded-lg p-3 border border-bg-border shadow-sm flex items-center justify-between gap-2">
-            <span className="text-sm font-medium text-text-primary truncate">{deployment.title}</span>
-            <button
+        <Box sx={{ mb: 2, pt: 1.5, borderTop: '1px solid', borderColor: 'custom.border' }}>
+          <Typography sx={{ fontSize: '10px', color: 'text.disabled', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>Active Deployments</Typography>
+          <Box sx={{ bgcolor: 'background.paper', borderRadius: CARD_BORDER_RADIUS_SX, p: 1.5, border: '1px solid', borderColor: 'custom.border', boxShadow: '0 1px 2px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 500, color: 'text.primary', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {deployment.title}
+            </Typography>
+            <Button
               type="button"
-              className="shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
-              style={{ backgroundColor: 'rgba(22, 119, 255, 0.15)', color: '#1677ff' }}
+              size="small"
+              sx={{
+                flexShrink: 0,
+                borderRadius: 9999,
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                textTransform: 'none',
+                px: 1.5,
+                py: 0.5,
+                bgcolor: 'rgba(22, 119, 255, 0.15)',
+                color: '#1677ff',
+                minWidth: 0,
+              }}
             >
               {deployment.action}
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Box>
+        </Box>
       )}
 
-      {/* Intelligence */}
       {intelligence.length > 0 && (
-        <div className="mb-4 pt-3 border-t border-bg-border">
-          <p className="text-[10px] text-text-muted uppercase tracking-wider mb-2">
+        <Box sx={{ mb: 2, pt: 1.5, borderTop: '1px solid', borderColor: 'custom.border' }}>
+          <Typography sx={{ fontSize: '10px', color: 'text.disabled', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
             Intelligence ({intelligence.length})
-          </p>
-          <div className="space-y-1.5">
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
             {intelligence.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-2 text-sm"
-              >
-                <Info size={16} className="shrink-0 mt-0.5" style={{ color: '#1677ff' }} />
-                <span className="text-[#1677ff] font-medium cursor-pointer hover:underline">{item}</span>
-              </div>
+              <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, fontSize: '0.875rem' }}>
+                <Info size={16} style={{ flexShrink: 0, marginTop: 2, color: '#1677ff' }} />
+                <Typography component="span" sx={{ color: '#1677ff', fontWeight: 500, cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}>
+                  {item}
+                </Typography>
+              </Box>
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
 
-      {/* Footer */}
-      <button
-        className="w-full flex items-center justify-center gap-1.5 py-3 rounded-lg text-white text-sm font-semibold hover:opacity-90 transition-opacity"
-        style={{ backgroundColor: '#2F446A' }}
+      <Button
+        fullWidth
+        endIcon={<ChevronRight size={16} />}
+        sx={{
+          py: 1.5,
+          borderRadius: CARD_BORDER_RADIUS_SX,
+          textTransform: 'none',
+          fontSize: '0.875rem',
+          fontWeight: 600,
+          bgcolor: '#2F446A',
+          color: '#fff',
+          '&:hover': { bgcolor: '#2F446A', opacity: 0.9 },
+        }}
       >
         View Full Profile
-        <ChevronRight size={16} />
-      </button>
-    </div>
+      </Button>
+    </Box>
   )
 }
 
@@ -160,110 +192,88 @@ export default function MapSection() {
     diversification: 62,
   }
 
+  const legendRow = (dot: string, label: string) => (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: dot, flexShrink: 0 }} />
+      <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>{label}</Typography>
+    </Box>
+  )
+
+  const riskRow = (size: number, label: string) => (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Box sx={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <Box
+          sx={{
+            width: size,
+            height: size,
+            borderRadius: '50%',
+            border: '2px solid',
+            borderColor: 'rgba(148, 163, 184, 0.5)',
+            boxShadow: '0 0 0 1px rgba(255,255,255,0.8)',
+            bgcolor: 'rgba(148, 163, 184, 0.2)',
+          }}
+        />
+      </Box>
+      <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>{label}</Typography>
+    </Box>
+  )
+
   return (
-    <section className="h-full min-h-0 flex flex-col">
-      <div className="rounded-xl overflow-hidden border border-bg-border shadow-sm flex-1 min-h-0 flex flex-col">
-        <div
-          className="px-5 py-4 text-white"
-          style={{ background: MAP_HEADER_GRADIENT }}
-        >
-          <h2 className="text-base font-bold leading-tight">Geographic Impact Distribution</h2>
-          <p className="text-sm text-white/85 mt-1">Real-time deployment scale and risk heat overlay</p>
-        </div>
-        <div className="relative flex-1 min-h-0">
-          <WorldMap
-            markers={markers}
-            selectedMarker={selectedMarker}
-            onMarkerClick={handleSelect}
-            onMarkerHover={handleHover}
-          />
+    <Box component="section" sx={{ height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ borderRadius: CARD_BORDER_RADIUS_SX, overflow: 'hidden', border: '1px solid', borderColor: 'custom.border', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ px: 2.5, py: 2, color: '#fff', background: MAP_HEADER_GRADIENT }}>
+          <Typography sx={{ fontSize: '1rem', fontWeight: 700, lineHeight: 1.25 }}>Geographic Impact Distribution</Typography>
+          <Typography sx={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.85)', mt: 0.5 }}>Real-time deployment scale and risk heat overlay</Typography>
+        </Box>
+        <Box sx={{ position: 'relative', flex: 1, minHeight: 0 }}>
+          <WorldMap markers={markers} selectedMarker={selectedMarker} onMarkerClick={handleSelect} onMarkerHover={handleHover} />
+          {selectedMarker && <CountryProfileModal marker={selectedMarker} onClose={() => handleSelect(null)} />}
+          <Box sx={{ position: 'absolute', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1.5, zIndex: 1000 }}>
+            <Box sx={{ bgcolor: 'background.paper', borderRadius: CARD_BORDER_RADIUS_SX, boxShadow: 3, border: '1px solid', borderColor: 'custom.border', p: 1.5 }}>
+              <Typography sx={{ fontSize: '10px', fontWeight: 600, color: 'text.primary', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>Status Layer</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+                {legendRow('#22c55e', 'Deployed solution')}
+                {legendRow('#f59e0b', 'Deployment in progress')}
+                {legendRow('#1677ff', 'Pending proposal')}
+              </Box>
+            </Box>
+            <Box sx={{ bgcolor: 'background.paper', borderRadius: CARD_BORDER_RADIUS_SX, boxShadow: 3, border: '1px solid', borderColor: 'custom.border', p: 1.5 }}>
+              <Typography sx={{ fontSize: '10px', fontWeight: 600, color: 'text.primary', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>Risk Status</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                {riskRow(8, 'Low')}
+                {riskRow(12, 'Medium')}
+                {riskRow(16, 'High')}
+              </Box>
+            </Box>
+          </Box>
+        </Box>
 
-          {/* Country profile modal - shows when any marker is selected */}
-          {selectedMarker && (
-            <CountryProfileModal
-              marker={selectedMarker}
-              onClose={() => handleSelect(null)}
-            />
-          )}
-
-          {/* Legend - floating top right (z-[1000] to appear above Leaflet map) */}
-          <div className="absolute top-4 right-4 flex flex-col gap-3 z-[1000]">
-            <div className="bg-white rounded-lg shadow-lg border border-bg-border p-3">
-              <p className="text-[10px] font-semibold text-text-primary uppercase tracking-wider mb-2">Status Layer</p>
-              <div className="space-y-1.5 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#22c55e] shrink-0" />
-                  <span className="text-text-secondary">Deployed solution</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b] shrink-0" />
-                  <span className="text-text-secondary">Deployment in progress</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#1677ff] shrink-0" />
-                  <span className="text-text-secondary">Pending proposal</span>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg border border-bg-border p-3">
-              <p className="text-[10px] font-semibold text-text-primary uppercase tracking-wider mb-2">Risk Status</p>
-              <div className="space-y-2 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center justify-center w-5 h-5 shrink-0">
-                    <span className="w-2 h-2 rounded-full ring-2 ring-offset-1 ring-text-muted/50 bg-text-muted/20" />
-                  </span>
-                  <span className="text-text-secondary">Low</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center justify-center w-5 h-5 shrink-0">
-                    <span className="w-3 h-3 rounded-full ring-2 ring-offset-1 ring-text-muted/50 bg-text-muted/20" />
-                  </span>
-                  <span className="text-text-secondary">Medium</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center justify-center w-5 h-5 shrink-0">
-                    <span className="w-4 h-4 rounded-full ring-2 ring-offset-1 ring-text-muted/50 bg-text-muted/20" />
-                  </span>
-                  <span className="text-text-secondary">High</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Summary bar - dark blue with rounded bottom */}
-        <div
-          className="flex items-center divide-x divide-white/20 text-white rounded-b-xl"
-          style={{ background: MAP_HEADER_GRADIENT }}
-        >
-          <div className="flex-1 flex items-center justify-center gap-2 px-4 py-3 min-w-0">
-            <Rocket size={16} className="shrink-0 text-white/90" />
-            <span className="text-xs font-medium truncate">Active Deployment</span>
-            <span className="text-sm font-bold shrink-0">{mapStats.activeDeployment}</span>
-          </div>
-          <div className="flex-1 flex items-center justify-center gap-2 px-4 py-3 min-w-0">
-            <Wallet size={16} className="shrink-0 text-white/90" />
-            <span className="text-xs font-medium truncate">Capital Deployment</span>
-            <span className="text-sm font-bold shrink-0">${mapStats.capitalDeployed.toFixed(1)}M</span>
-          </div>
-          <div className="flex-1 flex items-center justify-center gap-2 px-4 py-3 min-w-0">
-            <AlertTriangle size={16} className="shrink-0 text-white/90" />
-            <span className="text-xs font-medium truncate">High Alerts</span>
-            <span className="text-sm font-bold shrink-0">{mapStats.highAlerts}</span>
-          </div>
-          <div className="flex-1 flex items-center justify-center gap-2 px-4 py-3 min-w-0">
-            <Globe size={16} className="shrink-0 text-white/90" />
-            <span className="text-xs font-medium truncate">Diversification</span>
-            <span className="text-sm font-bold shrink-0">{mapStats.diversification}/100</span>
-            <div className="w-16 h-1.5 bg-white/20 rounded-full overflow-hidden shrink-0">
-              <div
-                className="h-full bg-[#22c55e] rounded-full transition-all duration-300"
-                style={{ width: `${mapStats.diversification}%` }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        <Box sx={{ display: 'flex', alignItems: 'center', color: '#fff', borderBottomLeftRadius: CARD_BORDER_RADIUS_SX, borderBottomRightRadius: CARD_BORDER_RADIUS_SX, background: MAP_HEADER_GRADIENT }}>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, px: 2, py: 1.5, minWidth: 0 }}>
+            <Rocket size={16} color="rgba(255,255,255,0.9)" style={{ flexShrink: 0 }} />
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Active Deployment</Typography>
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, flexShrink: 0 }}>{mapStats.activeDeployment}</Typography>
+          </Box>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, px: 2, py: 1.5, minWidth: 0, borderLeft: '1px solid rgba(255,255,255,0.2)' }}>
+            <Wallet size={16} color="rgba(255,255,255,0.9)" style={{ flexShrink: 0 }} />
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Capital Deployment</Typography>
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, flexShrink: 0 }}>${mapStats.capitalDeployed.toFixed(1)}M</Typography>
+          </Box>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, px: 2, py: 1.5, minWidth: 0, borderLeft: '1px solid rgba(255,255,255,0.2)' }}>
+            <AlertTriangle size={16} color="rgba(255,255,255,0.9)" style={{ flexShrink: 0 }} />
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>High Alerts</Typography>
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, flexShrink: 0 }}>{mapStats.highAlerts}</Typography>
+          </Box>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, px: 2, py: 1.5, minWidth: 0, borderLeft: '1px solid rgba(255,255,255,0.2)' }}>
+            <Globe size={16} color="rgba(255,255,255,0.9)" style={{ flexShrink: 0 }} />
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Diversification</Typography>
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, flexShrink: 0 }}>{mapStats.diversification}/100</Typography>
+            <Box sx={{ width: 64, height: 6, bgcolor: 'rgba(255,255,255,0.2)', borderRadius: 9999, overflow: 'hidden', flexShrink: 0 }}>
+              <Box sx={{ height: '100%', bgcolor: '#22c55e', borderRadius: 9999, transition: 'width 0.3s', width: `${mapStats.diversification}%` }} />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 }

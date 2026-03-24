@@ -1,40 +1,98 @@
 'use client'
+
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import { KPI_PRIMARY, KPI_SECONDARY } from '@/services/kpiData'
 import { KPICard } from '@/components/cards/KPICard'
 import { Dropdown } from '@/components/common/Dropdown'
 import { usePeriodSelector } from '@/hooks/usePeriodSelector'
+import { CARD_BORDER_RADIUS_SX } from '@/theme/cardStyles'
 
 export default function KPISection() {
   const { period, periods, handleChange } = usePeriodSelector()
 
   return (
-    <section>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h2 className="section-title">Executive Control Room</h2>
-          <p className="section-subtitle">Strategic Overview & Impact Posture</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-[#64748b]">System Status</span>
-            <div className="flex items-center gap-2 rounded-full px-3 py-1" style={{ backgroundColor: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
-              <span className="w-2 h-2 bg-[#22c55e] rounded-full animate-pulse" />
-              <span className="text-xs font-medium" style={{ color: '#22c55e' }}>Live Monitoring</span>
-            </div>
-          </div>
+    <Box component="section" sx={{ width: '100%', minWidth: 0 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        <Box>
+          <Typography sx={{ fontSize: '1.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: 'text.primary' }}>
+            Executive Control Room
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: '0.875rem',
+              mt: 0.5,
+              color: 'text.secondary',
+              borderBottom: '1px solid #6486C4',
+              display: 'inline-block',
+              pb: 0.25,
+            }}
+          >
+            Strategic Overview & Impact Posture
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 500, color: 'text.secondary' }}>System Status</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                borderRadius: CARD_BORDER_RADIUS_SX,
+                px: 1.5,
+                py: 0.5,
+                bgcolor: 'rgba(34, 197, 94, 0.1)',
+                border: '1px solid rgba(34, 197, 94, 0.3)',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 8,
+                  height: 8,
+                  bgcolor: '#22c55e',
+                  animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                }}
+              />
+              <Typography sx={{ fontSize: '0.75rem', fontWeight: 500, color: '#22c55e' }}>Live Monitoring</Typography>
+            </Box>
+          </Box>
           <Dropdown options={periods} value={period} onChange={handleChange} />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'repeat(2, minmax(0, 1fr))' },
+          gap: 2,
+          mb: 2,
+          width: '100%',
+        }}
+      >
         {KPI_PRIMARY.map((metric, i) => (
-          <KPICard key={metric.id} metric={{ ...metric, isPrimary: true }} index={i} period={period} />
+          <Box key={metric.id} sx={{ minWidth: 0, maxWidth: '100%' }}>
+            <KPICard metric={{ ...metric, isPrimary: true }} index={i} period={period} />
+          </Box>
         ))}
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'minmax(0, 1fr)',
+            sm: 'repeat(2, minmax(0, 1fr))',
+            md: 'repeat(4, minmax(0, 1fr))',
+          },
+          gap: 2,
+          width: '100%',
+        }}
+      >
         {KPI_SECONDARY.map((metric, i) => (
-          <KPICard key={metric.id} metric={metric} index={i + 2} period={period} />
+          <Box key={metric.id} sx={{ minWidth: 0, maxWidth: '100%' }}>
+            <KPICard metric={metric} index={i + 2} period={period} />
+          </Box>
         ))}
-      </div>
-    </section>
+      </Box>
+    </Box>
   )
 }

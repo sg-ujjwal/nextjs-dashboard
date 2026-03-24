@@ -22,7 +22,7 @@ export default function SparklineChart({ data, color, height = 48 }: SparklineCh
       padding: { top: 0, right: 0, bottom: 0, left: 0 },
       show: false,
     },
-    plotOptions: { bar: { columnWidth: '70%', borderRadius: 2 } },
+    plotOptions: { bar: { columnWidth: '70%', borderRadius: 1 } },
     colors: [color],
     tooltip: {
       x: { show: false },

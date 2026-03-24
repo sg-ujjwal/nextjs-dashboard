@@ -1,5 +1,10 @@
 'use client'
+
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Link from '@mui/material/Link'
 import { Globe, BarChart2, Network, FileText, ChevronRight } from 'lucide-react'
+import { CARD_BORDER_RADIUS_SX } from '@/theme/cardStyles'
 
 interface DeepDiveStat {
   label: string
@@ -34,65 +39,89 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
   const Icon = iconMap[card.icon] ?? Globe
 
   return (
-    <div
-      className="bg-white border border-[#e2e8f0] rounded-xl flex flex-col cursor-pointer relative overflow-hidden animate-slide-in-up hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-      style={{
+    <Box
+      className="animate-slide-in-up"
+      sx={{
+        bgcolor: 'background.paper',
+        border: '1px solid',
+        borderColor: 'custom.border',
+        borderRadius: CARD_BORDER_RADIUS_SX,
+        display: 'flex',
+        flexDirection: 'column',
+        cursor: 'pointer',
+        position: 'relative',
+        overflow: 'hidden',
         animationDelay: `${index * 100}ms`,
         boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-        background: `linear-gradient(135deg, ${card.accentColor}08 0%, transparent 40%), #ffffff`,
+        background: `linear-gradient(135deg, ${card.accentColor}14 0%, transparent 40%), #ffffff`,
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        '&:hover': {
+          boxShadow: 3,
+          transform: 'translateY(-2px)',
+        },
       }}
     >
-      <div className="p-5 flex flex-col gap-4 flex-1">
-        {/* Header: title + icon top right */}
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold text-[#1e293b] leading-tight">{card.title}</p>
-            <p className="text-xs text-[#64748b] mt-0.5">{card.subtitle}</p>
-          </div>
-          <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-            style={{
-              backgroundColor: `${card.accentColor}20`,
+      <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1 }}>
+          <Box sx={{ minWidth: 0, flex: 1 }}>
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.25 }}>{card.title}</Typography>
+            <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary', mt: 0.5 }}>{card.subtitle}</Typography>
+          </Box>
+          <Box
+            sx={{
+              width: 36,
+              height: 36,
+              borderRadius: CARD_BORDER_RADIUS_SX,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              bgcolor: `${card.accentColor}33`,
               color: card.accentColor,
             }}
           >
             <Icon size={18} />
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        {/* Stats - key value pairs */}
-        <div className="space-y-2">
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {card.stats.map((stat) => (
-            <div key={stat.label} className="flex items-center justify-between text-sm">
-              <span className="text-[#64748b]">{stat.label}</span>
-              <span className="font-bold" style={{ color: stat.valueColor }}>
-                {stat.value}
-              </span>
-            </div>
+            <Box key={stat.label} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.875rem' }}>
+              <Typography sx={{ color: 'text.secondary' }}>{stat.label}</Typography>
+              <Typography sx={{ fontWeight: 700, color: stat.valueColor }}>{stat.value}</Typography>
+            </Box>
           ))}
-        </div>
+        </Box>
 
-        {/* Single thin progress bar */}
-        <div className="h-1.5 bg-[#e2e8f0] rounded-full overflow-hidden">
-          <div
-            className="h-full rounded-full transition-all duration-300"
-            style={{
+        <Box sx={{ height: 6, bgcolor: 'custom.border', borderRadius: 9999, overflow: 'hidden' }}>
+          <Box
+            sx={{
+              height: '100%',
+              borderRadius: 9999,
+              transition: 'width 0.3s',
               width: `${card.progressValue}%`,
-              backgroundColor: card.accentColor,
+              bgcolor: card.accentColor,
             }}
           />
-        </div>
+        </Box>
 
-        {/* CTA link */}
-        <a
+        <Link
           href="#"
-          className="mt-auto flex items-center gap-0.5 text-sm font-medium hover:opacity-80 transition-opacity"
-          style={{ color: '#1677ff' }}
+          underline="hover"
+          sx={{
+            mt: 'auto',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 0.25,
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            color: 'primary.main',
+          }}
         >
           {card.cta}
           <ChevronRight size={14} />
-        </a>
-      </div>
-    </div>
+        </Link>
+      </Box>
+    </Box>
   )
 }

@@ -1,7 +1,14 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+
+import { useState } from 'react'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
+import type { SxProps, Theme } from '@mui/material/styles'
+import { CARD_BORDER_RADIUS_SX } from '@/theme/cardStyles'
 import { ChevronDown } from 'lucide-react'
-import { cn } from '@/utils/cn'
 
 interface DropdownOption<T extends string> {
   label: string
@@ -12,49 +19,67 @@ interface DropdownProps<T extends string> {
   options: DropdownOption<T>[]
   value: T
   onChange: (value: T) => void
-  className?: string
+  sx?: SxProps<Theme>
   label?: string
 }
 
-export function Dropdown<T extends string>({ options, value, onChange, className, label }: DropdownProps<T>) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  const current = options.find(o => o.value === value)
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [])
+export function Dropdown<T extends string>({ options, value, onChange, sx, label }: DropdownProps<T>) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const current = options.find((o) => o.value === value)
 
   return (
-    <div ref={ref} className={cn('relative', className)}>
-      {label && <span className="text-xs text-text-muted mb-1 block">{label}</span>}
-      <button
-        onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-2 bg-white border border-bg-border rounded-lg px-3 py-1.5 text-sm text-text-primary hover:border-slate-400 transition-colors"
-      >
-        <span>{current?.label}</span>
-        <ChevronDown size={14} className={cn('transition-transform', open && 'rotate-180')} />
-      </button>
-      {open && (
-        <div className="absolute right-0 top-full mt-1 z-50 min-w-[140px] bg-white border border-bg-border rounded-lg shadow-card-lg overflow-hidden animate-fade-in">
-          {options.map(opt => (
-            <button
-              key={opt.value}
-              onClick={() => { onChange(opt.value); setOpen(false) }}
-              className={cn(
-                'w-full text-left px-3 py-2 text-sm transition-colors hover:bg-bg-elevated',
-                opt.value === value ? 'font-medium text-[#2F446A]' : 'text-[#64748b]'
-              )}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
+    <Box sx={{ position: 'relative', ...sx }}>
+      {label && (
+        <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5, display: 'block' }}>
+          {label}
+        </Typography>
       )}
-    </div>
+      <Button
+        variant="outlined"
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        endIcon={
+          <ChevronDown
+            size={14}
+            style={{
+              transition: 'transform 0.2s',
+              transform: open ? 'rotate(180deg)' : 'none',
+            }}
+          />
+        }
+        sx={{
+          textTransform: 'none',
+          borderRadius: CARD_BORDER_RADIUS_SX,
+          bgcolor: 'background.paper',
+          borderColor: 'custom.border',
+          color: 'text.primary',
+          fontSize: '0.875rem',
+          py: 0.75,
+          px: 1.5,
+          '&:hover': { borderColor: 'text.secondary', bgcolor: 'background.paper' },
+        }}
+      >
+        {current?.label}
+      </Button>
+      <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
+        {options.map((opt) => (
+          <MenuItem
+            key={opt.value}
+            selected={opt.value === value}
+            onClick={() => {
+              onChange(opt.value)
+              setAnchorEl(null)
+            }}
+            sx={{
+              fontSize: '0.875rem',
+              color: opt.value === value ? '#2F446A' : 'text.secondary',
+              fontWeight: opt.value === value ? 600 : 400,
+            }}
+          >
+            {opt.label}
+          </MenuItem>
+        ))}
+      </Menu>
+    </Box>
   )
 }
