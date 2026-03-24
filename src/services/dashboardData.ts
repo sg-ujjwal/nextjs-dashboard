@@ -5,6 +5,9 @@ export const FORECASTS: Forecast[] = [
   { id: '2', title: 'Climate Mitigation Opportunity', description: 'Sahel region rainfall patterns favorable for groundwater recharge — ideal window for borehole expansion', probability: 83, impact: 'medium', timeframe: '30 days', borderColor: '#3b82f6' },
 ]
 
+
+
+
 export const PRIORITY_CARDS: PriorityCard[] = [
   { id: 'p1', rank: 1, title: 'Nigeria Water Grid', region: 'West Africa', score: 9.2, trend: 'up', description: 'Deployment index below target. Urgent intervention suggested.', actions: ['Approve Phase II funding', 'Deploy assessment team', 'Coordinate with Ministry'] },
   { id: 'p2', rank: 2, title: 'Kenya Hub Phase II', region: 'East Africa', score: 8.5, trend: 'down', description: 'Logistics bottlenecks impacting timeline. Assessment required.', actions: ['Review logistics', 'Validate timeline'] },
