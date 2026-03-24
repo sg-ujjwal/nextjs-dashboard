@@ -1,5 +1,4 @@
-import DashboardLayout from '@/components/layout/DashboardLayout'
-import DashboardPage from '@/features/dashboard/DashboardPage'
+import { DashboardLayout, DashboardPage } from '@/modules/dashboard'
 
 export default function Home() {
   return (
