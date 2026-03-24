@@ -33,7 +33,7 @@ export const KPI_PRIMARY: KPIMetric[] = [
   },
 ]
 
-/** Secondary metric cards */
+/** Secondary row: penultimate bar is the visual peak; last bar = current headline value */
 export const KPI_SECONDARY: KPIMetric[] = [
   {
     id: 'water-secured',
@@ -43,8 +43,9 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 34,
     changePeriod: '7 days',
     trend: 'up',
-    sparklineData: [720, 750, 770, 790, 810, 830, 840, 850.4],
-    color: '#1677ff',
+    sparklineData: [620, 655, 640, 705, 735, 780, 920, 850.4],
+    color: '#2e4362',
+    chartColor: '#2e4362',
     description: 'Cubic meters of water secured',
     showPeriodDropdown: true,
   },
@@ -57,8 +58,9 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 62,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1],
-    color: '#22c55e',
+    sparklineData: [0.95, 1.05, 1.15, 1.28, 1.42, 1.58, 2.48, 2.1],
+    color: '#15803d',
+    chartColor: '#15803d',
     description: 'Economic impact in billions',
   },
   {
@@ -69,8 +71,9 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 50,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [18, 19, 20, 21, 22, 23, 24, 25],
-    color: '#1677ff',
+    sparklineData: [12, 14, 15, 17, 18, 20, 30, 25],
+    color: '#0284c7',
+    chartColor: '#38bdf8',
     description: 'Productivity improvement percentage',
   },
   {
@@ -81,8 +84,9 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 21,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [26, 27, 28, 29, 29.5, 30, 30.5, 31],
-    color: '#f59e0b',
+    sparklineData: [19, 21, 22, 24, 26, 27, 38, 31],
+    color: '#ea580c',
+    chartColor: '#fb923c',
     description: 'Health improvement percentage',
   },
 ]

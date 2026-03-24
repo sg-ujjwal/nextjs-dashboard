@@ -4,7 +4,9 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { alpha } from '@mui/material/styles'
+import type { LucideIcon } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, Droplets, LineChart, Activity, HeartPulse } from 'lucide-react'
 import { useCountUp } from '@/hooks/useCountUp'
 import type { KPIMetric, Period } from '@/types'
 import { Dropdown } from '@/components/common/Dropdown'
@@ -19,10 +21,43 @@ const CARD_PERIOD_OPTIONS: { label: string; value: Period }[] = [
   { label: '1 year', value: '1y' },
 ]
 
+const KPI_SECONDARY_ICONS: Record<string, LucideIcon> = {
+  'water-secured': Droplets,
+  'economic-impact': LineChart,
+  'productivity-index': Activity,
+  'health-indicators': HeartPulse,
+}
+
 interface KPICardProps {
   metric: KPIMetric
   index: number
   period: Period
+}
+
+interface SecondaryIconBadgeProps {
+  metricId: string
+  accentColor: string
+}
+
+const SecondaryIconBadge = ({ metricId, accentColor }: SecondaryIconBadgeProps) => {
+  const Icon = KPI_SECONDARY_ICONS[metricId] ?? Activity
+  return (
+    <Box
+      sx={{
+        width: 40,
+        height: 40,
+        borderRadius: '10px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        bgcolor: alpha(accentColor, 0.14),
+        color: accentColor,
+      }}
+    >
+      <Icon size={20} strokeWidth={2} aria-hidden />
+    </Box>
+  )
 }
 
 export function KPICard({ metric, index, period }: KPICardProps) {
@@ -43,26 +78,53 @@ export function KPICard({ metric, index, period }: KPICardProps) {
         ? 'rgba(255,255,255,0.8)'
         : 'text.disabled'
       : changePositive
-        ? 'success.main'
+        ? hasDarkBg
+          ? '#86efac'
+          : 'success.main'
         : 'error.main'
 
   const chartColor = metric.chartColor ?? metric.color
-  const chartHeight = isPrimary ? 56 : 48
+  const chartHeightPrimary = 56
+  const chartHeightSecondary = 50
 
-  const chartBlock = (
+  const chartBlockPrimary = (
     <Box
       sx={{
         flex: '1 1 38%',
-        minWidth: { xs: 72, sm: isPrimary ? 120 : 88 },
-        maxWidth: isPrimary ? '48%' : '46%',
+        minWidth: { xs: 72, sm: 120 },
+        maxWidth: '48%',
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
         overflow: 'hidden',
-        height: isPrimary ? 56 : 48,
+        height: chartHeightPrimary,
       }}
     >
-      <SparklineChart data={metric.sparklineData} color={chartColor} height={chartHeight} />
+      <SparklineChart data={metric.sparklineData} color={chartColor} height={chartHeightPrimary} variant="sparkline" />
+    </Box>
+  )
+
+  const chartBlockSecondary = (
+    <Box
+      sx={{
+        flex: '1 1 0',
+        minWidth: { xs: 100, sm: 112 },
+        maxWidth: { xs: '50%', sm: '48%' },
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        overflow: 'hidden',
+        minHeight: 70,
+      }}
+    >
+      <SparklineChart
+        data={metric.sparklineData}
+        color={chartColor}
+        height={chartHeightSecondary}
+        variant="labeledBars"
+        columnWidth="80%"
+        barBorderRadius={2}
+      />
     </Box>
   )
 
@@ -107,9 +169,9 @@ export function KPICard({ metric, index, period }: KPICardProps) {
             {metric.label}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25, fontSize: '0.75rem', fontWeight: 600, flexShrink: 0, color: trendColor }}>
-            {metric.trend === 'up' ? <TrendingUp size={12} /> : metric.trend === 'down' ? <TrendingDown size={12} /> : <Minus size={12} />}
             {metric.change > 0 ? '+' : ''}
             {metric.change}%
+            {metric.trend === 'up' ? <TrendingUp size={12} aria-hidden /> : metric.trend === 'down' ? <TrendingDown size={12} aria-hidden /> : <Minus size={12} aria-hidden />}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, minHeight: 56, minWidth: 0 }}>
@@ -127,25 +189,29 @@ export function KPICard({ metric, index, period }: KPICardProps) {
             {count}
             {metric.unit ?? ''}
           </Typography>
-          {chartBlock}
+          {chartBlockPrimary}
         </Box>
       </Box>
     )
   }
 
+  const iconAccent = metric.chartColor ?? metric.color
+
   return (
     <Box
       className="animate-slide-in-up"
+      role="group"
+      aria-label={`${metric.label} KPI`}
       sx={{
         border: '1px solid',
         borderColor: 'custom.border',
-        borderRadius: CARD_BORDER_RADIUS_SX,
+        borderRadius: '16px',
         bgcolor: 'background.paper',
         boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
         p: 2,
         display: 'flex',
         flexDirection: 'column',
-        gap: 1.5,
+        gap: 1.25,
         cursor: 'pointer',
         minWidth: 0,
         width: '100%',
@@ -160,49 +226,58 @@ export function KPICard({ metric, index, period }: KPICardProps) {
         },
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1, flexWrap: 'wrap', minWidth: 0 }}>
-        <Typography
-          sx={{
-            fontSize: '0.75rem',
-            color: 'text.secondary',
-            fontWeight: 500,
-            lineHeight: 1.25,
-            minWidth: 0,
-            flex: '1 1 120px',
-            pr: 0.5,
-          }}
-        >
-          {metric.label}
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexShrink: 0, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-          {metric.showPeriodDropdown && (
-            <Dropdown options={CARD_PERIOD_OPTIONS} value={cardPeriod} onChange={(v) => setCardPeriod(v as Period)} sx={{ flexShrink: 0 }} />
-          )}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25, fontSize: '0.75rem', fontWeight: 600, flexShrink: 0, color: trendColor }}>
-            {metric.trend === 'up' ? <TrendingUp size={12} /> : metric.trend === 'down' ? <TrendingDown size={12} /> : <Minus size={12} />}
-            {metric.change > 0 ? '+' : ''}
-            {metric.change}%
-          </Box>
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1, minWidth: 0 }}>
+        <SecondaryIconBadge metricId={metric.id} accentColor={iconAccent} />
+        <Box sx={{ flexShrink: 0, minWidth: 0 }}>
+          {metric.showPeriodDropdown ? (
+            <Dropdown options={CARD_PERIOD_OPTIONS} value={cardPeriod} onChange={(v) => setCardPeriod(v as Period)} />
+          ) : null}
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, minHeight: 48, minWidth: 0 }}>
-        <Typography
-          sx={{
-            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
-            fontWeight: 700,
-            lineHeight: 1,
-            flex: '0 1 auto',
-            minWidth: 0,
-            color: metric.color,
-          }}
-        >
-          {metric.prefix ?? ''}
-          {count}
-          {metric.unit ?? ''}
-        </Typography>
-        {chartBlock}
+      <Typography
+        sx={{
+          fontSize: '0.8125rem',
+          color: 'text.secondary',
+          fontWeight: 500,
+          lineHeight: 1.35,
+          minWidth: 0,
+        }}
+      >
+        {metric.label}
+      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, minWidth: 0, mt: 'auto' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 1, columnGap: 1.25, minWidth: 0, flex: '0 1 auto' }}>
+          <Typography
+            component="span"
+            sx={{
+              fontSize: { xs: '1.25rem', sm: '1.5rem' },
+              fontWeight: 700,
+              lineHeight: 1.1,
+              color: metric.color,
+            }}
+          >
+            {metric.prefix ?? ''}
+            {count}
+            {metric.unit ?? ''}
+          </Typography>
+          <Box
+            component="span"
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.25,
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              color: trendColor,
+            }}
+          >
+            {metric.change > 0 ? '+' : ''}
+            {metric.change}%
+            {metric.trend === 'up' ? <TrendingUp size={12} aria-hidden /> : metric.trend === 'down' ? <TrendingDown size={12} aria-hidden /> : <Minus size={12} aria-hidden />}
+          </Box>
+        </Box>
+        {chartBlockSecondary}
       </Box>
-      <Typography sx={{ fontSize: '0.75rem', color: 'text.disabled' }}>{metric.changePeriod}</Typography>
     </Box>
   )
 }
