@@ -89,7 +89,7 @@ const theme = createTheme({
       sidebarTextActive: '#ffffff',
       sidebarSectionLabel: 'rgba(0, 0, 0, 0.5)',
       fab: '#2e4362',
-      textMuted: '#94a3b8',
+      textMuted: 'hsla(0, 0%, 0%, 0.50)',
       brandGradient: 'linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)',
       kpiPrimaryGradient:
         'radial-gradient(152.14% 265.63% at 50% 50%, #466192 0%, #2F446A 100%)',
@@ -124,7 +124,7 @@ const theme = createTheme({
           background: '#cbd5e1',
           borderRadius: 3,
         },
-        '::-webkit-scrollbar-thumb:hover': { background: '#94a3b8' },
+        '::-webkit-scrollbar-thumb:hover': { background: 'hsla(0, 0%, 0%, 0.50)' },
       },
     },
     MuiButton: {

@@ -78,7 +78,8 @@ export default function DashboardPage() {
       <Box
         sx={{
           width: "100%",
-          py: "0 3",
+          pt: 0,
+          pb: 3,
           px: { xs: "20px", md: "40px" },
         }}
       >

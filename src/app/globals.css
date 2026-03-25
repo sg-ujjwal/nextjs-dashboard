@@ -127,7 +127,7 @@
 
 .map-hover-tooltip__label {
   font-size: 10px;
-  color: #94a3b8;
+  color: hsla(0, 0%, 0%, 0.50);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
