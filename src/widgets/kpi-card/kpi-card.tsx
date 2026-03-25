@@ -42,7 +42,7 @@ export const KPICard = (props: KPICardProps) => {
       sx={{
         flex: "1 1 38%",
         minWidth: { xs: 72, sm: 120 },
-        maxWidth: { xs: 120, sm: 240 },
+        maxWidth: { xs: 120, sm: 180, md: 240 },
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",
@@ -61,6 +61,7 @@ export const KPICard = (props: KPICardProps) => {
 
   const chartBlockSecondary = (
     <Box
+      className="secondary-chart"
       sx={{
         flex: "1 1 0",
         minWidth: { xs: 72, sm: 120 },
@@ -69,7 +70,7 @@ export const KPICard = (props: KPICardProps) => {
         alignItems: "flex-end",
         justifyContent: "flex-end",
         overflow: "hidden",
-        minHeight: 70,
+        height: CHART_HEIGHT_SECONDARY,
       }}
     >
       <SparklineChart

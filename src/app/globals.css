@@ -137,3 +137,14 @@
   font-weight: 600;
   color: #ffffff;
 }
+
+
+.secondary-chart{
+  & > div{
+      height: 70px !important;
+      min-height: 70px !important;
+    &>div{
+      height: 70px !important;
+    }
+  }
+}
