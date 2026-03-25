@@ -10,7 +10,7 @@ export const KPI_PRIMARY: KPIMetric[] = [
     change: 34,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [9.1, 9.8, 9.3, 30.6, 9.8, 41.1, 5.4, 60.4],
+    sparklineData: [9.1, 9.8, 9.3, 30.6, 9.8, 41.1, 5.4, 60.4, 9.1, 9.8, 9.3, 30.6, 9.8, 41.1, 5.4, 60.4],
     color: '#ffffff',
     chartColor: '#94a3b8',
     description: 'Total people reached by water solutions',
@@ -26,7 +26,7 @@ export const KPI_PRIMARY: KPIMetric[] = [
     changePeriod: 'vs last quarter',
     trend: 'up',
     // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
-    sparklineData: [330, 200, 540, 120, 600, 300, 760, 450],
+    sparklineData: [330, 200, 540, 120, 600, 300, 760, 450, 330, 200, 540, 120, 600, 300, 760, 450],
     color: '#1e293b',
     chartColor: '#2F446A',
     description: 'Total capital deployed across deployments',
@@ -48,7 +48,7 @@ export const KPI_SECONDARY: KPIMetric[] = [
     changePeriod: '7 days',
     trend: 'up',
     // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
-    sparklineData: [620, 700, 640, 780, 730, 810, 920, 850.4],
+    sparklineData: [620, 700, 640, 780, 730, 810, 920, 850.4, 620, 700, 640, 780, 730, 810, 920, 850.4, 620, 700, 640, 780, 730, 810, 920, 850.4],
     color: '#2e4362',
     chartColor: '#2e4362',
     description: 'Cubic meters of water secured',
@@ -64,7 +64,7 @@ export const KPI_SECONDARY: KPIMetric[] = [
     changePeriod: 'vs last quarter',
     trend: 'up',
     // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
-    sparklineData: [0.95, 1.2, 1.05, 1.35, 1.28, 1.72, 2.48, 2.1],
+    sparklineData: [0.95, 1.2, 1.05, 1.35, 1.28, 1.72, 2.48, 2.1, 0.95, 1.2, 1.05, 1.35, 1.28, 1.72, 2.48, 2.1, 0.95, 1.2, 1.05, 1.35, 1.28, 1.72, 2.48, 2.1],
     color: '#15803d',
     chartColor: '#15803d',
     description: 'Economic impact in billions',
@@ -78,7 +78,7 @@ export const KPI_SECONDARY: KPIMetric[] = [
     changePeriod: 'vs last quarter',
     trend: 'up',
     // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
-    sparklineData: [12, 15, 14, 19, 18, 27, 30, 25],
+    sparklineData: [12, 15, 14, 19, 18, 27, 30, 25, 12, 15, 14, 19, 18, 27, 30, 25, 12, 15, 14, 19, 18, 27, 30, 25],
     color: '#0284c7',
     chartColor: '#38bdf8',
     description: 'Productivity improvement percentage',
@@ -92,7 +92,7 @@ export const KPI_SECONDARY: KPIMetric[] = [
     changePeriod: 'vs last quarter',
     trend: 'up',
     // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
-    sparklineData: [19, 23, 22, 26, 25, 31, 38, 31],
+    sparklineData: [19, 23, 22, 26, 25, 31, 38, 31, 19, 23, 22, 26, 25, 31, 38, 31, 19, 23, 22, 26, 25, 31, 38, 31],
     color: '#ea580c',
     chartColor: '#fb923c',
     description: 'Health improvement percentage',
