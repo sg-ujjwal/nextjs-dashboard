@@ -77,7 +77,6 @@ export const MapLegendPanels = () => (
       right: 16,
       display: "flex",
       flexDirection: "column",
-      gap: 1.5,
       zIndex: 1000,
     }}
   >
@@ -88,8 +87,18 @@ export const MapLegendPanels = () => (
         <LegendDot color="#EF6C00" label="Deployment in progress" />
         <LegendDot color="#0288D1" label="Pending proposal" />
       </Box>
-    </Box>
-    <Box sx={panelSx}>
+
+      <Box
+        sx={{
+          mt: 1.25,
+          mb: 1,
+          height: 1,
+          width: "100%",
+          bgcolor: "custom.border",
+          opacity: 0.9,
+        }}
+      />
+
       <Typography sx={sectionTitleSx}>Risk Status</Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         <RiskRing size={8} label="Low" />
