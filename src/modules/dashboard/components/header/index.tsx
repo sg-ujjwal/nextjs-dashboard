@@ -24,7 +24,7 @@ export const Header = ({ sidebarCollapsed, onToggleSidebar }: HeaderProps) => (
       bgcolor: "custom.headerBar",
     }}
   >
-    <Box sx={{ display: "flex", alignItems: "center", gap: 2, minWidth: 0 }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 0, minWidth: 0 }}>
       <HeaderBrandBlock
         sidebarCollapsed={sidebarCollapsed}
         onToggleSidebar={onToggleSidebar}
