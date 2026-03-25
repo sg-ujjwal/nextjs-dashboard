@@ -13,8 +13,8 @@ const SparklineChart = dynamic(() => import("@/widgets/sparkline-chart"), {
   ssr: false,
 });
 
-const CHART_HEIGHT_PRIMARY = 56;
-const CHART_HEIGHT_SECONDARY = 50;
+const CHART_HEIGHT_PRIMARY = 110;
+const CHART_HEIGHT_SECONDARY = 110;
 
 export type KPICardProps = {
   metric: KPIMetric;

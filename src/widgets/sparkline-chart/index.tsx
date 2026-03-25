@@ -28,7 +28,8 @@ export default function SparklineChart({
   barBorderRadius,
 }: SparklineChartProps) {
   const isSparkline = variant === 'sparkline'
-  const colW = columnWidth ?? (isSparkline ? '70%' : '80%')
+  // Primary KPI "spikes" look closer to the reference with slightly narrower bars.
+  const colW = columnWidth ?? (isSparkline ? '65%' : '80%')
   const radius = barBorderRadius ?? (isSparkline ? 1 : 2)
   const labelReserve = isSparkline ? 0 : 18
   const chartHeight = height + labelReserve
@@ -54,11 +55,15 @@ export default function SparklineChart({
         grid: { padding: { top: 0, right: 0, bottom: 0, left: 0 }, show: false },
         plotOptions: { bar: { columnWidth: colW, borderRadius: radius, borderRadiusApplication: 'end' as const } },
         colors: [color],
-        tooltip: {
-          x: { show: false },
-          y: { formatter: (v: number) => (typeof v === 'number' ? v.toLocaleString() : String(v)) },
-          theme: 'light',
+        xaxis: {
+          categories,
+          labels: { show: false },
+          axisBorder: { show: false },
+          axisTicks: { show: false },
+          tooltip: { enabled: false },
         },
+        yaxis: { show: false, min: 0, max: yMax },
+        tooltip: { enabled: false },
         states: { hover: { filter: { type: 'lighten' as const, value: 0.15 } } },
       }
     }
