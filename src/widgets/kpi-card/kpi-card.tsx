@@ -1,67 +1,74 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import dynamic from 'next/dynamic'
-import Box from '@mui/material/Box'
-import type { KPIMetric, Period } from '@/shared/types'
-import { useCountUp } from '@/shared/hooks/use-count-up'
-import { KpiPrimaryCardView } from './kpi-primary-card-view'
-import { KpiSecondaryCardView } from './kpi-secondary-card-view'
-import { resolveTrendColor } from './resolve-trend-color'
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import Box from "@mui/material/Box";
+import type { KPIMetric, Period } from "@/shared/types";
+import { useCountUp } from "@/shared/hooks/use-count-up";
+import { KpiPrimaryCardView } from "./kpi-primary-card-view";
+import { KpiSecondaryCardView } from "./kpi-secondary-card-view";
+import { resolveTrendColor } from "./resolve-trend-color";
 
-const SparklineChart = dynamic(() => import('@/widgets/sparkline-chart'), { ssr: false })
+const SparklineChart = dynamic(() => import("@/widgets/sparkline-chart"), {
+  ssr: false,
+});
 
-const CHART_HEIGHT_PRIMARY = 56
-const CHART_HEIGHT_SECONDARY = 50
+const CHART_HEIGHT_PRIMARY = 56;
+const CHART_HEIGHT_SECONDARY = 50;
 
 export type KPICardProps = {
-  metric: KPIMetric
-  index: number
-  period: Period
-}
+  metric: KPIMetric;
+  index: number;
+  period: Period;
+};
 
 export const KPICard = (props: KPICardProps) => {
-  const { metric, index } = props
-  const [cardPeriod, setCardPeriod] = useState<Period>('7d')
+  const { metric, index } = props;
+  const [cardPeriod, setCardPeriod] = useState<Period>("7d");
   const count = useCountUp({
     end: metric.value,
     duration: 1500,
     delay: index * 100,
     decimals: metric.value % 1 !== 0 ? 1 : 0,
-  })
+  });
 
-  const isPrimary = metric.isPrimary ?? false
-  const hasDarkBg = (metric.hasDarkBackground ?? true) && isPrimary
-  const trendColor = resolveTrendColor(metric, hasDarkBg)
-  const chartColor = metric.chartColor ?? metric.color
+  const isPrimary = metric.isPrimary ?? false;
+  const hasDarkBg = (metric.hasDarkBackground ?? true) && isPrimary;
+  const trendColor = resolveTrendColor(metric, hasDarkBg);
+  const chartColor = metric.chartColor ?? metric.color;
 
   const chartBlockPrimary = (
     <Box
       sx={{
-        flex: '1 1 38%',
+        flex: "1 1 38%",
         minWidth: { xs: 72, sm: 120 },
-        maxWidth: '48%',
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-        overflow: 'hidden',
+        maxWidth: "48%",
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "flex-end",
+        overflow: "hidden",
         height: CHART_HEIGHT_PRIMARY,
       }}
     >
-      <SparklineChart data={metric.sparklineData} color={chartColor} height={CHART_HEIGHT_PRIMARY} variant="sparkline" />
+      <SparklineChart
+        data={metric.sparklineData}
+        color={chartColor}
+        height={CHART_HEIGHT_PRIMARY}
+        variant="sparkline"
+      />
     </Box>
-  )
+  );
 
   const chartBlockSecondary = (
     <Box
       sx={{
-        flex: '1 1 0',
+        flex: "1 1 0",
         minWidth: { xs: 100, sm: 112 },
-        maxWidth: { xs: '50%', sm: '48%' },
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-        overflow: 'hidden',
+        maxWidth: { xs: "50%", sm: "48%" },
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "flex-end",
+        overflow: "hidden",
         minHeight: 70,
       }}
     >
@@ -74,7 +81,7 @@ export const KPICard = (props: KPICardProps) => {
         barBorderRadius={2}
       />
     </Box>
-  )
+  );
 
   if (isPrimary) {
     return (
@@ -86,10 +93,10 @@ export const KPICard = (props: KPICardProps) => {
         trendColor={trendColor}
         chartSlot={chartBlockPrimary}
       />
-    )
+    );
   }
 
-  const iconAccent = metric.chartColor ?? metric.color
+  const iconAccent = metric.chartColor ?? metric.color;
 
   return (
     <KpiSecondaryCardView
@@ -102,5 +109,5 @@ export const KPICard = (props: KPICardProps) => {
       onCardPeriodChange={setCardPeriod}
       chartSlot={chartBlockSecondary}
     />
-  )
-}
+  );
+};
