@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
 import Fab from "@mui/material/Fab";
-import { Sparkles } from "lucide-react";
 import { Header } from "@/modules/dashboard/components/header";
 import { Sidebar } from "@/modules/dashboard/components/sidebar";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function DashboardLayout({
   children,
@@ -13,6 +15,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Box
@@ -25,11 +30,39 @@ export default function DashboardLayout({
       }}
     >
       <Header
-        sidebarCollapsed={sidebarCollapsed}
-        onToggleSidebar={() => setSidebarCollapsed((c) => !c)}
+        sidebarCollapsed={isMobile ? !mobileSidebarOpen : sidebarCollapsed}
+        onToggleSidebar={() => {
+          if (isMobile) setMobileSidebarOpen((open) => !open);
+          else setSidebarCollapsed((c) => !c);
+        }}
       />
       <Box sx={{ display: "flex", flex: 1, minHeight: 0, overflow: "hidden" }}>
-        <Sidebar collapsed={sidebarCollapsed} />
+        {!isMobile && <Sidebar collapsed={sidebarCollapsed} />}
+        {isMobile && (
+          <Drawer
+            anchor="left"
+            open={mobileSidebarOpen}
+            onClose={() => setMobileSidebarOpen(false)}
+            variant="temporary"
+            ModalProps={{ keepMounted: true }}
+            sx={{
+              "& .MuiDrawer-paper": {
+                width: 256,
+                borderRight: "1px solid",
+                borderColor: "rgba(0, 0, 0, 0.08)",
+                boxShadow: "0px 2px 1px -1px #00000033",
+                bgcolor: "#E9EDF4",
+              },
+            }}
+          >
+            <Sidebar
+              collapsed={false}
+              onNavigate={() => {
+                setMobileSidebarOpen(false);
+              }}
+            />
+          </Drawer>
+        )}
         <Box
           sx={{
             flex: 1,

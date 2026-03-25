@@ -58,9 +58,10 @@ const SECTIONS = ["STRATEGIC", "ASSESSMENT"];
 
 interface SidebarProps {
   collapsed: boolean;
+  onNavigate?: () => void;
 }
 
-export function Sidebar({ collapsed }: SidebarProps) {
+export function Sidebar({ collapsed, onNavigate }: SidebarProps) {
   const [active, setActive] = useState("dashboard");
 
   return (
@@ -111,7 +112,10 @@ export function Sidebar({ collapsed }: SidebarProps) {
                 return (
                   <Button
                     key={item.id}
-                    onClick={() => setActive(item.id)}
+                    onClick={() => {
+                      setActive(item.id);
+                      onNavigate?.();
+                    }}
                     title={collapsed ? item.label : undefined}
                     fullWidth
                     sx={{
