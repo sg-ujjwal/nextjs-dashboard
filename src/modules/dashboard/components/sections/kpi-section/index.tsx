@@ -13,7 +13,20 @@ export default function KPISection() {
 
   return (
     <Box component="section" sx={{ width: '100%', minWidth: 0 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mx: -3,
+          px: 3,
+          mt: -3,
+          pt: 3,
+          pb: 2,
+          mb: 2,
+          bgcolor: 'background.paper',
+        }}
+      >
         <Box>
           <Typography sx={{ fontSize: '1.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: 'text.primary' }}>
             Executive Control Room

@@ -12,18 +12,20 @@ export const colors = {
     900: '#001d66',
   },
   bg: {
-    primary:   '#f0f2f5',
+    /** Main content + layout shell (matches sidebar in app chrome) */
+    primary:   '#F4F6F9',
     secondary: '#ffffff',
     card:      '#ffffff',
     elevated:  '#f8fafc',
     border:    '#e2e8f0',
   },
   sidebar: {
-    bg:     '#0f1a2e',
-    hover:  '#1a2744',
-    active: '#1e3a5f',
-    border: '#1e293b',
-    text:   '#94a3b8',
+    /** Same as `bg.primary` — single app-chrome background */
+    bg:     '#F4F6F9',
+    hover:  'rgba(46, 67, 98, 0.08)',
+    active: '#2e4362',
+    border: '#dde3eb',
+    text:   '#4b5563',
     textActive: '#ffffff',
   },
   text: {

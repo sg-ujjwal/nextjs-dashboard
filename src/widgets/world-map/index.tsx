@@ -169,7 +169,7 @@ export function WorldMap({ markers, onMarkerClick, onMarkerHover }: WorldMapProp
 
   return (
     <Box sx={{ position: 'relative', borderRadius: CARD_BORDER_RADIUS_SX, overflow: 'hidden', height: '100%', minHeight: 320 }}>
-      <Box ref={mapRef} sx={{ height: '100%', width: '100%', minHeight: 320, bgcolor: '#f0f2f5' }} />
+      <Box ref={mapRef} sx={{ height: '100%', width: '100%', minHeight: 320, bgcolor: 'custom.bgPrimary' }} />
       {!isReady && (
         <Box
           sx={{
