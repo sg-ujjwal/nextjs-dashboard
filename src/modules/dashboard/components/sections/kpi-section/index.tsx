@@ -31,6 +31,7 @@ export default function KPISection() {
             maxWidth: 1920,
             mx: "auto",
             gap: 2,
+            flexWrap: "wrap",
           }}
         >
           <Box sx={{ width: { xs: "100%", sm: "auto" } }}>

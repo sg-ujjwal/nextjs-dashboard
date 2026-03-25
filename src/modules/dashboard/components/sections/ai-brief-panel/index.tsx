@@ -48,23 +48,18 @@ export default function AIBriefPanel() {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-          <Box
-            sx={{
-              width: 36,
-              height: 36,
-              borderRadius: CARD_BORDER_RADIUS_SX,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}
-          >
-            <Sparkles size={18} color="#fff" />
-          </Box>
           <Box>
             <Typography
-              sx={{ fontSize: "1rem", fontWeight: 700, color: "#fff" }}
+              sx={{
+                fontSize: "1rem",
+                fontWeight: 700,
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+              }}
             >
+              <Sparkles size={18} color="#fff" />
               AI Executive Brief
             </Typography>
             <Typography
@@ -84,9 +79,10 @@ export default function AIBriefPanel() {
           endIcon={<ChevronRight size={14} />}
           sx={{
             textTransform: "none",
+            minHeight: "36px",
             borderRadius: 9999,
             px: 2,
-            py: 1,
+            py: 0.5,
             fontSize: "0.875rem",
             fontWeight: 500,
             bgcolor: isComplete ? "#d1fae5" : "#fff",

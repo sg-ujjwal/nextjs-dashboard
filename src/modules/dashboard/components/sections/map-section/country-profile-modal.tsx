@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -21,6 +22,27 @@ export const CountryProfileModal = ({
   marker,
   onClose,
 }: CountryProfileModalProps) => {
+  const [pos, setPos] = useState({ top: 16, left: 16 });
+  const [ready, setReady] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (containerRef.current?.parentElement) {
+        const rect = containerRef.current.parentElement.getBoundingClientRect();
+        setPos({ top: rect.top + 16, left: rect.left + 16 });
+        setReady(true);
+      }
+    };
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, []);
+
   const flag = getCountryFlag(marker.id);
   const deployment = parseActiveDeployment(marker.activeDeployment);
   const intelligence = getDefaultIntelligence(marker.country);
@@ -32,14 +54,29 @@ export const CountryProfileModal = ({
         : "Pending";
   const isActive = marker.deploymentStatus === "deployed";
 
+  if (!ready) {
+    return (
+      <Box
+        ref={containerRef}
+        sx={{
+          position: "fixed",
+          visibility: "hidden",
+          pointerEvents: "none",
+        }}
+      />
+    );
+  }
+
   return (
     <Box
+      ref={containerRef}
       role="dialog"
       aria-label={`${marker.country} profile`}
+      className="animate-slide-in-up"
       sx={{
-        position: "absolute",
-        top: 16,
-        left: 16,
+        position: "fixed",
+        top: pos.top,
+        left: pos.left,
         width: 320,
         bgcolor: "#E9EDF4",
         borderRadius: CARD_BORDER_RADIUS_SX,

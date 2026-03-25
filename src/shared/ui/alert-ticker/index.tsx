@@ -25,7 +25,7 @@ export function AlertTicker() {
   return (
     <Box sx={{ width: "100%", overflow: "hidden", position: "relative" }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box
+        {/* <Box
           sx={{
             flexShrink: 0,
             px: 2,
@@ -55,7 +55,7 @@ export function AlertTicker() {
           >
             Live Feed
           </Typography>
-        </Box>
+        </Box> */}
         <Box sx={{ overflow: "hidden", flex: 1 }}>
           <Box
             className="animate-ticker"
