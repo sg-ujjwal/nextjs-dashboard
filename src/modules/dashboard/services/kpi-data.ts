@@ -34,7 +34,10 @@ export const KPI_PRIMARY: KPIMetric[] = [
   },
 ]
 
-/** Secondary row: penultimate bar is the visual peak; last bar = current headline value */
+/** 
+ * Secondary row: mimics visual reference with alternating up/down "spikes".
+ * Each sparkline: penultimate bar is visual peak; last = current value
+ */
 export const KPI_SECONDARY: KPIMetric[] = [
   {
     id: 'water-secured',
@@ -44,7 +47,8 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 34,
     changePeriod: '7 days',
     trend: 'up',
-    sparklineData: [620, 655, 640, 705, 735, 780, 920, 850.4],
+    // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
+    sparklineData: [620, 700, 640, 780, 730, 810, 920, 850.4],
     color: '#2e4362',
     chartColor: '#2e4362',
     description: 'Cubic meters of water secured',
@@ -59,7 +63,8 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 62,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [0.95, 1.05, 1.15, 1.28, 1.42, 1.58, 2.48, 2.1],
+    // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
+    sparklineData: [0.95, 1.2, 1.05, 1.35, 1.28, 1.72, 2.48, 2.1],
     color: '#15803d',
     chartColor: '#15803d',
     description: 'Economic impact in billions',
@@ -72,7 +77,8 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 50,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [12, 14, 15, 17, 18, 20, 30, 25],
+    // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
+    sparklineData: [12, 15, 14, 19, 18, 27, 30, 25],
     color: '#0284c7',
     chartColor: '#38bdf8',
     description: 'Productivity improvement percentage',
@@ -85,7 +91,8 @@ export const KPI_SECONDARY: KPIMetric[] = [
     change: 21,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [19, 21, 22, 24, 26, 27, 38, 31],
+    // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
+    sparklineData: [19, 23, 22, 26, 25, 31, 38, 31],
     color: '#ea580c',
     chartColor: '#fb923c',
     description: 'Health improvement percentage',
