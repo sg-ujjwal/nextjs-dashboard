@@ -79,7 +79,7 @@ const theme = createTheme({
       bgPrimary: colors.bg.primary,
       bgElevated: colors.bg.elevated,
       border: colors.bg.border,
-      headerBar: '#2e4362',
+      headerBar: '#2F446A',
       headerBorder: '#243750',
       sidebarBg: colors.sidebar.bg,
       sidebarBorder: '#dde3eb',

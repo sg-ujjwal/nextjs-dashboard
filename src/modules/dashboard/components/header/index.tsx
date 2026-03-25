@@ -21,7 +21,6 @@ export const Header = ({ sidebarCollapsed, onToggleSidebar }: HeaderProps) => (
       px: 2.5,
       flexShrink: 0,
       borderBottom: "1px solid",
-      borderColor: "custom.headerBorder",
       bgcolor: "custom.headerBar",
     }}
   >
