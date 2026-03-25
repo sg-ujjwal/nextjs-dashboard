@@ -63,8 +63,8 @@ export const KPICard = (props: KPICardProps) => {
     <Box
       sx={{
         flex: "1 1 0",
-        minWidth: { xs: 100, sm: 112 },
-        maxWidth: { xs: "50%", sm: "48%" },
+        minWidth: { xs: 72, sm: 120 },
+        maxWidth: { xs: 120, sm: 140 },
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",

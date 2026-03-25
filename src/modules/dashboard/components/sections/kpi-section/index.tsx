@@ -151,7 +151,7 @@ export default function KPISection() {
               gridTemplateColumns: {
                 xs: "minmax(0, 1fr)",
                 sm: "repeat(2, minmax(0, 1fr))",
-                md: "repeat(4, minmax(0, 1fr))",
+                md: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
               },
               gap: 2,
               width: "100%",

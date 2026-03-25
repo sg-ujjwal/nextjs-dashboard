@@ -36,10 +36,10 @@ export const KpiSecondaryCardView = ({
     aria-label={`${metric.label} KPI`}
     sx={{
       border: "1px solid",
-      borderColor: "custom.border",
+      borderColor: "rgba(47, 68, 106, 0.3)",
       borderRadius: "16px",
       bgcolor: "background.paper",
-      boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+      boxShadow: "0px 5px 6px -3px #00000003",
       p: 2,
       display: "flex",
       flexDirection: "row",
@@ -51,6 +51,7 @@ export const KpiSecondaryCardView = ({
       boxSizing: "border-box",
       transition: "transform 0.3s, box-shadow 0.3s, border-color 0.3s",
       animationDelay: `${index * 80}ms`,
+      height: "100%",
       "&:hover": {
         transform: "translateY(-4px)",
         boxShadow: "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
@@ -66,6 +67,7 @@ export const KpiSecondaryCardView = ({
         justifyContent: "space-between",
         gap: 1,
         minWidth: 0,
+        flex: 1,
       }}
     >
       <SecondaryIconBadge metricId={metric.id} accentColor={iconAccent} />
@@ -135,7 +137,6 @@ export const KpiSecondaryCardView = ({
         justifyContent: "space-between",
         gap: 1.5,
         minWidth: 0,
-        mt: "auto",
       }}
     >
       <Box sx={{ flexShrink: 0, minWidth: 0 }}>
