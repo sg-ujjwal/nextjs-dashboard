@@ -4,8 +4,8 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { LayoutDashboard, Map, Shield, TrendingUp, Cloud } from "lucide-react";
-import { CONTROL_ROOM } from "@/core/theme/tokens/svg.Contant";
+import { TrendingUp, Cloud } from "lucide-react";
+import { CONTROL_ROOM, COUNTRY_ICON, DEPLOYMENT_ICON, PROPOSAL_ICON, INTELLIGENCE_ICON } from "@/core/theme/tokens/svg.Contant";
 
 interface NavItem {
   id: string;
@@ -22,23 +22,23 @@ const NAV_ITEMS: NavItem[] = [
     icon: CONTROL_ROOM,
     section: "STRATEGIC",
   },
-  { id: "countries", label: "Countries", icon: Map, section: "STRATEGIC" },
+  { id: "countries", label: "Countries", icon: COUNTRY_ICON, section: "STRATEGIC" },
   {
     id: "deployment",
     label: "Deployment",
-    icon: Shield,
+    icon: DEPLOYMENT_ICON,
     section: "ASSESSMENT",
   },
   {
     id: "proposals",
     label: "Proposals",
-    icon: TrendingUp,
+    icon: PROPOSAL_ICON,
     section: "ASSESSMENT",
   },
   {
     id: "intelligence",
     label: "Intelligence",
-    icon: Cloud,
+    icon: INTELLIGENCE_ICON,
     section: "ASSESSMENT",
   },
 ];
