@@ -112,7 +112,7 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
-              bgcolor: `${card.accentColor}33`,
+              bgcolor: `#ffffff`,
               color: card.accentColor,
             }}
           >

@@ -1,12 +1,20 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import type { KPIMetric } from "@/shared/types";
 import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
-import { BENEFICIARIES_ICON } from "@/core/theme/tokens/svg.Contant";
+import {
+  BENEFICIARIES_ICON,
+  WALET_ICON,
+} from "@/core/theme/tokens/svg.Contant";
+
+const KPI_ICON_MAP: Record<string, ElementType> = {
+  beneficiaries: BENEFICIARIES_ICON,
+  wallet: WALET_ICON,
+};
 
 export type KpiPrimaryCardViewProps = {
   metric: KPIMetric;
@@ -25,7 +33,7 @@ export const KpiPrimaryCardView = ({
   trendColor,
   chartSlot,
 }: KpiPrimaryCardViewProps) => {
-  const isBeneficiariesCard = metric.id === "total-beneficiaries";
+  const Icon = KPI_ICON_MAP[metric.icon ?? "beneficiaries"] ?? BENEFICIARIES_ICON;
 
   return (
     <Box
@@ -82,7 +90,7 @@ export const KpiPrimaryCardView = ({
             justifyContent: "center",
           }}
         >
-          <BENEFICIARIES_ICON size={24} />
+          <Icon size={24} />
         </Box>
         <Typography
           sx={{

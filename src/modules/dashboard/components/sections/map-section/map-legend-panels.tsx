@@ -3,6 +3,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
+import { color } from "framer-motion";
 
 const LegendDot = ({ color, label }: { color: string; label: string }) => (
   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -45,14 +46,20 @@ const RiskRing = ({ size, label }: { size: number; label: string }) => (
         }}
       />
     </Box>
-    <Typography sx={{ fontSize: "0.75rem", color: "text.secondary" }}>
+    <Typography
+      sx={{
+        fontSize: "0.75rem",
+        color: "text.secondary",
+        color: "text.primary",
+      }}
+    >
       {label}
     </Typography>
   </Box>
 );
 
 const panelSx = {
-  bgcolor: "background.paper",
+  bgcolor: "#F4F6F9",
   borderRadius: CARD_BORDER_RADIUS_SX,
   boxShadow: 3,
   border: "1px solid",
@@ -61,9 +68,9 @@ const panelSx = {
 } as const;
 
 const sectionTitleSx = {
-  fontSize: "10px",
+  fontSize: "12px",
   fontWeight: 600,
-  color: "text.primary",
+  color: "text.secondary",
   textTransform: "uppercase",
   letterSpacing: "0.06em",
   mb: 1,
@@ -88,8 +95,14 @@ export const MapLegendPanels = () => (
         <LegendDot color="#EF6C00" label="Deployment in progress" />
         <LegendDot color="#0288D1" label="Pending proposal" />
       </Box>
-    </Box>
-    <Box sx={panelSx}>
+      <Box
+        sx={{
+          width: "100%",
+          height: "1px",
+          bgcolor: "#00000014",
+          marginBlock: "10px",
+        }}
+      />
       <Typography sx={sectionTitleSx}>Risk Status</Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         <RiskRing size={8} label="Low" />
