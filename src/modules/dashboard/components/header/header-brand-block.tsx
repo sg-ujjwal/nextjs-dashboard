@@ -21,12 +21,13 @@ export const HeaderBrandBlock = ({ sidebarCollapsed, onToggleSidebar }: HeaderBr
       aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       size="small"
       sx={{
-        color: '#fff',
-        bgcolor: 'rgba(0,0,0,0.22)',
+        color: 'custom.headerBar',
+        bgcolor: '#fff',
         borderRadius: 1,
         width: 36,
         height: 36,
-        '&:hover': { bgcolor: 'rgba(0,0,0,0.35)' },
+        boxShadow: '0 1px 2px rgba(0,0,0,0.08)',
+        '&:hover': { bgcolor: 'rgba(255,255,255,0.92)', color: 'custom.headerBar' },
       }}
     >
       <ChevronLeft
