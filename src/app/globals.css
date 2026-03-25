@@ -138,6 +138,25 @@
   color: #ffffff;
 }
 
+/* Leaflet zoom control (+ / -) styling */
+.leaflet-control-zoom {
+  border: 1px solid rgba(37, 99, 235, 0.25) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.leaflet-control-zoom a {
+  background: #F4f6f9 !important;
+  color: #00000080 !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #F4f6f9 !important;
+  color: #00000080 !important;
+}
+
 
 .apexcharts-canvas{
   width: 100% !important;
