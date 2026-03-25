@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles'
+import { colors } from '@/core/theme/tokens/colors'
 import { FONT_FAMILY_STACK } from '@/core/theme/tokens/font-family'
 
 declare module '@mui/material/styles' {
@@ -65,7 +66,7 @@ const theme = createTheme({
       dark: '#0284c7',
     },
     background: {
-      default: '#f0f2f5',
+      default: colors.bg.primary,
       paper: '#ffffff',
     },
     text: {
@@ -73,15 +74,15 @@ const theme = createTheme({
       secondary: '#64748b',
       disabled: '#94a3b8',
     },
-    divider: '#e2e8f0',
+    divider: colors.bg.border,
     custom: {
-      bgPrimary: '#f0f2f5',
-      bgElevated: '#f8fafc',
-      border: '#e2e8f0',
+      bgPrimary: colors.bg.primary,
+      bgElevated: colors.bg.elevated,
+      border: colors.bg.border,
       headerBar: '#2e4362',
       headerBorder: '#243750',
-      sidebarBg: '#f4f6f8',
-      sidebarBorder: '#e6eaef',
+      sidebarBg: colors.sidebar.bg,
+      sidebarBorder: '#dde3eb',
       sidebarHover: 'rgba(46, 67, 98, 0.08)',
       sidebarActive: '#2e4362',
       sidebarText: '#4b5563',
@@ -107,7 +108,7 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: '#f0f2f5',
+          backgroundColor: colors.bg.primary,
           color: '#1e293b',
           overflowX: 'hidden',
           fontFamily: FONT_FAMILY_STACK,
