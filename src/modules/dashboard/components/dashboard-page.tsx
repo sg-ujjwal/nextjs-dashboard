@@ -91,7 +91,12 @@ export default function DashboardPage() {
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: { xs: "1fr", lg: "1fr 380px" },
+              gridTemplateColumns: {
+                xs: "100%",
+                md: "50% 50%",
+                lg: "60% 40%",
+                xl: "70% 30%",
+              },
               gap: 3,
               minHeight: 560,
             }}
