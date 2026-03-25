@@ -10,6 +10,13 @@ export type SparklineChartVariant = 'sparkline' | 'labeledBars'
 
 const MONTH_LABELS: readonly string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
+const formatTooltipValue = (value: number): string => {
+  if (!Number.isFinite(value)) return "0";
+  const isInteger = Math.abs(value - Math.round(value)) < 1e-9;
+  if (isInteger) return String(Math.round(value));
+  return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+};
+
 export interface SparklineChartProps {
   data: number[]
   color: string
@@ -59,7 +66,7 @@ export default function SparklineChart({
         chart: {
           type: 'bar' as const,
           sparkline: { enabled: true },
-          animations: { enabled: true, speed: 800 },
+          animations: { enabled: true, speed: 800, easing: 'easeinout' as const, animateGradually: { enabled: true, delay: 0 } },
           offsetX: 0,
           offsetY: 0,
         },
@@ -77,9 +84,10 @@ export default function SparklineChart({
           enabled: true,
           followCursor: true,
           shared: false,
-          intersect: true,
+          intersect: false,
           x: { show: false },
-          y: { formatter: (v: number) => (typeof v === 'number' ? v.toLocaleString() : String(v)) },
+          y: { formatter: (v: number) => formatTooltipValue(v) },
+          cssClass: "kpi-apex-tooltip",
           theme: 'dark',
           marker: { show: false },
         },
@@ -90,7 +98,7 @@ export default function SparklineChart({
       chart: {
         type: 'bar' as const,
         sparkline: { enabled: false },
-        animations: { enabled: true, speed: 700, easing: 'easeinout' as const },
+          animations: { enabled: true, speed: 700, easing: 'easeinout' as const, animateGradually: { enabled: true, delay: 0 } },
         toolbar: { show: false },
         zoom: { enabled: false },
         fontFamily: FONT_FAMILY_STACK,
@@ -125,14 +133,17 @@ export default function SparklineChart({
         axisBorder: { show: false },
         axisTicks: { show: false },
         crosshairs: { show: false },
-        tooltip: { enabled: false },
       },
       yaxis: { show: false, min: 0, max: yMax },
       tooltip: {
         enabled: true,
+        followCursor: true,
+        cssClass: "kpi-apex-tooltip",
         x: { show: false },
-        y: { formatter: (v: number) => (typeof v === 'number' ? v.toLocaleString() : String(v)) },
+        intersect: false,
+        y: { formatter: (v: number) => formatTooltipValue(v) },
         theme: 'light',
+        marker: { show: false },
       },
       states: { hover: { filter: { type: 'lighten' as const, value: 0.12 } } },
     }
