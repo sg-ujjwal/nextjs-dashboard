@@ -35,7 +35,7 @@ export const colors = {
     inverse:   '#ffffff',
   },
   status: {
-    success: { DEFAULT: '#22c55e', muted: '#f0fdf4' },
+    success: { DEFAULT: '#027A48', muted: '#f0fdf4' },
     warning: { DEFAULT: '#f59e0b', muted: '#fffbeb' },
     danger:  { DEFAULT: '#ef4444', muted: '#fef2f2' },
     info:    { DEFAULT: '#3b82f6', muted: '#eff6ff' },
@@ -47,7 +47,7 @@ export const colors = {
     coral:  '#f97316',
   },
   risk: {
-    low:      '#22c55e',
+    low:      '#027A48',
     medium:   '#f59e0b',
     high:     '#ef4444',
     critical: '#dc2626',

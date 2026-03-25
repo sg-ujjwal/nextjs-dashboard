@@ -46,7 +46,7 @@ const theme = createTheme({
       main: '#a855f7',
     },
     success: {
-      main: '#22c55e',
+      main: '#027A48',
       light: '#4ade80',
       dark: '#16a34a',
     },
@@ -70,8 +70,8 @@ const theme = createTheme({
       paper: '#ffffff',
     },
     text: {
-      primary: '#1e293b',
-      secondary: '#64748b',
+      primary: 'rgba(0, 0, 0, 0.87)',
+      secondary: 'hsla(0, 0%, 0%, 0.50)',
       disabled: '#94a3b8',
     },
     divider: colors.bg.border,

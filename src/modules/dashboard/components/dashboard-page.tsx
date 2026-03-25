@@ -93,9 +93,9 @@ export default function DashboardPage() {
               display: "grid",
               gridTemplateColumns: {
                 xs: "100%",
-                md: "50% 50%",
-                lg: "60% 40%",
-                xl: "70% 30%",
+                md: "calc(50% - 12px) calc(50% - 12px)",
+                lg: "calc(58% - 24px) 42%",
+                xl: "calc(70% - 24px) 30%",
               },
               gap: 3,
               minHeight: 560,
@@ -112,8 +112,8 @@ export default function DashboardPage() {
               mt: 3,
             }}
           >
-            <PerformanceSection />
             <LiveFeedSection />
+            <PerformanceSection />
             <DeepDiveSection />
           </Box>
         </Box>

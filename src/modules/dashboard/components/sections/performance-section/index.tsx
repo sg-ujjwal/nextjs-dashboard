@@ -46,7 +46,7 @@ export default function PerformanceSection() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
-                  bgcolor: isBest ? "#22c55e" : "#ef4444",
+                  bgcolor: isBest ? "#027A48" : "#ef4444",
                 }}
               >
                 {isBest ? (

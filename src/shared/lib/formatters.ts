@@ -29,7 +29,7 @@ export function formatTime(date: Date | string): string {
 }
 
 export function getRiskColor(level: 'low' | 'medium' | 'high' | 'critical'): string {
-  const map = { low: '#22c55e', medium: '#f59e0b', high: '#ef4444', critical: '#dc2626' }
+  const map = { low: '#027A48', medium: '#f59e0b', high: '#ef4444', critical: '#dc2626' }
   return map[level]
 }
 

@@ -75,10 +75,10 @@ export const DEEP_DIVE_CARDS = [
     title: 'Deployment Performance',
     subtitle: 'Track technical KPIs and logistical typical milestones.',
     icon: 'bar-chart',
-    accentColor: '#22c55e',
+    accentColor: '#027A48',
     stats: [
-      { label: 'Efficiency Score', value: '92%', valueColor: '#22c55e' as const },
-      { label: 'vs Last Quarter', value: '+8.2%', valueColor: '#22c55e' as const },
+      { label: 'Efficiency Score', value: '92%', valueColor: '#027A48' as const },
+      { label: 'vs Last Quarter', value: '+8.2%', valueColor: '#027A48' as const },
     ],
     progressValue: 92,
     cta: 'Analyze Metrics',

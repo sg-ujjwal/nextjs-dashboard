@@ -38,7 +38,7 @@ export default function KPISection() {
             <Typography
               sx={{
                 fontSize: "1.25rem",
-                fontWeight: 600,
+                fontWeight: 400,
                 letterSpacing: "-0.02em",
                 color: "text.primary",
               }}
@@ -85,7 +85,7 @@ export default function KPISection() {
                   sx={{
                     width: 8,
                     height: 8,
-                    bgcolor: "#22c55e",
+                    bgcolor: "#027A48",
                     animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
                   }}
                 />
@@ -93,7 +93,7 @@ export default function KPISection() {
                   sx={{
                     fontSize: "0.75rem",
                     fontWeight: 500,
-                    color: "#22c55e",
+                    color: "#027A48",
                   }}
                 >
                   Live Monitoring
