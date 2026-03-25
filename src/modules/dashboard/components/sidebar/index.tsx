@@ -5,7 +5,13 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TrendingUp, Cloud } from "lucide-react";
-import { CONTROL_ROOM, COUNTRY_ICON, DEPLOYMENT_ICON, PROPOSAL_ICON, INTELLIGENCE_ICON } from "@/core/theme/tokens/svg.Contant";
+import {
+  CONTROL_ROOM,
+  COUNTRY_ICON,
+  DEPLOYMENT_ICON,
+  PROPOSAL_ICON,
+  INTELLIGENCE_ICON,
+} from "@/core/theme/tokens/svg.Contant";
 
 interface NavItem {
   id: string;
@@ -22,7 +28,12 @@ const NAV_ITEMS: NavItem[] = [
     icon: CONTROL_ROOM,
     section: "STRATEGIC",
   },
-  { id: "countries", label: "Countries", icon: COUNTRY_ICON, section: "STRATEGIC" },
+  {
+    id: "countries",
+    label: "Countries",
+    icon: COUNTRY_ICON,
+    section: "STRATEGIC",
+  },
   {
     id: "deployment",
     label: "Deployment",
@@ -62,28 +73,30 @@ export function Sidebar({ collapsed }: SidebarProps) {
         transition: "width 0.28s ease",
         height: "100%",
         flexShrink: 0,
-        bgcolor: "custom.sidebarBg",
+        bgcolor: "#E9EDF4",
         borderRight: "1px solid",
-        borderColor: "custom.sidebarBorder",
-        width: collapsed ? 72 : 248,
+        borderColor: "rgba(0, 0, 0, 0.08)",
+        width: collapsed ? 72 : 256,
         overflowY: "auto",
+        boxShadow: "0px 2px 1px -1px #00000033",
       }}
     >
       <Box
         component="nav"
-        sx={{ flex: 1, py: 2.5, px: collapsed ? 1 : 1.5, overflowY: "auto" }}
+        sx={{ flex: 1, py: 2, px: 1, overflowY: "auto" }}
         className="no-scrollbar"
       >
         {SECTIONS.map((section) => {
           const items = NAV_ITEMS.filter((n) => n.section === section);
+
           return (
-            <Box key={section} sx={{ mb: 2.5 }}>
+            <Box key={section} sx={{ mb: 1 }}>
               {!collapsed && (
                 <Typography
                   sx={{
                     fontSize: "0.6875rem",
                     color: "custom.sidebarSectionLabel",
-                    fontWeight: 600,
+                    fontWeight: 400,
                     px: 1.5,
                     mb: 1,
                     letterSpacing: "0.08em",
@@ -104,13 +117,13 @@ export function Sidebar({ collapsed }: SidebarProps) {
                     sx={{
                       justifyContent: collapsed ? "center" : "flex-start",
                       gap: 1.5,
-                      px: collapsed ? 1 : 1.5,
+                      px: collapsed ? 1 : "16px",
                       py: 1,
                       mb: 0.5,
                       minHeight: 44,
                       fontSize: "0.875rem",
                       textTransform: "none",
-                      borderRadius: 2,
+                      borderRadius: "8px",
                       position: "relative",
                       color: isActive
                         ? "custom.sidebarTextActive"

@@ -87,7 +87,7 @@ const theme = createTheme({
       sidebarActive: '#2e4362',
       sidebarText: '#4b5563',
       sidebarTextActive: '#ffffff',
-      sidebarSectionLabel: '#8b95a8',
+      sidebarSectionLabel: 'rgba(0, 0, 0, 0.5)',
       fab: '#2e4362',
       textMuted: '#94a3b8',
       brandGradient: 'linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)',
