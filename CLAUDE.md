@@ -1,283 +1,134 @@
-# 🚀 CLAUDE CODE MASTER PROMPT — AQUA INTEL EXECUTIVE CONTROL ROOM
+# CLAUDE.md — Aqua Intel Executive Control Room
 
-You are a **senior staff-level frontend engineer** specializing in **Next.js 15, React 19, TypeScript, Material UI, and ApexCharts**, with strong expertise in **pixel-perfect UI implementation from Figma** and **enterprise dashboard architecture**.
-
-Your task is to **fully design, architect, and implement** a production-quality web application based on the provided Figma file.
+Guidance for AI assistants working in this repository. **Figma Dev Mode is the authority for pixel values** when it disagrees with code; align tokens and `sx` after verifying Figma.
 
 ---
 
-## 📌 PROJECT CONTEXT
+## 1. Role
 
-Build the **Aqua Intel — Executive Control Room Dashboard**.
-
-Figma Source (STRICT SOURCE OF TRUTH):
-https://www.figma.com/design/xKEjygtF35qJwilIcn1JtC/Test-Project?node-id=0-1
-
-⚠️ You MUST use Figma Dev Mode values exactly:
-
-* spacing
-* typography
-* colors
-* shadows
-* border radius
-* layout proportions
-
-NO approximation allowed (even 2px deviation is unacceptable).
+Senior frontend engineer: **Next.js 15 (App Router), React 19, TypeScript (strict), MUI, ApexCharts**, executive dashboards, and **Figma-accurate** UI.
 
 ---
 
-## 🧱 TECH STACK (STRICT)
+## 2. Product context
 
-* Next.js 15 (App Router)
-* React 19 (Functional Components only)
-* TypeScript (strict mode)
-* Material UI (MUI v5+)
-* ApexCharts (for ALL charts)
-* Roboto font ONLY
+- **Product:** Aqua Intel — Executive Control Room.
+- **Figma (strict reference):** [Test Project — node 0-1](https://www.figma.com/design/xKEjygtF35qJwilIcn1JtC/Test-Project?node-id=0-1)
 
----
+**From Figma, do not approximate without explicit user approval:**
 
-## 🧠 DEVELOPMENT APPROACH
-
-You will:
-
-1. Generate the full project structure
-2. Create reusable components
-3. Implement all UI + logic
-4. Ensure pixel-perfect accuracy
-5. Add animations and interactivity
-6. Maintain clean, scalable architecture
-
-DO NOT:
-
-* Write everything in one file
-* Use placeholder logic
-* Skip interactivity
-* Approximate styles
+- Spacing, typography, colors, shadows, radius, layout proportions.
 
 ---
 
-## 📁 PROJECT STRUCTURE (MANDATORY)
+## 3. Tech stack (as implemented)
 
-Generate a scalable structure:
+| Area | Choice |
+|------|--------|
+| Framework | Next.js 15.x, App Router |
+| UI | React 19, MUI 7 (`@mui/material`), Emotion |
+| Charts | ApexCharts + `react-apexcharts` |
+| Map | Leaflet (dynamic client usage) |
+| Motion | Framer Motion (where used) |
+| Icons | `lucide-react` |
 
-/app
-/components
-/common
-/charts
-/cards
-/map
-/layout
-/features
-/dashboard
-/hooks
-/services
-/theme
-/types
-/utils
+**Typography:** The app loads **Ubuntu** via `next/font` in `src/app/layout.tsx` and MUI `typography` in `src/core/theme/mui-theme.ts`. The workspace originally specified Roboto; if Figma requires Roboto, change font loading and theme in one coordinated update.
 
 ---
 
-## 🎨 DESIGN SYSTEM RULES
+## 4. Repository structure (enforce when adding code)
 
-Extract from Figma and enforce globally:
+```
+src/app/                      # Routes, providers, global CSS only
+src/core/theme/               # MUI theme, card radius helper, design tokens
+  tokens/                     # colors, spacing, shadows, typography scales
+src/shared/
+  ui/                         # Small reusable UI (dropdown, badge, ticker, …)
+  lib/                        # Pure utilities (formatters, flags, helpers)
+  hooks/                      # Hooks used across modules (e.g. use-count-up)
+  types/                      # Shared TypeScript types
+src/widgets/                  # Composite UI (kpi-card, world-map, sparkline-chart, …)
+src/modules/dashboard/        # Dashboard feature: components, hooks, services
+```
 
-### Colors
+**Path aliases (see `tsconfig.json`):** `@/*`, `@/core/*`, `@/shared/*`, `@/widgets/*`, `@/modules/*`.
 
-* Define all colors in theme.ts
-* Include primary, secondary, success, warning, error, gradients
+**Conventions:**
 
-### Typography
-
-* Use ONLY Roboto
-* Match font-size, weight, line-height EXACTLY
-
-### Spacing
-
-* Follow 4px or 8px grid (as per Figma)
-* No arbitrary spacing
-
-### Shadows & Radius
-
-* Match exact Figma elevation values
-
----
-
-## 🧩 CORE FEATURES TO BUILD
-
-### 1. KPI CARDS
-
-* Count-up animation on load
-* Embedded ApexCharts sparkline bar charts
-* Tooltip on hover
-* Functional period selector dropdown
+- Prefer **feature code** under `src/modules/<feature>/` (hooks, services, section components).
+- Prefer **reusable primitives** under `src/shared/` and **composites** under `src/widgets/`.
+- **Do not** introduce parallel trees (e.g. a second `components/` at `src/` root) without a clear reason.
 
 ---
 
-### 2. INTERACTIVE MAP
+## 5. Styling and design system (consistent output)
 
-* Use a map library (Leaflet or Mapbox preferred)
-* Render 20+ markers across:
+These rules **enforce** consistency; follow them before inventing new colors or spacing.
 
-  * Africa
-  * South Asia
-  * Southeast Asia
+### 5.1 Single sources of truth
 
-Marker behavior:
+| Need | Use |
+|------|-----|
+| Brand / semantic colors (reference) | `src/core/theme/tokens/colors.ts` |
+| Spacing scale, layout constants | `src/core/theme/tokens/spacing.ts` |
+| Shadow presets | `src/core/theme/tokens/shadows.ts` |
+| Type scale (sizes/weights) | `src/core/theme/tokens/typography.ts` |
+| MUI palette, `palette.custom`, component defaults | `src/core/theme/mui-theme.ts` |
+| Card `borderRadius` multiplier for cards | `CARD_BORDER_RADIUS_SX` from `src/core/theme/card-styles.ts` |
+| Barrel re-exports | `src/core/theme/index.ts` |
 
-* Color by risk:
+### 5.2 Implementation rules
 
-  * Green (low)
-  * Orange (medium)
-  * Red (high)
-* Hover → tooltip (country, metrics, capital)
-* Click → detailed popup card
-* Zoom controls must work
+1. **MUI:** Use **`sx`** or **`styled`**; avoid ad-hoc inline style objects except for truly dynamic values.
+2. **Colors in UI:** Prefer **`theme.palette`** and **`theme.palette.custom.*`** for chrome (sidebar, header, borders) instead of hard-coded hex when a token already exists.
+3. **New colors:** Add to **tokens** (and wire through MUI if they should be theme-aware), don’t scatter one-off hex across sections.
+4. **Spacing:** Prefer theme spacing units (`sx={{ p: 2, gap: 1.5 }}`) aligned with the **4px grid** in `tokens/spacing.ts`.
+5. **Charts:** ApexCharts only; match font family to the app (e.g. Ubuntu CSS variable where charts expose `fontFamily`).
 
----
+### 5.3 What this file does *not* do
 
-### 3. AI EXECUTIVE BRIEF
-
-* Gradient header with icon
-* Two-column layout:
-
-  * Left: forecasting list with colored borders
-  * Right: top 3 priority cards
-* Deployment alert section (warning UI)
-* "Generate Full Report" button:
-
-  * Click animation
-  * Loading state
+It does not duplicate every hex from tokens (they live in code). Agents must **read and reuse** those files rather than copying values from memory.
 
 ---
 
-### 4. DEEP DIVE CARDS
+## 6. Feature checklist (product spec)
 
-* 4 cards with:
+Use for completeness when changing the dashboard; implementation lives under `src/modules/dashboard` and `src/widgets`.
 
-  * Gradient backgrounds
-  * Icon containers
-  * Stats rows
-  * Progress bars
-  * CTA buttons
-* Hover animation (lift + shadow)
-* Fully clickable
+1. **KPI row** — Count-up, sparklines, period dropdown, tooltips.
+2. **Map** — Many markers (Africa, South Asia, Southeast Asia, etc.), risk/deployment coloring, hover + click detail, zoom.
+3. **AI Executive Brief** — Gradient header, priorities, deployment alert, generate/report loading pattern.
+4. **Deep dive** — Four cards, gradients/icons/stats/progress/CTA, hover lift.
+5. **Global UX** — Card hover, buttons, charts, dropdowns, sidebar active state, ticker motion.
 
 ---
 
-### 5. GLOBAL INTERACTIONS
+## 7. Charts, responsiveness, performance
 
-ALL elements must be interactive:
-
-* Cards → hover lift (translateY + shadow)
-* Buttons → hover + active states
-* Charts → tooltips + animation
-* Dropdowns → fully functional
-* Sidebar:
-
-  * Navigation
-  * Active state highlight
-* Alerts ticker:
-
-  * Horizontal scrolling animation
+- **Charts:** Animate on load; tooltips show exact values; no meaningless series labels.
+- **Breakpoints:** Target **1920 / 1440 / 1280**; no horizontal scroll; grids must collapse cleanly.
+- **Performance:** Dynamic import for heavy client-only pieces (map, charts); avoid pointless re-renders of chart options.
 
 ---
 
-## 📊 CHART REQUIREMENTS (APEXCHARTS)
+## 8. Code quality
 
-* Smooth animation on load
-* No dummy labels like "Group"
-* Realistic data
-* Tooltips must show exact values
-
----
-
-## 📱 RESPONSIVENESS
-
-Must work PERFECTLY at:
-
-* 1920px
-* 1440px
-* 1280px
-
-Rules:
-
-* No horizontal scroll
-* No broken layouts
-* Maintain proportions
+- Strict TypeScript; avoid `any`.
+- Match existing import style and **kebab-case** file names for new files where the repo already uses them.
+- Keep changes scoped; don’t refactor unrelated modules in the same task.
 
 ---
 
-## ⚡ PERFORMANCE
+## 9. Commands
 
-* Use dynamic imports where needed
-* Avoid unnecessary re-renders
-* Optimize chart rendering
-
----
-
-## 🧪 CODE QUALITY
-
-* Strict TypeScript typing
-* Reusable components
-* Clean separation of concerns
-* No inline messy styles
-* Use MUI sx or styled API properly
+```bash
+npm run dev
+npm run build
+npm run start
+```
 
 ---
 
-## 📄 CLAUDE.md GENERATION
+## 10. Goal
 
-Also generate a **CLAUDE.md file** in root including:
-
-* Color palette
-* Typography rules
-* Spacing system
-* Component patterns
-* Animation rules
-* Interaction guidelines
-
-This file must ensure consistent AI-generated output.
-
----
-
-## 🚀 FINAL OUTPUT
-
-You must:
-
-1. Generate full working codebase
-2. Ensure production-ready quality
-3. Include all components and logic
-4. Make UI pixel-perfect to Figma
-5. Provide instructions to run locally
-6. Prepare for Vercel deployment
-
----
-
-## ⚠️ EXECUTION MODE
-
-Work step-by-step:
-
-1. Initialize project
-2. Setup theme
-3. Build layout
-4. Create components
-5. Add charts
-6. Add map
-7. Add interactions
-8. Final polish
-
-After each step:
-
-* Verify correctness
-* Refactor if needed
-
----
-
-## 🎯 GOAL
-
-Deliver a **high-end executive dashboard** that looks and behaves exactly like a real enterprise analytics platform — not a prototype.
-
----
-
-Start now.
+Ship and maintain a **production-grade** executive dashboard: behavior and visuals stay aligned with **Figma** and with **`src/core/theme`** + **MUI** conventions above.
