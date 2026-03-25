@@ -31,7 +31,6 @@ export const KpiSecondaryCardView = ({
   chartSlot,
 }: KpiSecondaryCardViewProps) => (
   <Box
-    className="animate-slide-in-up"
     role="group"
     aria-label={`${metric.label} KPI`}
     sx={{
@@ -54,9 +53,8 @@ export const KpiSecondaryCardView = ({
       animationDelay: `${index * 80}ms`,
       height: "100%",
       "&:hover": {
-        transform: "translateY(-4px)",
+        transform: "translateY(-4px) !important",
         boxShadow: "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
-        borderColor: "#cbd5e1",
       },
     }}
   >

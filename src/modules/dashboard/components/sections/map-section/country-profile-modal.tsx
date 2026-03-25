@@ -72,7 +72,6 @@ export const CountryProfileModal = ({
       ref={containerRef}
       role="dialog"
       aria-label={`${marker.country} profile`}
-      className="animate-slide-in-up"
       sx={{
         position: "fixed",
         top: pos.top,

@@ -35,6 +35,11 @@ export default function AIBriefPanel() {
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        transition: "transform 0.3s, box-shadow 0.3s",
+        "&:hover": {
+          transform: "translateY(-4px) !important",
+          boxShadow: "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
+        },
       }}
     >
       <Box

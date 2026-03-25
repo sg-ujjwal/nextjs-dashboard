@@ -29,7 +29,6 @@ export const KpiPrimaryCardView = ({
 
   return (
     <Box
-      className="animate-slide-in-up"
       sx={(theme) => ({
         borderRadius: CARD_BORDER_RADIUS_SX,
         p: 2,
@@ -38,7 +37,7 @@ export const KpiPrimaryCardView = ({
         alignItems: "center",
         gap: 1.5,
         cursor: "pointer",
-        transition: "box-shadow 0.2s",
+        transition: "transform 0.3s, box-shadow 0.3s",
         animationDelay: `${index * 80}ms`,
         border: "1px solid",
         minWidth: 0,
@@ -55,7 +54,10 @@ export const KpiPrimaryCardView = ({
                 "radial-gradient(152.14% 265.63% at 50% 50%, #466192 0%, #2F446A 100%)",
               boxShadow: "0px 5px 6px -3px #00000003",
             }),
-        "&:hover": { boxShadow: 3 },
+        "&:hover": {
+          transform: "translateY(-4px) !important",
+          boxShadow: "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
+        },
       })}
     >
       <Box

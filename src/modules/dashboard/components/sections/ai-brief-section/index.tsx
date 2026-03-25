@@ -34,6 +34,11 @@ export default function AIBriefSection() {
           border: "1px solid #e2e8f0",
           boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
           bgcolor: "background.paper",
+          transition: "transform 0.3s, box-shadow 0.3s",
+          "&:hover": {
+            transform: "translateY(-4px) !important",
+            boxShadow: "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
+          },
         }}
       >
         <Box

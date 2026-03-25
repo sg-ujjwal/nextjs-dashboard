@@ -24,17 +24,19 @@ export default function PerformanceSection() {
               sx={{
                 borderRadius: CARD_BORDER_RADIUS_SX,
                 p: 2,
-                border: "1px solid",
-                borderColor: "custom.border",
                 borderLeft: "4px solid",
                 borderLeftColor: isBest ? "#16a34a" : "#dc2626",
-                transition: "box-shadow 0.2s",
+                transition: "transform 0.3s, box-shadow 0.3s",
                 bgcolor: "background.paper",
                 display: "flex",
                 alignItems: "center",
                 gap: 2,
                 cursor: "pointer",
-                "&:hover": { boxShadow: 2 },
+                "&:hover": {
+                  transform: "translateY(-4px) !important",
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
+                },
+                minHeight: "84px",
               }}
             >
               <Box
@@ -84,22 +86,22 @@ export default function PerformanceSection() {
                   alignItems: "center",
                   gap: 0.5,
                   px: 1.5,
-                  py: 0.75,
+                  py: 0.5,
                   borderRadius: 9999,
-                  fontSize: "0.875rem",
-                  fontWeight: 700,
+                  fontSize: "14px",
+                  fontWeight: 500,
                   flexShrink: 0,
-                  bgcolor: isBest ? "#dcfce7" : "#fee2e2",
+                  bgcolor: isBest ? "#EDF7ED" : "#FFF4F4",
                   color: isBest ? "#16a34a" : "#dc2626",
                 }}
               >
+                {card.trend === "up" ? "+" : "-"}
+                {card.change}%
                 {card.trend === "up" ? (
                   <TrendingUp size={16} />
                 ) : (
                   <TrendingDown size={16} />
                 )}
-                {card.trend === "up" ? "+" : "-"}
-                {card.change}%
               </Box>
             </Box>
           );

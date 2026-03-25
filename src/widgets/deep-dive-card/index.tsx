@@ -46,11 +46,10 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
 
   return (
     <Box
-      className="animate-slide-in-up"
       sx={{
         bgcolor: "background.paper",
         border: "1px solid",
-        borderColor: "custom.border",
+        borderColor: "#fff",
         borderRadius: CARD_BORDER_RADIUS_SX,
         display: "flex",
         flexDirection: "column",
@@ -60,10 +59,12 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
         animationDelay: `${index * 100}ms`,
         boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
         background: `linear-gradient(210deg, ${card.accentColor}14 0%, transparent 40%), #ffffff`,
-        transition: "transform 0.2s, box-shadow 0.2s",
+        transition: "all 0.5s ease-in-out",
+        transform: "translateY(0px) !important",
         "&:hover": {
-          boxShadow: 3,
-          transform: "translateY(-2px)",
+          transform: "translateY(-4px) !important",
+          boxShadow:
+            "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1) !important",
         },
       }}
     >
@@ -101,6 +102,7 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
               {card.subtitle}
             </Typography>
           </Box>
+
           <Box
             sx={{
               width: 36,
@@ -117,6 +119,14 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
             <Icon size={18} />
           </Box>
         </Box>
+
+        <Box
+          sx={{
+            width: "100%",
+            height: "1px",
+            bgcolor: "#00000014",
+          }}
+        ></Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           {card.stats.map((stat) => (
@@ -168,7 +178,7 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
             gap: 0.25,
             fontSize: "0.875rem",
             fontWeight: 500,
-            color: "primary.main",
+            color: "#2F446A",
           }}
         >
           {card.cta}
