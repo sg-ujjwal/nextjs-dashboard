@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react'
 import type { Period } from '@/shared/types'
 
-export const usePeriodSelector = (initial: Period = '30d') => {
+export const usePeriodSelector = (initial: Period = '90d') => {
   const [period, setPeriod] = useState<Period>(initial)
   const periods: { label: string; value: Period }[] = [
     { label: '7 Days', value: '7d' },

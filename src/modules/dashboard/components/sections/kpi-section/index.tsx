@@ -7,12 +7,11 @@ import {
   KPI_SECONDARY,
 } from "@/modules/dashboard/services/kpi-data";
 import { KPICard } from "@/widgets/kpi-card";
-import { Dropdown } from "@/shared/ui/dropdown";
 import { usePeriodSelector } from "@/modules/dashboard/hooks/use-period-selector";
 import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
 
 export default function KPISection() {
-  const { period, periods, handleChange } = usePeriodSelector();
+  const { period } = usePeriodSelector();
 
   return (
     <>
@@ -32,7 +31,6 @@ export default function KPISection() {
             maxWidth: 1920,
             mx: "auto",
             gap: 2,
-            flexDirection: { xs: "column", sm: "row" },
           }}
         >
           <Box sx={{ width: { xs: "100%", sm: "auto" } }}>
@@ -58,19 +56,13 @@ export default function KPISection() {
           </Box>
           <Box
             sx={{
-              width: { xs: "100%", sm: "auto" },
               display: "flex",
               alignItems: "flex-end",
               justifyContent: { xs: "space-between", sm: "flex-end" },
               gap: 1.5,
-              flex: { xs: "100%", sm: "auto" },
+              flexShrink: 0,
             }}
           >
-            <Dropdown
-              options={periods}
-              value={period}
-              onChange={(v) => handleChange(v)}
-            />
             <Box
               sx={{
                 display: "flex",
