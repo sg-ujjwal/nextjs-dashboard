@@ -1,6 +1,6 @@
 export const typography = {
   fontFamily: {
-    sans: '"Comic Neue", cursive;',
+    sans: '"Roboto", "Helvetica", "Arial", sans-serif',
     mono: "'Courier New', monospace",
   },
   fontSize: {

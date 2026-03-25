@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles'
+import { FONT_FAMILY_STACK } from '@/core/theme/tokens/font-family'
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -94,7 +95,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'var(--font-ubuntu), "Ubuntu", "Helvetica", "Arial", sans-serif',
+    fontFamily: FONT_FAMILY_STACK,
     h6: { fontSize: '1rem', fontWeight: 700, lineHeight: 1.25 },
     subtitle2: { fontSize: '0.75rem', fontWeight: 500 },
     caption: { fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' as const },
@@ -109,7 +110,7 @@ const theme = createTheme({
           backgroundColor: '#f0f2f5',
           color: '#1e293b',
           overflowX: 'hidden',
-          fontFamily: 'var(--font-ubuntu), "Ubuntu", "Helvetica", "Arial", sans-serif',
+          fontFamily: FONT_FAMILY_STACK,
         },
         '*, *::before, *::after': { boxSizing: 'border-box' },
         html: {

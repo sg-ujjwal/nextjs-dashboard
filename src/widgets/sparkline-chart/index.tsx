@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
+import { FONT_FAMILY_STACK } from '@/core/theme/tokens/font-family'
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
@@ -68,7 +69,7 @@ export default function SparklineChart({
         animations: { enabled: true, speed: 700, easing: 'easeinout' as const },
         toolbar: { show: false },
         zoom: { enabled: false },
-        fontFamily: 'var(--font-ubuntu), Ubuntu, sans-serif',
+        fontFamily: FONT_FAMILY_STACK,
       },
       plotOptions: {
         bar: {
