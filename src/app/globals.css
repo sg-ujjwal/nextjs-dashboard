@@ -152,3 +152,15 @@
     }
   }
 }
+
+/* ApexCharts tooltips can be clipped by nested containers in KPI cards. */
+.kpi-apex-tooltip,
+.kpi-apex-tooltip *{
+  z-index: 3000 !important;
+}
+.kpi-apex-tooltip{
+  pointer-events: none;
+}
+.secondary-chart > div{
+  overflow: visible !important;
+}
