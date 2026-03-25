@@ -32,7 +32,7 @@ export const KpiPrimaryCardView = ({
       className="animate-slide-in-up"
       sx={(theme) => ({
         borderRadius: CARD_BORDER_RADIUS_SX,
-        p: 2.5,
+        p: 2,
         display: "flex",
         justifyContent: "space-between",
         gap: 1.5,
@@ -64,61 +64,81 @@ export const KpiPrimaryCardView = ({
           alignItems: "flex-start",
           justifyContent: "space-between",
           flexDirection: "column",
-          gap: 1,
+          gap: 0.5,
           minWidth: 0,
         }}
       >
-        <Box>
-          <BENEFICIARIES_ICON size={19} />
+        <Box
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: "8px",
+            bgcolor: "#F4F6F9",
+            color: "#2F446A",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <BENEFICIARIES_ICON size={24} />
         </Box>
         <Typography
           sx={{
             fontSize: "0.875rem",
-            fontWeight: 500,
+            fontWeight: 400,
             lineHeight: 1.25,
             color: hasDarkBg ? "rgba(255,255,255,0.9)" : "text.secondary",
             minWidth: 0,
             flex: "1 1 auto",
             overflow: "hidden",
             textOverflow: "ellipsis",
+            mt: 1.5,
           }}
         >
           {metric.label}
         </Typography>
-        <Typography
-          sx={{
-            fontSize: { xs: "1.35rem", sm: "1.75rem" },
-            fontWeight: 700,
-            lineHeight: 1,
-            flex: "0 1 auto",
-            minWidth: 0,
-            color: hasDarkBg ? "#fff" : metric.color,
-          }}
-        >
-          {metric.prefix ?? ""}
-          {count}
-          {metric.unit ?? ""}
-        </Typography>
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
-            gap: 0.25,
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            flexShrink: 0,
-            color: trendColor,
+            alignItems: "flex-end",
+            gap: 1,
           }}
         >
-          {metric.change > 0 ? "+" : ""}
-          {metric.change}%
-          {metric.trend === "up" ? (
-            <TrendingUp size={12} aria-hidden />
-          ) : metric.trend === "down" ? (
-            <TrendingDown size={12} aria-hidden />
-          ) : (
-            <Minus size={12} aria-hidden />
-          )}
+          <Typography
+            sx={{
+              fontSize: { xs: "1.35rem", sm: "40px" },
+              fontWeight: 400,
+              lineHeight: 1,
+              flex: "0 1 auto",
+              minWidth: 0,
+              color: hasDarkBg ? "#fff" : metric.color,
+            }}
+          >
+            {metric.prefix ?? ""}
+            {count}
+            {metric.unit ?? ""}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 0.25,
+              fontSize: "16px",
+              fontWeight: 400,
+              flexShrink: 0,
+              color: trendColor,
+            }}
+          >
+            {metric.change > 0 ? "+" : ""}
+            {metric.change}%
+            {metric.trend === "up" ? (
+              <TrendingUp size={16} aria-hidden />
+            ) : metric.trend === "down" ? (
+              <TrendingDown size={16} aria-hidden />
+            ) : (
+              <Minus size={16} aria-hidden />
+            )}
+          </Box>
         </Box>
       </Box>
       <Box

@@ -42,7 +42,7 @@ export const KPICard = (props: KPICardProps) => {
       sx={{
         flex: "1 1 38%",
         minWidth: { xs: 72, sm: 120 },
-        maxWidth: "48%",
+        maxWidth: { xs: 120, sm: 240 },
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",
