@@ -26,7 +26,8 @@ const PERIOD_TO_POINT_COUNT: Record<Period, number> = {
 const resampleSeries = (data: number[], targetLength: number): number[] => {
   if (targetLength <= 0) return [];
   if (data.length === 0) return Array.from({ length: targetLength }, () => 0);
-  if (data.length === 1) return Array.from({ length: targetLength }, () => data[0]!);
+  if (data.length === 1)
+    return Array.from({ length: targetLength }, () => data[0]!);
 
   const lastIndex: number = data.length - 1;
   return Array.from({ length: targetLength }, (_, targetIndex: number) => {
@@ -34,8 +35,12 @@ const resampleSeries = (data: number[], targetLength: number): number[] => {
     const sourceIndex: number = t * lastIndex;
     const leftIndex: number = Math.floor(sourceIndex);
     const rightIndex: number = Math.ceil(sourceIndex);
-    const leftValue: number = Number.isFinite(data[leftIndex]!) ? data[leftIndex]! : 0;
-    const rightValue: number = Number.isFinite(data[rightIndex]!) ? data[rightIndex]! : 0;
+    const leftValue: number = Number.isFinite(data[leftIndex]!)
+      ? data[leftIndex]!
+      : 0;
+    const rightValue: number = Number.isFinite(data[rightIndex]!)
+      ? data[rightIndex]!
+      : 0;
     if (leftIndex === rightIndex) return leftValue;
     const weight: number = sourceIndex - leftIndex;
     return leftValue * (1 - weight) + rightValue * weight;
@@ -58,11 +63,16 @@ export const KPICard = (props: KPICardProps) => {
 
   const effectivePeriod: Period = isPrimary ? props.period : cardPeriod;
   const resampledSparklineData: number[] = useMemo(
-    () => resampleSeries(metric.sparklineData, PERIOD_TO_POINT_COUNT[effectivePeriod]),
+    () =>
+      resampleSeries(
+        metric.sparklineData,
+        PERIOD_TO_POINT_COUNT[effectivePeriod],
+      ),
     [metric.sparklineData, effectivePeriod],
   );
   const shouldShowXAxisLabels: boolean = effectivePeriod === "1y";
-  const decimals: number = Math.abs(metric.value - Math.round(metric.value)) > 1e-9 ? 1 : 0;
+  const decimals: number =
+    Math.abs(metric.value - Math.round(metric.value)) > 1e-9 ? 1 : 0;
 
   const count = useCountUp({
     end: metric.value,
@@ -78,14 +88,12 @@ export const KPICard = (props: KPICardProps) => {
   const chartBlockPrimary = (
     <Box
       sx={{
-        flex: "1 1 38%",
-        minWidth: { xs: 72, sm: 120 },
-        maxWidth: { xs: 120, sm: 180, md: 240 },
+        width: "100%",
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",
         // Allow ApexCharts tooltip to render outside the bar container.
-        overflow: "visible",
+        overflow: "hidden",
         height: CHART_HEIGHT_PRIMARY,
       }}
     >
@@ -102,9 +110,7 @@ export const KPICard = (props: KPICardProps) => {
     <Box
       className="secondary-chart"
       sx={{
-        flex: "1 1 0",
-        minWidth: { xs: 72, sm: 120 },
-        maxWidth: { xs: 120, sm: 140 },
+        width: "100%",
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",

@@ -33,8 +33,9 @@ export const KpiPrimaryCardView = ({
       sx={(theme) => ({
         borderRadius: CARD_BORDER_RADIUS_SX,
         p: 2,
-        display: "flex",
-        justifyContent: "space-between",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
+        alignItems: "center",
         gap: 1.5,
         cursor: "pointer",
         transition: "box-shadow 0.2s",
@@ -60,7 +61,6 @@ export const KpiPrimaryCardView = ({
       <Box
         sx={{
           display: "flex",
-          flex: 1,
           alignItems: "flex-start",
           justifyContent: "space-between",
           flexDirection: "column",
@@ -102,6 +102,7 @@ export const KpiPrimaryCardView = ({
             display: "flex",
             alignItems: "flex-end",
             gap: 1,
+            flexWrap: "wrap",
           }}
         >
           <Typography
@@ -141,19 +142,7 @@ export const KpiPrimaryCardView = ({
           </Box>
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          gap: 1.5,
-          minHeight: 56,
-          minWidth: 0,
-          width: "fit-content",
-        }}
-      >
-        {chartSlot}
-      </Box>
+      {chartSlot}
     </Box>
   );
 };

@@ -31,9 +31,11 @@ export default function KPISection() {
             justifyContent: "space-between",
             maxWidth: 1920,
             mx: "auto",
+            gap: 2,
+            flexDirection: { xs: "column", sm: "row" },
           }}
         >
-          <Box>
+          <Box sx={{ width: { xs: "100%", sm: "auto" } }}>
             <Typography
               sx={{
                 fontSize: "1.25rem",
@@ -54,7 +56,16 @@ export default function KPISection() {
               Strategic Overview & Impact Posture
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1.5 }}>
+          <Box
+            sx={{
+              width: { xs: "100%", sm: "auto" },
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: { xs: "space-between", sm: "flex-end" },
+              gap: 1.5,
+              flex: { xs: "100%", sm: "auto" },
+            }}
+          >
             <Dropdown
               options={periods}
               value={period}
@@ -86,7 +97,6 @@ export default function KPISection() {
                   px: 1.5,
                   py: 0.5,
                   bgcolor: "rgba(34, 197, 94, 0.1)",
-                  border: "1px solid rgba(34, 197, 94, 0.3)",
                 }}
               >
                 <Box

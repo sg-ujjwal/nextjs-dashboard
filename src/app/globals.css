@@ -127,7 +127,7 @@
 
 .map-hover-tooltip__label {
   font-size: 10px;
-  color: hsla(0, 0%, 0%, 0.50);
+  color: #FFFFFF80;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -138,6 +138,10 @@
   color: #ffffff;
 }
 
+
+.apexcharts-canvas{
+  width: 100% !important;
+}
 
 .secondary-chart{
   & > div{

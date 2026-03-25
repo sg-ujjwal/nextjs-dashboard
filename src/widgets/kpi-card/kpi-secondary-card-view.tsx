@@ -41,8 +41,9 @@ export const KpiSecondaryCardView = ({
       bgcolor: "background.paper",
       boxShadow: "0px 5px 6px -3px #00000003",
       p: 2,
-      display: "flex",
-      flexDirection: "row",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 100px), 1fr))",
+      alignItems: "flex-end",
       gap: 1.25,
       cursor: "pointer",
       minWidth: 0,
@@ -61,6 +62,8 @@ export const KpiSecondaryCardView = ({
   >
     <Box
       sx={{
+        width: "100%",
+        height: "100%",
         display: "flex",
         alignItems: "flex-start",
         flexDirection: "column",
@@ -78,6 +81,7 @@ export const KpiSecondaryCardView = ({
           fontWeight: 500,
           lineHeight: 1.35,
           minWidth: 0,
+          marginBlockStart: "auto",
         }}
       >
         {metric.label}
