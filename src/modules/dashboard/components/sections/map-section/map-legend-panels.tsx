@@ -49,7 +49,6 @@ const RiskRing = ({ size, label }: { size: number; label: string }) => (
     <Typography
       sx={{
         fontSize: "0.75rem",
-        color: "text.secondary",
         color: "text.primary",
       }}
     >
