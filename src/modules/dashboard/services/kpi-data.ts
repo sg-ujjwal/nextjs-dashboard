@@ -10,7 +10,7 @@ export const KPI_PRIMARY: KPIMetric[] = [
     change: 34,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [9.1, 9.5, 10.0, 10.4, 10.9, 11.2, 11.6, 12.4],
+    sparklineData: [9.1, 9.8, 9.3, 30.6, 9.8, 41.1, 5.4, 60.4],
     color: '#ffffff',
     chartColor: '#94a3b8',
     description: 'Total people reached by water solutions',
@@ -25,7 +25,8 @@ export const KPI_PRIMARY: KPIMetric[] = [
     change: 34,
     changePeriod: 'vs last quarter',
     trend: 'up',
-    sparklineData: [330, 350, 365, 380, 395, 410, 435, 450],
+    // Dummy pattern to mimic alternating up/down spikes in the reference screenshot
+    sparklineData: [330, 200, 540, 120, 600, 300, 760, 450],
     color: '#1e293b',
     chartColor: '#2F446A',
     description: 'Total capital deployed across deployments',
