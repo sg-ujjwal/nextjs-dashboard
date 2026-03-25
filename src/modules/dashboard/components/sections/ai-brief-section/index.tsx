@@ -37,7 +37,8 @@ export default function AIBriefSection() {
           transition: "transform 0.3s, box-shadow 0.3s",
           "&:hover": {
             transform: "translateY(-4px) !important",
-            boxShadow: "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
+            boxShadow:
+              "0 10px 20px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.1)",
           },
         }}
       >
@@ -210,20 +211,20 @@ export default function AIBriefSection() {
                 borderRadius: CARD_BORDER_RADIUS_SX,
                 p: 2,
                 border: "1px solid rgba(254, 215, 170, 0.5)",
-                bgcolor: "#fff7ed",
+                bgcolor: "#FFF4E5",
               }}
             >
               <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
                 <AlertTriangle
                   size={20}
-                  style={{ flexShrink: 0, marginTop: 2, color: "#ea580c" }}
+                  style={{ flexShrink: 0, marginTop: 2, color: "#EF6C00" }}
                 />
                 <Box>
                   <Typography
                     sx={{
                       fontSize: "0.875rem",
                       fontWeight: 700,
-                      color: "#9a3412",
+                      color: "#663C00",
                     }}
                   >
                     {alert.title}
@@ -233,31 +234,31 @@ export default function AIBriefSection() {
                       fontSize: "0.75rem",
                       mt: 0.75,
                       lineHeight: 1.6,
-                      color: "#9a3412",
+                      color: "#663C00",
                     }}
                   >
                     {alert.message}
                   </Typography>
-                  <Button
-                    type="button"
-                    sx={{
-                      mt: 1,
-                      p: 0,
-                      minWidth: 0,
-                      fontSize: "0.75rem",
-                      fontWeight: 500,
-                      color: "#9a3412",
-                      textTransform: "none",
-                      "&:hover": {
-                        bgcolor: "transparent",
-                        textDecoration: "underline",
-                      },
-                    }}
-                  >
-                    View
-                  </Button>
                 </Box>
               </Box>
+              <Button
+                type="button"
+                sx={{
+                  mt: 1,
+                  p: 0,
+                  minWidth: 0,
+                  fontSize: "0.75rem",
+                  fontWeight: 500,
+                  color: "#663C00",
+                  textTransform: "none",
+                  "&:hover": {
+                    bgcolor: "transparent",
+                    textDecoration: "underline",
+                  },
+                }}
+              >
+                View
+              </Button>
             </Box>
           ))}
 
