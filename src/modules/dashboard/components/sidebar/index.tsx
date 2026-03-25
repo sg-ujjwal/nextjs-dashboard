@@ -124,6 +124,7 @@ export function Sidebar({ collapsed }: SidebarProps) {
                       fontSize: "0.875rem",
                       textTransform: "none",
                       borderRadius: "8px",
+                      minWidth: "40px",
                       position: "relative",
                       color: isActive
                         ? "custom.sidebarTextActive"

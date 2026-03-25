@@ -54,7 +54,12 @@ export default function KPISection() {
               Strategic Overview & Impact Posture
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1.5 }}>
+            <Dropdown
+              options={periods}
+              value={period}
+              onChange={(v) => handleChange(v)}
+            />
             <Box
               sx={{
                 display: "flex",
@@ -90,6 +95,7 @@ export default function KPISection() {
                     height: 8,
                     bgcolor: "#027A48",
                     animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+                    borderRadius: "50%",
                   }}
                 />
                 <Typography
@@ -103,11 +109,6 @@ export default function KPISection() {
                 </Typography>
               </Box>
             </Box>
-            <Dropdown
-              options={periods}
-              value={period}
-              onChange={(v) => handleChange(v)}
-            />
           </Box>
         </Box>
       </Box>
