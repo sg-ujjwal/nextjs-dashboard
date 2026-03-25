@@ -83,7 +83,6 @@ export const MapLegendPanels = () => (
       right: 16,
       display: "flex",
       flexDirection: "column",
-      gap: 1.5,
       zIndex: 1000,
     }}
   >

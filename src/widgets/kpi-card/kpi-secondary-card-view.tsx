@@ -101,7 +101,8 @@ export const KpiSecondaryCardView = ({
             fontSize: { xs: "1.25rem", sm: "1.5rem" },
             fontWeight: 700,
             lineHeight: 1.1,
-            color: metric.color,
+            // Keep the KPI value readable and consistent across cards.
+            color: "text.primary",
           }}
         >
           {metric.prefix ?? ""}
