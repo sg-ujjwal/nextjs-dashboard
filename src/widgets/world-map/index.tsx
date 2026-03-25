@@ -141,7 +141,7 @@ export function WorldMap({
       markers.forEach((marker) => {
         const fillColor = RISK_COLORS[marker.riskLevel];
         const strokeColor = marker.deploymentStatus
-          ? DEPLOYMENT_COLORS[marker.deploymentStatus] ?? fillColor
+          ? (DEPLOYMENT_COLORS[marker.deploymentStatus] ?? fillColor)
           : fillColor;
         const radius =
           marker.riskLevel === "critical"
@@ -191,7 +191,7 @@ export function WorldMap({
         borderRadius: CARD_BORDER_RADIUS_SX,
         overflow: "hidden",
         height: "100%",
-        minHeight: 320,
+        minHeight: 400,
       }}
     >
       <Box
@@ -199,7 +199,7 @@ export function WorldMap({
         sx={{
           height: "100%",
           width: "100%",
-          minHeight: 320,
+          minHeight: 400,
           bgcolor: "custom.bgPrimary",
         }}
       />

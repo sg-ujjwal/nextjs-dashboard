@@ -73,9 +73,9 @@ export const CountryProfileModal = ({
       role="dialog"
       aria-label={`${marker.country} profile`}
       sx={{
-        position: "fixed",
-        top: pos.top,
-        left: pos.left,
+        position: "absolute",
+        top: "5%",
+        left: "5%",
         width: 320,
         bgcolor: "#E9EDF4",
         borderRadius: CARD_BORDER_RADIUS_SX,

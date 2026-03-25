@@ -16,14 +16,14 @@ const LegendDot = ({ color, label }: { color: string; label: string }) => (
         flexShrink: 0,
       }}
     />
-    <Typography sx={{ fontSize: "0.75rem", color: "text.secondary" }}>
+    <Typography sx={{ fontSize: "0.75rem", color: "text.primary" }}>
       {label}
     </Typography>
   </Box>
 );
 
 const RiskRing = ({ size, label }: { size: number; label: string }) => (
-  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
     <Box
       sx={{
         width: 20,
@@ -102,7 +102,7 @@ export const MapLegendPanels = () => (
         }}
       />
       <Typography sx={sectionTitleSx}>Risk Status</Typography>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
         <RiskRing size={8} label="Low" />
         <RiskRing size={12} label="Medium" />
         <RiskRing size={16} label="High" />

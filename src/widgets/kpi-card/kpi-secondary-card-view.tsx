@@ -71,7 +71,7 @@ export const KpiSecondaryCardView = ({
         flex: 1,
       }}
     >
-      <SecondaryIconBadge metricId={metric.id} accentColor={iconAccent} />
+      <SecondaryIconBadge metricId={metric.id} accentColor={"#2F446A"} />
       <Typography
         sx={{
           fontSize: "0.8125rem",
