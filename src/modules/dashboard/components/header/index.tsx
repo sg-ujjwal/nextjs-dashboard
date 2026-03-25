@@ -1,34 +1,37 @@
-'use client'
+"use client";
 
-import Box from '@mui/material/Box'
-import { HeaderBrandBlock } from './header-brand-block'
-import { HeaderSearchField } from './header-search-field'
-import { HeaderTrailingActions } from './header-trailing-actions'
+import Box from "@mui/material/Box";
+import { HeaderBrandBlock } from "./header-brand-block";
+import { HeaderSearchField } from "./header-search-field";
+import { HeaderTrailingActions } from "./header-trailing-actions";
 
 export type HeaderProps = {
-  sidebarCollapsed: boolean
-  onToggleSidebar: () => void
-}
+  sidebarCollapsed: boolean;
+  onToggleSidebar: () => void;
+};
 
 export const Header = ({ sidebarCollapsed, onToggleSidebar }: HeaderProps) => (
   <Box
     component="header"
     sx={{
-      height: 64,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      height: 78,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
       px: 2.5,
       flexShrink: 0,
-      borderBottom: '1px solid',
-      borderColor: 'custom.headerBorder',
-      bgcolor: 'custom.headerBar',
+      borderBottom: "1px solid",
+      borderColor: "custom.headerBorder",
+      bgcolor: "custom.headerBar",
     }}
   >
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
-      <HeaderBrandBlock sidebarCollapsed={sidebarCollapsed} onToggleSidebar={onToggleSidebar} />
+    <Box sx={{ display: "flex", alignItems: "center", gap: 2, minWidth: 0 }}>
+      <HeaderBrandBlock
+        sidebarCollapsed={sidebarCollapsed}
+        onToggleSidebar={onToggleSidebar}
+      />
       <HeaderSearchField />
     </Box>
     <HeaderTrailingActions />
   </Box>
-)
+);
