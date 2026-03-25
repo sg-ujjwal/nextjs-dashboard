@@ -139,10 +139,10 @@ export function WorldMap({
       markersRef.current = [];
 
       markers.forEach((marker) => {
-        const color = marker.deploymentStatus
-          ? (DEPLOYMENT_COLORS[marker.deploymentStatus] ??
-            RISK_COLORS[marker.riskLevel])
-          : RISK_COLORS[marker.riskLevel];
+        const fillColor = RISK_COLORS[marker.riskLevel];
+        const strokeColor = marker.deploymentStatus
+          ? DEPLOYMENT_COLORS[marker.deploymentStatus] ?? fillColor
+          : fillColor;
         const radius =
           marker.riskLevel === "critical"
             ? 10
@@ -152,8 +152,8 @@ export function WorldMap({
 
         const circle = L.circleMarker([marker.lat, marker.lng], {
           radius,
-          fillColor: color,
-          color,
+          fillColor,
+          color: strokeColor,
           weight: 2,
           opacity: 0.9,
           fillOpacity: 0.6,

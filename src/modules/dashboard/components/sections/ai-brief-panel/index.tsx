@@ -95,11 +95,7 @@ export default function AIBriefPanel() {
             ...(isGenerating ? { opacity: 0.7, cursor: "wait" } : {}),
           }}
         >
-          {isGenerating
-            ? "Generating..."
-            : isComplete
-              ? "Report Ready"
-              : "View Full Report"}
+          {isGenerating ? "Generate Full Report" : "View Full Report"}
         </Button>
       </Box>
 

@@ -8,11 +8,15 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 export type SparklineChartVariant = 'sparkline' | 'labeledBars'
 
+const MONTH_LABELS: readonly string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
 export interface SparklineChartProps {
   data: number[]
   color: string
   height?: number
   variant?: SparklineChartVariant
+  xAxisLabels?: string[]
+  showXAxisLabels?: boolean
   /** Bar width as % of category slot; tight bars for KPI row ≈ 80% */
   columnWidth?: string
   /** Top-only rounding on vertical bars */
@@ -24,6 +28,8 @@ export default function SparklineChart({
   color,
   height = 48,
   variant = 'sparkline',
+  xAxisLabels,
+  showXAxisLabels = true,
   columnWidth,
   barBorderRadius,
 }: SparklineChartProps) {
@@ -31,7 +37,7 @@ export default function SparklineChart({
   // Primary KPI "spikes" look closer to the reference with slightly narrower bars.
   const colW = columnWidth ?? (isSparkline ? '65%' : '80%')
   const radius = barBorderRadius ?? (isSparkline ? 1 : 2)
-  const labelReserve = isSparkline ? 0 : 18
+  const labelReserve = isSparkline ? 0 : showXAxisLabels ? 18 : 0
   const chartHeight = height + labelReserve
 
   const dataMax = useMemo(() => {
@@ -40,7 +46,12 @@ export default function SparklineChart({
   }, [data])
   const yMax = dataMax * 1.06
 
-  const categories = useMemo(() => data.map(() => '\u00a0'), [data])
+  const categories = useMemo(() => {
+    if (isSparkline) return data.map(() => '\u00a0')
+    if (!showXAxisLabels) return data.map(() => '\u00a0')
+    const labels = xAxisLabels && xAxisLabels.length > 0 ? xAxisLabels : MONTH_LABELS
+    return data.map((_, index) => labels[index % labels.length] ?? '\u00a0')
+  }, [data, isSparkline, showXAxisLabels, xAxisLabels])
 
   const options = useMemo(() => {
     if (isSparkline) {
@@ -60,10 +71,18 @@ export default function SparklineChart({
           labels: { show: false },
           axisBorder: { show: false },
           axisTicks: { show: false },
-          tooltip: { enabled: false },
         },
         yaxis: { show: false, min: 0, max: yMax },
-        tooltip: { enabled: false },
+        tooltip: {
+          enabled: true,
+          followCursor: true,
+          shared: false,
+          intersect: true,
+          x: { show: false },
+          y: { formatter: (v: number) => (typeof v === 'number' ? v.toLocaleString() : String(v)) },
+          theme: 'dark',
+          marker: { show: false },
+        },
         states: { hover: { filter: { type: 'lighten' as const, value: 0.15 } } },
       }
     }
@@ -95,7 +114,7 @@ export default function SparklineChart({
       xaxis: {
         categories,
         labels: {
-          show: true,
+          show: showXAxisLabels,
           style: {
             fontSize: '6px',
             fontWeight: 400,
@@ -117,7 +136,7 @@ export default function SparklineChart({
       },
       states: { hover: { filter: { type: 'lighten' as const, value: 0.12 } } },
     }
-  }, [categories, color, colW, isSparkline, radius, yMax])
+  }, [categories, color, colW, isSparkline, radius, showXAxisLabels, yMax])
 
   return <Chart type="bar" series={[{ name: 'value', data }]} options={options} height={chartHeight} width="100%" />
 }

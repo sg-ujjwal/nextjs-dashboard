@@ -103,11 +103,11 @@ export default function KPISection() {
                 </Typography>
               </Box>
             </Box>
-            {/* <Dropdown
+            <Dropdown
               options={periods}
               value={period}
-              onChange={handleChange}
-            /> */}
+              onChange={(v) => handleChange(v)}
+            />
           </Box>
         </Box>
       </Box>

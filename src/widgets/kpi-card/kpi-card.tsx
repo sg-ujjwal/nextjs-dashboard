@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Box from "@mui/material/Box";
 import type { KPIMetric, Period } from "@/shared/types";
@@ -16,6 +16,32 @@ const SparklineChart = dynamic(() => import("@/widgets/sparkline-chart"), {
 const CHART_HEIGHT_PRIMARY = 110;
 const CHART_HEIGHT_SECONDARY = 80;
 
+const PERIOD_TO_POINT_COUNT: Record<Period, number> = {
+  "7d": 7,
+  "30d": 12,
+  "90d": 18,
+  "1y": 12,
+};
+
+const resampleSeries = (data: number[], targetLength: number): number[] => {
+  if (targetLength <= 0) return [];
+  if (data.length === 0) return Array.from({ length: targetLength }, () => 0);
+  if (data.length === 1) return Array.from({ length: targetLength }, () => data[0]!);
+
+  const lastIndex: number = data.length - 1;
+  return Array.from({ length: targetLength }, (_, targetIndex: number) => {
+    const t: number = targetLength === 1 ? 0 : targetIndex / (targetLength - 1);
+    const sourceIndex: number = t * lastIndex;
+    const leftIndex: number = Math.floor(sourceIndex);
+    const rightIndex: number = Math.ceil(sourceIndex);
+    const leftValue: number = Number.isFinite(data[leftIndex]!) ? data[leftIndex]! : 0;
+    const rightValue: number = Number.isFinite(data[rightIndex]!) ? data[rightIndex]! : 0;
+    if (leftIndex === rightIndex) return leftValue;
+    const weight: number = sourceIndex - leftIndex;
+    return leftValue * (1 - weight) + rightValue * weight;
+  });
+};
+
 export type KPICardProps = {
   metric: KPIMetric;
   index: number;
@@ -24,15 +50,27 @@ export type KPICardProps = {
 
 export const KPICard = (props: KPICardProps) => {
   const { metric, index } = props;
-  const [cardPeriod, setCardPeriod] = useState<Period>("7d");
+  const isPrimary = metric.isPrimary ?? false;
+  const [cardPeriod, setCardPeriod] = useState<Period>(() => props.period);
+  useEffect(() => {
+    setCardPeriod(props.period);
+  }, [props.period]);
+
+  const effectivePeriod: Period = isPrimary ? props.period : cardPeriod;
+  const resampledSparklineData: number[] = useMemo(
+    () => resampleSeries(metric.sparklineData, PERIOD_TO_POINT_COUNT[effectivePeriod]),
+    [metric.sparklineData, effectivePeriod],
+  );
+  const shouldShowXAxisLabels: boolean = effectivePeriod === "1y";
+  const decimals: number = Math.abs(metric.value - Math.round(metric.value)) > 1e-9 ? 1 : 0;
+
   const count = useCountUp({
     end: metric.value,
     duration: 1500,
     delay: index * 100,
-    decimals: metric.value % 1 !== 0 ? 1 : 0,
+    decimals,
   });
 
-  const isPrimary = metric.isPrimary ?? false;
   const hasDarkBg = (metric.hasDarkBackground ?? true) && isPrimary;
   const trendColor = resolveTrendColor(metric, hasDarkBg);
   const chartColor = metric.chartColor ?? metric.color;
@@ -46,12 +84,13 @@ export const KPICard = (props: KPICardProps) => {
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",
-        overflow: "hidden",
+        // Allow ApexCharts tooltip to render outside the bar container.
+        overflow: "visible",
         height: CHART_HEIGHT_PRIMARY,
       }}
     >
       <SparklineChart
-        data={metric.sparklineData}
+        data={resampledSparklineData}
         color={chartColor}
         height={CHART_HEIGHT_PRIMARY}
         variant="sparkline"
@@ -74,12 +113,13 @@ export const KPICard = (props: KPICardProps) => {
       }}
     >
       <SparklineChart
-        data={metric.sparklineData}
+        data={resampledSparklineData}
         color={chartColor}
         height={CHART_HEIGHT_SECONDARY}
         variant="labeledBars"
         columnWidth="80%"
         barBorderRadius={2}
+        showXAxisLabels={shouldShowXAxisLabels}
       />
     </Box>
   );
