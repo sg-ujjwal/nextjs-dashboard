@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import type { KPIMetric } from '@/shared/types'
 import { CARD_BORDER_RADIUS_SX } from '@/core/theme/card-styles'
+import { BENEFICIARIES_ICON } from '@/core/theme/tokens/svg.Contant'
 
 export type KpiPrimaryCardViewProps = {
   metric: KPIMetric
@@ -23,15 +24,18 @@ export const KpiPrimaryCardView = ({
   hasDarkBg,
   trendColor,
   chartSlot,
-}: KpiPrimaryCardViewProps) => (
-  <Box
+}: KpiPrimaryCardViewProps) => {
+  const isBeneficiariesCard = metric.id === 'total-beneficiaries'
+
+  return (
+    <Box
     className="animate-slide-in-up"
     sx={(theme) => ({
       borderRadius: CARD_BORDER_RADIUS_SX,
-      p: 2.5,
+      p: isBeneficiariesCard ? 1.75 : 2.5,
       display: 'flex',
       flexDirection: 'column',
-      gap: 1.5,
+      gap: isBeneficiariesCard ? 1 : 1.5,
       cursor: 'pointer',
       transition: 'box-shadow 0.2s',
       animationDelay: `${index * 80}ms`,
@@ -47,6 +51,22 @@ export const KpiPrimaryCardView = ({
       '&:hover': { boxShadow: 3 },
     })}
   >
+    {isBeneficiariesCard && (
+      <Box
+        sx={{
+          width: 30,
+          height: 30,
+          borderRadius: 1,
+          bgcolor: 'rgba(255,255,255,0.7)',
+          color: '#2F446A',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <BENEFICIARIES_ICON size={19} />
+      </Box>
+    )}
     <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1, minWidth: 0 }}>
       <Typography
         sx={{
@@ -62,44 +82,73 @@ export const KpiPrimaryCardView = ({
       >
         {metric.label}
       </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 0.25,
-          fontSize: '0.75rem',
-          fontWeight: 600,
-          flexShrink: 0,
-          color: trendColor,
-        }}
-      >
-        {metric.change > 0 ? '+' : ''}
-        {metric.change}%
-        {metric.trend === 'up' ? (
-          <TrendingUp size={12} aria-hidden />
-        ) : metric.trend === 'down' ? (
-          <TrendingDown size={12} aria-hidden />
-        ) : (
-          <Minus size={12} aria-hidden />
-        )}
-      </Box>
+      {!isBeneficiariesCard && (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.25,
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            flexShrink: 0,
+            color: trendColor,
+          }}
+        >
+          {metric.change > 0 ? '+' : ''}
+          {metric.change}%
+          {metric.trend === 'up' ? (
+            <TrendingUp size={12} aria-hidden />
+          ) : metric.trend === 'down' ? (
+            <TrendingDown size={12} aria-hidden />
+          ) : (
+            <Minus size={12} aria-hidden />
+          )}
+        </Box>
+      )}
     </Box>
     <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, minHeight: 56, minWidth: 0 }}>
-      <Typography
-        sx={{
-          fontSize: { xs: '1.35rem', sm: '1.75rem' },
-          fontWeight: 700,
-          lineHeight: 1,
-          flex: '0 1 auto',
-          minWidth: 0,
-          color: hasDarkBg ? '#fff' : metric.color,
-        }}
-      >
-        {metric.prefix ?? ''}
-        {count}
-        {metric.unit ?? ''}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75, minWidth: 0 }}>
+        <Typography
+          sx={{
+            fontSize: { xs: '1.35rem', sm: '1.75rem' },
+            fontWeight: 700,
+            lineHeight: 1,
+            flex: '0 1 auto',
+            minWidth: 0,
+            color: hasDarkBg ? '#fff' : metric.color,
+          }}
+        >
+          {metric.prefix ?? ''}
+          {count}
+          {metric.unit ?? ''}
+        </Typography>
+        {isBeneficiariesCard && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.25,
+              fontSize: '0.95rem',
+              fontWeight: 600,
+              flexShrink: 0,
+              color: trendColor,
+              lineHeight: 1,
+            }}
+          >
+            {metric.change > 0 ? '+' : ''}
+            {metric.change}%
+            {metric.trend === 'up' ? (
+              <TrendingUp size={14} aria-hidden />
+            ) : metric.trend === 'down' ? (
+              <TrendingDown size={14} aria-hidden />
+            ) : (
+              <Minus size={14} aria-hidden />
+            )}
+          </Box>
+        )}
+      </Box>
       {chartSlot}
     </Box>
   </Box>
-)
+  )
+}
