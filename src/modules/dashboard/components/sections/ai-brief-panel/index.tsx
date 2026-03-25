@@ -3,12 +3,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import {
-  Sparkles,
-  AlertTriangle,
-  ChevronRight,
-  ArrowUpRight,
-} from "lucide-react";
+import { AlertTriangle, ChevronRight, ArrowUpRight } from "lucide-react";
 import {
   PRIORITY_CARDS,
   DEPLOYMENT_ALERTS,
@@ -16,9 +11,33 @@ import {
 } from "@/modules/dashboard/services/dashboard-data";
 import { useReportGeneration } from "@/modules/dashboard/hooks/use-report-generation";
 import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
+import { JSX } from "react";
 
 const HEADER_GRADIENT =
   "linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)";
+
+type AiBriefHeaderIconProps = {
+  size?: number;
+};
+
+const AiBriefHeaderIcon = ({
+  size = 18,
+}: AiBriefHeaderIconProps): JSX.Element => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 22 22"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M18 8L19.25 5.25L22 4L19.25 2.75L18 0L16.75 2.75L14 4L16.75 5.25L18 8ZM10.5 8.5L8 3L5.5 8.5L0 11L5.5 13.5L8 19L10.5 13.5L16 11L10.5 8.5ZM18 14L16.75 16.75L14 18L16.75 19.25L18 22L19.25 19.25L22 18L19.25 16.75L18 14Z"
+      fill="white"
+    />
+  </svg>
+);
 
 export default function AIBriefPanel() {
   const { isGenerating, isComplete, progress, generate } =
