@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /home/suman/NEW_PROJECT/src/app)",
+      "Bash(mkdir -p /home/suman/NEW_PROJECT/src/types)",
+      "Bash(mkdir -p /home/suman/NEW_PROJECT/src/theme)",
+      "Bash(mkdir -p /home/suman/NEW_PROJECT/src/utils)",
+      "Bash(mkdir -p /home/suman/NEW_PROJECT/src/hooks)",
+      "Bash(/home/suman/NEW_PROJECT/src/hooks/useCountUp.ts:*)",
+      "Bash(npm run:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx next:*)",
+      "Bash(npm install:*)",
+      "Bash(node -e \"try { require.resolve\\(''react-apexcharts''\\); console.log\\(''apexcharts: OK''\\) } catch\\(e\\) { console.log\\(''apexcharts: MISSING''\\) }\")",
+      "Bash(node -e \"try { require.resolve\\(''leaflet''\\); console.log\\(''leaflet: OK''\\) } catch\\(e\\) { console.log\\(''leaflet: MISSING''\\) }\")",
+      "Bash(node -e \"try { require.resolve\\(''lucide-react''\\); console.log\\(''lucide-react: OK''\\) } catch\\(e\\) { console.log\\(''lucide-react: MISSING''\\) }\")",
+      "Bash(node -e \"try { require.resolve\\(''clsx''\\); console.log\\(''clsx: OK''\\) } catch\\(e\\) { console.log\\(''clsx: MISSING''\\) }\")",
+      "Bash(node -e \"try { require.resolve\\(''tailwind-merge''\\); console.log\\(''tailwind-merge: OK''\\) } catch\\(e\\) { console.log\\(''tailwind-merge: MISSING''\\) }\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(find /home/suman/NEW_PROJECT -name *.png -o -name *.jpg -o -name *.jpeg -o -name *.webp)",
+      "Bash(find /home/suman/NEW_PROJECT/src -name *.tsx -o -name *.ts -o -name *.css)"
+    ]
+  }
+}
