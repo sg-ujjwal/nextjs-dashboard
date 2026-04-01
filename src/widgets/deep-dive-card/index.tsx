@@ -19,6 +19,7 @@ interface DeepDiveCardData {
   title: string;
   subtitle: string;
   icon: string;
+  progressBarBg: string;
   accentColor: string;
   stats: DeepDiveStat[];
   progressValue: number;
@@ -174,13 +175,12 @@ const ProposalAssessmentIcon = ({
   );
 };
 
-const iconMap: Record<string, (props: DeepDiveSvgIconProps) => ReactElement> =
-  {
-    globe: GeographicImpactDistributionIcon,
-    "bar-chart": CountryPrioritizationIcon,
-    network: DeploymentPerformanceIcon,
-    file: ProposalAssessmentIcon,
-  };
+const iconMap: Record<string, (props: DeepDiveSvgIconProps) => ReactElement> = {
+  globe: GeographicImpactDistributionIcon,
+  "bar-chart": CountryPrioritizationIcon,
+  network: DeploymentPerformanceIcon,
+  file: ProposalAssessmentIcon,
+};
 
 export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
   const Icon = iconMap[card.icon] ?? GeographicImpactDistributionIcon;
@@ -292,8 +292,8 @@ export function DeepDiveCard({ card, index }: DeepDiveCardProps) {
 
         <Box
           sx={{
-            height: 6,
-            bgcolor: "custom.border",
+            height: 4,
+            bgcolor: card.progressBarBg,
             borderRadius: 9999,
             overflow: "hidden",
           }}

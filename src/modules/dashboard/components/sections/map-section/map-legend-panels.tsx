@@ -44,8 +44,8 @@ const RiskRing = ({
   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
     <Box
       sx={{
-        width: 8,
-        height: 8,
+        width: 12,
+        height: 12,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

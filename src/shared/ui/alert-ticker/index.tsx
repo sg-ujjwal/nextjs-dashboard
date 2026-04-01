@@ -115,7 +115,7 @@ export function AlertTicker() {
                 </Typography>
                 <Typography
                   component="span"
-                  sx={{ fontSize: "inherit", color: "custom.border", px: 2 }}
+                  sx={{ fontSize: "inherit", color: "#00000014", px: 2 }}
                 >
                   |
                 </Typography>

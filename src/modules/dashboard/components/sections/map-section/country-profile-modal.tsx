@@ -76,7 +76,7 @@ export const CountryProfileModal = ({
         position: "absolute",
         top: "5%",
         left: "5%",
-        width: 320,
+        width: 340,
         bgcolor: "#E9EDF4",
         borderRadius: CARD_BORDER_RADIUS_SX,
         boxShadow:
@@ -169,9 +169,8 @@ export const CountryProfileModal = ({
               minWidth: 0,
               p: 0,
               borderRadius: CARD_BORDER_RADIUS_SX,
-              color: "text.disabled",
+              color: "text.secondary",
               "&:hover": {
-                bgcolor: "rgba(255,255,255,0.8)",
                 color: "text.primary",
               },
             }}
@@ -224,7 +223,7 @@ export const CountryProfileModal = ({
           <Box
             key={cell.k}
             sx={{
-              bgcolor: "background.paper",
+              bgcolor: "#F4F6F9",
               borderRadius: CARD_BORDER_RADIUS_SX,
               p: 1.5,
               border: "1px solid",
@@ -234,8 +233,8 @@ export const CountryProfileModal = ({
           >
             <Typography
               sx={{
-                fontSize: "10px",
-                color: "text.disabled",
+                fontSize: "12px",
+                color: "#00000061",
                 textTransform: "uppercase",
                 letterSpacing: "0.06em",
                 mb: 0.5,
@@ -252,6 +251,15 @@ export const CountryProfileModal = ({
         ))}
       </Box>
 
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          height: "1px",
+          backgroundColor: "#00000014",
+        }}
+      />
+
       {deployment && (
         <Box
           sx={{
@@ -263,8 +271,8 @@ export const CountryProfileModal = ({
         >
           <Typography
             sx={{
-              fontSize: "10px",
-              color: "text.disabled",
+              fontSize: "12px",
+              color: "#00000061",
               textTransform: "uppercase",
               letterSpacing: "0.06em",
               mb: 1,
@@ -274,12 +282,12 @@ export const CountryProfileModal = ({
           </Typography>
           <Box
             sx={{
-              bgcolor: "background.paper",
+              bgcolor: "#F4F6F9",
               borderRadius: CARD_BORDER_RADIUS_SX,
-              p: 1.5,
+              py: 0.5,
+              px: 1,
               border: "1px solid",
               borderColor: "custom.border",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -288,9 +296,9 @@ export const CountryProfileModal = ({
           >
             <Typography
               sx={{
-                fontSize: "0.875rem",
-                fontWeight: 500,
-                color: "text.primary",
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "#014361",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
@@ -304,13 +312,13 @@ export const CountryProfileModal = ({
               sx={{
                 flexShrink: 0,
                 borderRadius: 9999,
-                fontSize: "0.75rem",
-                fontWeight: 600,
+                fontSize: "14px",
+                fontWeight: 400,
                 textTransform: "none",
                 px: 1.5,
-                py: 0.5,
-                bgcolor: "rgba(22, 119, 255, 0.15)",
-                color: "#1677ff",
+                py: 0.3,
+                bgcolor: "#E5F6FD",
+                color: "#0288D1",
                 minWidth: 0,
               }}
             >
@@ -320,19 +328,26 @@ export const CountryProfileModal = ({
         </Box>
       )}
 
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          height: "1px",
+          backgroundColor: "#00000014",
+        }}
+      />
+
       {intelligence.length > 0 && (
         <Box
           sx={{
-            mb: 2,
+            mb: 3,
             pt: 1.5,
-            borderTop: "1px solid",
-            borderColor: "custom.border",
           }}
         >
           <Typography
             sx={{
-              fontSize: "10px",
-              color: "text.disabled",
+              fontSize: "12px",
+              color: "#00000061",
               textTransform: "uppercase",
               letterSpacing: "0.06em",
               mb: 1,
@@ -358,6 +373,7 @@ export const CountryProfileModal = ({
                 <Typography
                   component="span"
                   sx={{
+                    fontSize: "12px",
                     color: "#014361",
                     fontWeight: 400,
                     cursor: "pointer",

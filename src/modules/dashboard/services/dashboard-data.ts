@@ -1,4 +1,5 @@
 import type { Forecast, PriorityCard, DeploymentAlert, AlertItem } from '@/shared/types'
+import { p } from 'framer-motion/client'
 
 export const FORECASTS: Forecast[] = [
   { id: '1', title: 'Emerging Water Stress Hotspot', description: 'Southeast Asia delta regions showing accelerated depletion — recommend preemptive irrigation upgrades', probability: 78, impact: 'high', timeframe: '60 days', borderColor: '#ef4444' },
@@ -62,6 +63,7 @@ export const DEEP_DIVE_CARDS = [
     title: 'Country Prioritization',
     subtitle: 'Identify strategic regions for next deployment phase.',
     icon: 'globe',
+    progressBarBg: 'rgba(2, 137, 209, 0.4)',
     accentColor: '#1677ff',
     stats: [
       { label: 'Active countries', value: '22', valueColor: '#1677ff' as const },
@@ -75,6 +77,7 @@ export const DEEP_DIVE_CARDS = [
     title: 'Deployment Performance',
     subtitle: 'Track technical KPIs and logistical typical milestones.',
     icon: 'bar-chart',
+    progressBarBg: 'rgba(2, 122, 72, 0.40)',
     accentColor: '#027A48',
     stats: [
       { label: 'Efficiency Score', value: '92%', valueColor: '#027A48' as const },
@@ -88,6 +91,7 @@ export const DEEP_DIVE_CARDS = [
     title: 'Proposal Assessment',
     subtitle: 'Review and score incoming venture applications.',
     icon: 'network',
+    progressBarBg: 'rgba(245, 158, 11, 0.4)',
     accentColor: '#f59e0b',
     stats: [
       { label: 'Awaiting Review', value: '8', valueColor: '#f59e0b' as const },
@@ -101,6 +105,7 @@ export const DEEP_DIVE_CARDS = [
     title: 'Intelligence Hub',
     subtitle: 'Access global datasets and research documents.',
     icon: 'file',
+    progressBarBg: 'rgba(168, 85, 247, 0.4)',
     accentColor: '#a855f7',
     stats: [
       { label: 'Beneficiaries Supported', value: '142', valueColor: '#a855f7' as const },

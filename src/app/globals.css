@@ -183,6 +183,9 @@
   transform: translate(-50%, -50%);
   opacity: 0.95;
   pointer-events: none;
+  width: 6px !important;
+  height: 6px !important;
+  object-fit: contain;
 }
 
 .world-map-marker-root--selected .world-map-marker-image {
