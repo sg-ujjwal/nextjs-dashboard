@@ -251,81 +251,82 @@ export const CountryProfileModal = ({
         ))}
       </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          height: "1px",
-          backgroundColor: "#00000014",
-        }}
-      />
-
       {deployment && (
-        <Box
-          sx={{
-            mb: 2,
-            pt: 1.5,
-            borderTop: "1px solid",
-            borderColor: "custom.border",
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: "12px",
-              color: "#00000061",
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              mb: 1,
-            }}
-          >
-            Active Deployments
-          </Typography>
+        <>
           <Box
             sx={{
-              bgcolor: "#F4F6F9",
-              borderRadius: CARD_BORDER_RADIUS_SX,
-              py: 0.5,
-              px: 1,
-              border: "1px solid",
-              borderColor: "custom.border",
               display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 1,
+              width: "100%",
+              height: "1px",
+              backgroundColor: "#00000014",
+            }}
+          />
+          <Box
+            sx={{
+              mb: 2,
+              pt: 1.5,
+              borderTop: "1px solid",
+              borderColor: "custom.border",
             }}
           >
             <Typography
               sx={{
                 fontSize: "12px",
-                fontWeight: 400,
-                color: "#014361",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
+                color: "#00000061",
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                mb: 1,
               }}
             >
-              {deployment.title}
+              Active Deployments
             </Typography>
-            <Button
-              type="button"
-              size="small"
+            <Box
               sx={{
-                flexShrink: 0,
-                borderRadius: 9999,
-                fontSize: "14px",
-                fontWeight: 400,
-                textTransform: "none",
-                px: 1.5,
-                py: 0.3,
-                bgcolor: "#E5F6FD",
-                color: "#0288D1",
-                minWidth: 0,
+                bgcolor: "#F4F6F9",
+                borderRadius: CARD_BORDER_RADIUS_SX,
+                py: 0.5,
+                px: 1,
+                border: "1px solid",
+                borderColor: "custom.border",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 1,
               }}
             >
-              {deployment.action}
-            </Button>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  color: "#014361",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {deployment.title}
+              </Typography>
+              <Button
+                type="button"
+                size="small"
+                sx={{
+                  flexShrink: 0,
+                  borderRadius: 9999,
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  textTransform: "none",
+                  px: 1.5,
+                  py: 0.3,
+                  bgcolor: "#E5F6FD",
+                  color: "#0288D1",
+                  minWidth: 0,
+                }}
+              >
+                {deployment.action}
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        </>
       )}
 
       <Box
