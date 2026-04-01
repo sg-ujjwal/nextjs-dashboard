@@ -60,23 +60,29 @@
 
 /* Map hover tooltip - dark slate design */
 .leaflet-tooltip.map-marker-tooltip {
-  background: #414e63 !important;
+  background: var(--_components-tooltip-fill, #2f446acc) !important;
   border: none !important;
-  border-radius: 8px;
+  border-radius: var(--borderRadius, 8px);
   padding: 0 !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   margin-bottom: 12px !important;
 }
 
 .leaflet-tooltip.map-marker-tooltip::before,
 .leaflet-tooltip-top.map-marker-tooltip::before {
-  border-top-color: #414e63 !important;
+  border-top-color: var(--_components-tooltip-fill, #2f446acc) !important;
 }
 
 .map-hover-tooltip {
-  padding: 12px 16px;
+  width: 212px;
+  min-height: 78px;
+  padding: 8px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-roboto), Roboto, Helvetica, Arial, sans-serif;
-  min-width: 180px;
 }
 
 .map-hover-tooltip__header {
@@ -115,27 +121,64 @@
 
 .map-hover-tooltip__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 16px;
+  width: 196px;
+  height: 32px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  row-gap: 4px;
+  column-gap: 8px;
 }
 
 .map-hover-tooltip__grid > div {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  width: 94px;
+  height: 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.map-hover-tooltip__grid > div:nth-child(1) {
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 1;
+}
+
+.map-hover-tooltip__grid > div:nth-child(2) {
+  grid-row: 1 / span 1;
+  grid-column: 2 / span 1;
+}
+
+.map-hover-tooltip__grid > div:nth-child(3) {
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
+}
+
+.map-hover-tooltip__grid > div:nth-child(4) {
+  grid-row: 2 / span 1;
+  grid-column: 2 / span 1;
 }
 
 .map-hover-tooltip__label {
-  font-size: 10px;
-  color: #FFFFFF80;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: var(--font-ubuntu), Ubuntu, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 0.625rem;
+  line-height: 14px;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: var(--text-white-50, #ffffff80);
+  text-transform: none;
 }
 
 .map-hover-tooltip__value {
-  font-size: 13px;
-  font-weight: 600;
-  color: #ffffff;
+  font-family: var(--font-ubuntu), Ubuntu, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 0.625rem;
+  line-height: 14px;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: var(--common-white-_states-main, #ffffff);
 }
 
 /* Map marker — error focus-visible token (Figma: error/_states/focusVisible).
