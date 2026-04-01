@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Rocket, Wallet, AlertTriangle, Globe } from "lucide-react";
 import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
-import { MAP_HEADER_GRADIENT } from "./map-section-constants";
+import { MAP_CHROME_BG } from "./map-section-constants";
 
 export type MapFooterStatsProps = {
   activeDeployment: number;
@@ -26,7 +26,7 @@ export const MapFooterStats = ({
       color: "#fff",
       borderBottomLeftRadius: CARD_BORDER_RADIUS_SX,
       borderBottomRightRadius: CARD_BORDER_RADIUS_SX,
-      background: MAP_HEADER_GRADIENT,
+      background: MAP_CHROME_BG,
     }}
   >
     <Box
@@ -71,7 +71,7 @@ export const MapFooterStats = ({
         px: 2,
         py: 1.5,
         minWidth: 0,
-        borderLeft: "1px solid rgba(255,255,255,0.2)",
+        borderLeft: "1px solid rgba(147, 197, 253, 0.45)",
       }}
     >
       <Wallet
@@ -104,7 +104,7 @@ export const MapFooterStats = ({
         px: 2,
         py: 1.5,
         minWidth: 0,
-        borderLeft: "1px solid rgba(255,255,255,0.2)",
+        borderLeft: "1px solid rgba(147, 197, 253, 0.45)",
       }}
     >
       <AlertTriangle
@@ -137,7 +137,7 @@ export const MapFooterStats = ({
         px: 2,
         py: 1.5,
         minWidth: 0,
-        borderLeft: "1px solid rgba(255,255,255,0.2)",
+        borderLeft: "1px solid rgba(147, 197, 253, 0.45)",
       }}
     >
       <Globe
@@ -163,7 +163,7 @@ export const MapFooterStats = ({
         sx={{
           width: 64,
           height: 6,
-          bgcolor: "rgba(255,255,255,0.2)",
+          bgcolor: "rgba(6, 78, 59, 0.85)",
           borderRadius: 9999,
           overflow: "hidden",
           flexShrink: 0,
@@ -172,7 +172,7 @@ export const MapFooterStats = ({
         <Box
           sx={{
             height: "100%",
-            bgcolor: "#027A48",
+            bgcolor: "#4ADE80",
             borderRadius: 9999,
             transition: "width 0.3s",
             width: `${diversification}%`,

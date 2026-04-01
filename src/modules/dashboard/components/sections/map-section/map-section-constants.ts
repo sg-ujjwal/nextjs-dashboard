@@ -1,2 +1,2 @@
-export const MAP_HEADER_GRADIENT =
-  'linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)' as const
+/** Header + map footer bar — solid slate blue to match Geographic Impact reference */
+export const MAP_CHROME_BG = "#4A659B" as const;
