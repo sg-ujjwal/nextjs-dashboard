@@ -12,6 +12,7 @@ import {
 import { useReportGeneration } from "@/modules/dashboard/hooks/use-report-generation";
 import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
 import { JSX } from "react";
+import { text } from "stream/consumers";
 
 const HEADER_GRADIENT =
   "linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)";
@@ -166,12 +167,12 @@ export default function AIBriefPanel() {
         <Box>
           <Typography
             sx={{
-              fontSize: "0.625rem",
-              fontWeight: 600,
+              fontSize: "12px",
+              fontWeight: 400,
               color: "hsla(0, 0%, 0%, 0.50)",
               textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              mb: 1.5,
+              letterSpacing: "1px",
+              mb: 1,
             }}
           >
             Top 3 Priorities
@@ -182,11 +183,11 @@ export default function AIBriefPanel() {
                 key={item.id}
                 sx={{
                   display: "flex",
-                  alignItems: "center",
-                  gap: 1.5,
-                  p: 1.5,
+                  alignItems: "flex-start",
+                  gap: 1,
+                  p: 1,
                   borderRadius: CARD_BORDER_RADIUS_SX,
-                  bgcolor: "#f8fafc",
+                  bgcolor: "#F4F6F9",
                   border: "1px solid transparent",
                   cursor: "pointer",
                   transition: "background-color 0.2s, border-color 0.2s",
@@ -195,17 +196,18 @@ export default function AIBriefPanel() {
               >
                 <Box
                   sx={{
-                    width: 24,
-                    height: 24,
+                    width: "20px",
+                    height: "20px",
                     borderRadius: "50%",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
+                    fontSize: "10px",
+                    fontWeight: 400,
                     color: "#fff",
                     flexShrink: 0,
                     bgcolor: "#2F446A",
+                    lineHeight: "24px",
                   }}
                 >
                   {item.rank}
@@ -213,22 +215,22 @@ export default function AIBriefPanel() {
                 <Box sx={{ minWidth: 0, flex: 1 }}>
                   <Typography
                     sx={{
-                      fontSize: "0.875rem",
-                      fontWeight: 700,
-                      color: "#1e293b",
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      color: "#000000DE",
                     }}
                   >
                     {item.title}
                   </Typography>
                   <Typography
-                    sx={{ fontSize: "0.75rem", color: "#64748b", mt: 0.25 }}
+                    sx={{ fontSize: "12px", color: "#00000080", mt: 0.25 }}
                   >
                     {item.description}
                   </Typography>
                 </Box>
                 <ArrowUpRight
-                  size={16}
-                  color="hsla(0, 0%, 0%, 0.50)"
+                  size={24}
+                  color="#0000008A"
                   style={{ flexShrink: 0 }}
                 />
               </Box>
@@ -297,23 +299,23 @@ export default function AIBriefPanel() {
         <Box>
           <Typography
             sx={{
-              fontSize: "0.625rem",
-              fontWeight: 600,
+              fontSize: "12px",
+              fontWeight: 400,
               color: "hsla(0, 0%, 0%, 0.50)",
               textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              mb: 1.5,
+              letterSpacing: "1px",
+              mb: 1,
             }}
           >
             Strategic Forecasting
           </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {STRATEGIC_FORECASTING.map((item) => (
               <Box
                 key={item.id}
                 sx={{
-                  borderRadius: CARD_BORDER_RADIUS_SX,
-                  p: 1.5,
+                  borderRadius: 0,
+                  px: 2,
                   bgcolor: "#f8fafc",
                   borderLeft: "4px solid",
                   borderLeftColor: item.color,

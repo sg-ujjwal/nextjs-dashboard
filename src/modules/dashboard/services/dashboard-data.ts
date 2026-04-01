@@ -34,8 +34,8 @@ export const ALERT_TICKER: AlertItem[] = [
 ]
 
 export const STRATEGIC_FORECASTING = [
-  { id: 'sf1', title: 'Emerging Water Stress Hotspot', description: '"Satellite telemetry indicates 22% drop in water table levels in Northern Tigray. Projected crisis within 18 months."', color: '#ef4444' },
-  { id: 'sf2', title: 'Climate Mitigation Opportunity', description: '"Projected rainfall shifts in Central America offer a 3-year window for reforestation ROI to exceed initial estimates by 45%."', color: '#93c5fd' },
+  { id: 'sf1', title: 'Emerging Water Stress Hotspot', description: '"Satellite telemetry indicates 22% drop in water table levels in Northern Tigray. Projected crisis within 18 months."', color: '#D32F2F' },
+  { id: 'sf2', title: 'Climate Mitigation Opportunity', description: '"Projected rainfall shifts in Central America offer a 3-year window for reforestation ROI to exceed initial estimates by 45%."', color: '#0288D1' },
 ]
 
 export const PERFORMANCE_CARDS = [
