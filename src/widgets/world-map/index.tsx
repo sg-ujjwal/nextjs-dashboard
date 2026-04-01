@@ -6,8 +6,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import type { MapMarker } from "@/shared/types";
 import { getCountryFlag } from "@/shared/lib/country-flags";
-import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
-
 interface WorldMapProps {
   markers: MapMarker[];
   selectedMarker: MapMarker | null;
@@ -41,21 +39,73 @@ const buildTooltipHtml = (marker: MapMarker): string => {
   `;
 };
 
-const RISK_COLORS: Record<MapMarker["riskLevel"], string> = {
-  low: "#027A48",
-  medium: "#f59e0b",
-  high: "#ef4444",
-  critical: "#dc2626",
+const escapeHtmlAttr = (value: string): string =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;");
+
+const markerRootFocusableAttrs = (marker: MapMarker): string => {
+  const label = escapeHtmlAttr(`Open details for ${marker.country}`);
+  return `tabindex="0" role="button" aria-label="${label}"`;
 };
 
-const DEPLOYMENT_COLORS: Record<string, string> = {
-  deployed: "#027A48",
-  in_progress: "#f59e0b",
-  pending: "#1677ff",
+type MarkerVisual = {
+  imagePath: "/high.png" | "/medium.png" | "/low.png";
+  zIndex: number;
+};
+
+const MARKER_ICON_SIZE = 28;
+const MARKER_ICON_ANCHOR = MARKER_ICON_SIZE / 2;
+const SELECTED_POINTER_ICON_SIZE = 44;
+
+const getMarkerVisual = (m: MapMarker): MarkerVisual => {
+  if (m.deploymentStatus === "pending") {
+    return {
+      imagePath: "/low.png",
+      zIndex: 280,
+    };
+  }
+  switch (m.riskLevel) {
+    case "low":
+      return {
+        imagePath: "/low.png",
+        zIndex: 420,
+      };
+    case "medium":
+      return {
+        imagePath: "/medium.png",
+        zIndex: 620,
+      };
+    case "high":
+    case "critical":
+      return {
+        imagePath: "/high.png",
+        zIndex: m.riskLevel === "critical" ? 920 : 820,
+      };
+    default:
+      return {
+        imagePath: "/low.png",
+        zIndex: 420,
+      };
+  }
+};
+const buildMarkerHtml = (
+  marker: MapMarker,
+  isSelected: boolean,
+  imagePath: MarkerVisual["imagePath"],
+): string => {
+  const sel = isSelected ? " world-map-marker-root--selected" : "";
+  const pointer = isSelected
+    ? `<img class="world-map-marker-pointer" src="/pointer.png" alt="" aria-hidden="true" style="width:${SELECTED_POINTER_ICON_SIZE}px;height:${SELECTED_POINTER_ICON_SIZE}px" />`
+    : "";
+  const a11y = markerRootFocusableAttrs(marker);
+  return `<div class="world-map-marker-root${sel}" ${a11y} style="width:${MARKER_ICON_SIZE}px;height:${MARKER_ICON_SIZE}px">${pointer}<img class="world-map-marker-image" src="${imagePath}" alt="" aria-hidden="true" /></div>`;
 };
 
 export function WorldMap({
   markers,
+  selectedMarker,
   onMarkerClick,
   onMarkerHover,
 }: WorldMapProps) {
@@ -85,7 +135,6 @@ export function WorldMap({
       if (cancelled || !mapRef.current) return;
 
       const el = mapRef.current;
-      // Stale async completion (e.g. React Strict Mode) or remount race — never call L.map twice on one div
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((el as any)._leaflet_id != null) return;
 
@@ -139,59 +188,67 @@ export function WorldMap({
       markersRef.current = [];
 
       markers.forEach((marker) => {
-        const fillColor = RISK_COLORS[marker.riskLevel];
-        const strokeColor = marker.deploymentStatus
-          ? (DEPLOYMENT_COLORS[marker.deploymentStatus] ?? fillColor)
-          : fillColor;
-        const radius =
-          marker.riskLevel === "critical"
-            ? 10
-            : marker.riskLevel === "high"
-              ? 8
-              : 6;
-
-        const circle = L.circleMarker([marker.lat, marker.lng], {
-          radius,
-          fillColor,
-          color: strokeColor,
-          weight: 2,
-          opacity: 0.9,
-          fillOpacity: 0.6,
+        const isSelected = selectedMarker?.id === marker.id;
+        const visual = getMarkerVisual(marker);
+        const html = buildMarkerHtml(marker, isSelected, visual.imagePath);
+        const icon = L.divIcon({
+          className: "world-map-leaflet-divicon",
+          html,
+          iconSize: [MARKER_ICON_SIZE, MARKER_ICON_SIZE],
+          iconAnchor: [MARKER_ICON_ANCHOR, MARKER_ICON_ANCHOR],
         });
 
-        circle.bindTooltip(buildTooltipHtml(marker), {
+        const leafletMarker = L.marker([marker.lat, marker.lng], {
+          icon,
+          zIndexOffset: visual.zIndex + (isSelected ? 140 : 0),
+        });
+
+        leafletMarker.bindTooltip(buildTooltipHtml(marker), {
           direction: "top",
           permanent: false,
           className: "map-marker-tooltip",
-          offset: [0, -12],
+          offset: [0, -22],
         });
 
-        circle.on("click", () => onMarkerClick(marker));
-        circle.on("mouseover", () => {
+        leafletMarker.on("click", () => onMarkerClick(marker));
+        leafletMarker.on("mouseover", () => {
           onMarkerHover(marker);
-          circle.setStyle({ fillOpacity: 0.9, weight: 3 });
         });
-        circle.on("mouseout", () => {
+        leafletMarker.on("mouseout", () => {
           onMarkerHover(null);
-          circle.setStyle({ fillOpacity: 0.6, weight: 2 });
         });
 
-        circle.addTo(mapInstanceRef.current);
-        markersRef.current.push(circle);
+        leafletMarker.addTo(mapInstanceRef.current);
+        const iconEl = leafletMarker.getElement();
+        const rootEl = iconEl?.querySelector(
+          ".world-map-marker-root",
+        ) as HTMLElement | null;
+        if (rootEl) {
+          const handleKeyDown = (e: KeyboardEvent): void => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+              onMarkerClick(marker);
+            }
+          };
+          rootEl.addEventListener("keydown", handleKeyDown);
+        }
+        markersRef.current.push(leafletMarker);
       });
     };
 
-    initMarkers();
-  }, [isReady, markers, onMarkerClick, onMarkerHover]);
+    void initMarkers();
+  }, [isReady, markers, selectedMarker, onMarkerClick, onMarkerHover]);
 
   return (
     <Box
       sx={{
         position: "relative",
-        borderRadius: CARD_BORDER_RADIUS_SX,
+        borderRadius: 0,
         overflow: "hidden",
         height: "100%",
         minHeight: 400,
+        bgcolor: "#F8F9FA",
       }}
     >
       <Box
@@ -200,7 +257,11 @@ export function WorldMap({
           height: "100%",
           width: "100%",
           minHeight: 400,
-          bgcolor: "custom.bgPrimary",
+          bgcolor: "#F8F9FA",
+          "& .leaflet-container": {
+            bgcolor: "#F8F9FA",
+            fontFamily: "var(--font-ubuntu), Ubuntu, sans-serif",
+          },
         }}
       />
       {!isReady && (
@@ -211,8 +272,7 @@ export function WorldMap({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            bgcolor: "background.paper",
-            borderRadius: CARD_BORDER_RADIUS_SX,
+            bgcolor: "#F8F9FA",
             flexDirection: "column",
             gap: 1.5,
           }}
