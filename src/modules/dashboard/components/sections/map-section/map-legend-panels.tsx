@@ -3,7 +3,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { CARD_BORDER_RADIUS_SX } from "@/core/theme/card-styles";
-import { color } from "framer-motion";
+import { color, m } from "framer-motion";
 
 const LegendDot = ({ color, label }: { color: string; label: string }) => (
   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -22,12 +22,20 @@ const LegendDot = ({ color, label }: { color: string; label: string }) => (
   </Box>
 );
 
-const RiskRing = ({ size, label }: { size: number; label: string }) => (
-  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+const RiskRing = ({
+  size,
+  label,
+  bgColor,
+}: {
+  size: number;
+  label: string;
+  bgColor: string;
+}) => (
+  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
     <Box
       sx={{
-        width: 20,
-        height: 20,
+        width: 8,
+        height: 8,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -40,7 +48,7 @@ const RiskRing = ({ size, label }: { size: number; label: string }) => (
           height: size,
           borderRadius: "50%",
           border: "2px solid",
-          borderColor: "rgba(148, 163, 184, 0.5)",
+          borderColor: bgColor,
           boxShadow: "0 0 0 1px rgba(255,255,255,0.8)",
           bgcolor: "rgba(148, 163, 184, 0.2)",
         }}
@@ -60,15 +68,14 @@ const RiskRing = ({ size, label }: { size: number; label: string }) => (
 const panelSx = {
   bgcolor: "#F4F6F9",
   borderRadius: CARD_BORDER_RADIUS_SX,
-  boxShadow: 3,
-  border: "1px solid",
-  borderColor: "custom.border",
+  boxShadow: 0,
+  minWidth: 204,
   p: 1.5,
 } as const;
 
 const sectionTitleSx = {
   fontSize: "12px",
-  fontWeight: 600,
+  fontWeight: 400,
   color: "text.secondary",
   textTransform: "uppercase",
   letterSpacing: "0.06em",
@@ -103,9 +110,9 @@ export const MapLegendPanels = () => (
       />
       <Typography sx={sectionTitleSx}>Risk Status</Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-        <RiskRing size={8} label="Low" />
-        <RiskRing size={12} label="Medium" />
-        <RiskRing size={16} label="High" />
+        <RiskRing size={8} label="Low" bgColor="#2E7D3226" />
+        <RiskRing size={8} label="Medium" bgColor="#EF6C0026" />
+        <RiskRing size={8} label="High" bgColor="#D32F2F26" />
       </Box>
     </Box>
   </Box>

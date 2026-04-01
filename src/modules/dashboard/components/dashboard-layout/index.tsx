@@ -86,7 +86,7 @@ export default function DashboardLayout({
               position: "fixed",
               bottom: 24,
               right: 24,
-              zIndex: 50,
+              zIndex: 100,
               background:
                 "linear-gradient(98.66deg, #2F446A -14.67%, #6486C4 83.98%)",
               width: 56,

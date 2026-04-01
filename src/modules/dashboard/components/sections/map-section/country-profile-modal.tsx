@@ -79,108 +79,116 @@ export const CountryProfileModal = ({
         width: 320,
         bgcolor: "#E9EDF4",
         borderRadius: CARD_BORDER_RADIUS_SX,
-        boxShadow: 6,
+        boxShadow:
+          "0px 7px 8px -4px #00000026, 0px 12px 17px 2px #00000014, 0px 5px 22px 4px #00000014",
         border: "1px solid",
-        borderColor: "custom.border",
+        borderColor: "#00000014",
         p: 2,
         zIndex: 1000,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          gap: 1.5,
-          mb: 2,
-        }}
-      >
+      <Box sx={{ mb: 2 }}>
         <Box
           sx={{
             display: "flex",
             alignItems: "flex-start",
+            justifyContent: "space-between",
             gap: 1.5,
-            minWidth: 0,
           }}
         >
           <Box
-            aria-hidden
             sx={{
-              width: 40,
-              height: 40,
-              borderRadius: "50%",
-              bgcolor: "background.paper",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              fontSize: "1.25rem",
-              flexShrink: 0,
-              border: "1px solid",
-              borderColor: "custom.border",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
+              gap: 1.5,
+              minWidth: 0,
             }}
           >
-            {flag}
-          </Box>
-          <Box sx={{ minWidth: 0 }}>
             <Box
+              aria-hidden
               sx={{
+                width: 26,
+                height: 26,
+                borderRadius: "50%",
+                bgcolor: "background.paper",
                 display: "flex",
                 alignItems: "center",
-                gap: 1,
-                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: ".70rem",
+                flexShrink: 0,
+                border: "1px solid",
+                borderColor: "custom.border",
+                boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
               }}
             >
-              <Typography
+              {flag}
+            </Box>
+            <Box sx={{ minWidth: 0 }}>
+              <Box
                 sx={{
-                  fontSize: "1rem",
-                  fontWeight: 400,
-                  color: "text.primary",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  flexWrap: "wrap",
                 }}
               >
-                {marker.country}
-              </Typography>
-              {isActive && (
                 <Typography
-                  component="span"
                   sx={{
-                    fontSize: "0.75rem",
-                    px: 1,
-                    py: 0.25,
-                    borderRadius: 9999,
-                    fontWeight: 600,
-                    flexShrink: 0,
-                    bgcolor: "rgba(34, 197, 94, 0.15)",
-                    color: "#16a34a",
+                    fontSize: "20px",
+                    fontWeight: 500,
+                    color: "text.primary",
                   }}
                 >
-                  {statusLabel}
+                  {marker.country}
                 </Typography>
-              )}
+                {isActive && (
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontSize: "13px",
+                      px: 1.5,
+                      py: 0.3,
+                      borderRadius: 9999,
+                      fontWeight: 400,
+                      flexShrink: 0,
+                      bgcolor: "#EDF7ED",
+                      color: "#027A48",
+                    }}
+                  >
+                    {statusLabel}
+                  </Typography>
+                )}
+              </Box>
             </Box>
-            <Typography
-              sx={{ fontSize: "0.75rem", color: "text.disabled", mt: 0.25 }}
-            >
-              {marker.region}
-            </Typography>
           </Box>
+
+          <Button
+            onClick={onClose}
+            aria-label="Close"
+            sx={{
+              minWidth: 0,
+              p: 0,
+              borderRadius: CARD_BORDER_RADIUS_SX,
+              color: "text.disabled",
+              "&:hover": {
+                bgcolor: "rgba(255,255,255,0.8)",
+                color: "text.primary",
+              },
+            }}
+          >
+            <X size={18} />
+          </Button>
         </Box>
-        <Button
-          onClick={onClose}
-          aria-label="Close"
+        <Typography
           sx={{
-            minWidth: 0,
-            p: 0.75,
-            borderRadius: CARD_BORDER_RADIUS_SX,
-            color: "text.disabled",
-            "&:hover": {
-              bgcolor: "rgba(255,255,255,0.8)",
-              color: "text.primary",
-            },
+            fontSize: "0.75rem",
+            color: "text.secondary",
+            mt: 0.4,
+            fontWeight: 400,
           }}
         >
-          <X size={18} />
-        </Button>
+          {marker.region}
+        </Typography>
       </Box>
 
       <Box
